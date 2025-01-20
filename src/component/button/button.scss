@@ -1,0 +1,21 @@
+@use "../../common/style/size" as size;
+@use "../../common/style/color" as color;
+
+ma-button {
+    &::part(button) {
+        display: flex;
+        width: size.$button-width-m;
+        height: size.$button-height-m;
+        border-radius: size.$border-radius-5;
+        border: none;
+        padding: size.$padding-5 size.$padding-5;
+        cursor: pointer;
+
+        &:hover {
+            background-color: color.$primary-color;
+            &::before {
+                opacity: 1;
+            }
+        }
+    }
+}

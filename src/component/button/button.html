@@ -1,23 +1,5 @@
 <template id="max-button">
-    <style type="text/css">
-        .ma-button {
-            display: flex;
-            width: var(--button-size-w-m);
-            height: var(--button-size-h-m);
-            border-radius: var(--border-radius-5);
-            border: none;
-            padding: var(--padding-10) var(--padding-20);
-            cursor: pointer;
-
-            &:hover {
-                background-color: var(--color-button-hover-bg);
-                &::before {
-                    opacity: 1;
-                }
-            }
-        }
-    </style>
-    <button class="ma-button">
+    <button part="button">
         <slot></slot>
     </button>
 </template>

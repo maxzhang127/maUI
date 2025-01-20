@@ -1,5 +1,6 @@
 import { ComponentBase, insertTemplate, IOption } from "../componentBase";
 import content from "./button.html";
+import "./button.scss";
 
 class ButtonOption implements IOption {
     [key: string]: string | boolean | null;
