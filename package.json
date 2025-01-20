@@ -1,0 +1,27 @@
+{
+    "name": "maui",
+    "version": "1.0.0",
+    "description": "基于原生web component的轻量级组件库",
+    "main": "./src/index.ts",
+    "scripts": {
+        "build": "npx webpack build --config ./webpack.config.ts",
+        "dev": "webpack serve --config ./webpack-dev.config.ts"
+    },
+    "author": "Max Zhang",
+    "license": "MIT",
+    "devDependencies": {
+        "@types/node": "^22.5.5",
+        "@types/webpack": "^5.28.5",
+        "@types/webpack-dev-server": "^4.7.2",
+        "css-minimizer-webpack-plugin": "^7.0.0",
+        "mini-css-extract-plugin": "^2.9.2",
+        "ts-node": "^10.9.2",
+        "typescript": "^5.6.2",
+        "webpack": "^5.97.1",
+        "webpack-cli": "^6.0.1"
+    },
+    "dependencies": {
+        "css-loader": "^7.1.2",
+        "ts-loader": "^9.5.2"
+    }
+}
