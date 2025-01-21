@@ -18,7 +18,7 @@ class ButtonOption implements IOption {
 
 class MaButton extends ComponentBase<ButtonOption> {
     public constructor() {
-        super(new ButtonOption(), "max-button");
+        super(new ButtonOption(), "ma-button");
     }
 
     public override connectedCallback() {

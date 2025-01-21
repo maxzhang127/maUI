@@ -103,4 +103,13 @@ ma-button {
             }
         }
     }
+
+    &[disabled] {
+        &::part(button) {
+            background-color: #f0f0f0;
+            color: #c8c8c8;
+            border: 1px solid #f0f0f0;
+            cursor: not-allowed;
+        }
+    }
 }
