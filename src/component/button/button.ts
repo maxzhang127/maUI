@@ -8,11 +8,13 @@ class ButtonOption implements IOption {
     public color: "primary" | "secondary" | "success" | "warning" | "danger";
     public disable: boolean | null;
     public size: "small" | "medium" | "large";
+    public radius: "0" | "5" | "10" | "15";
 
     public constructor() {
         this.color = "primary";
         this.disable = false;
         this.size = "medium";
+        this.radius = "0";
     }
 }
 
