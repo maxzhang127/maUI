@@ -10,11 +10,75 @@ ma-button {
         border: none;
         padding: size.$padding-5 size.$padding-5;
         cursor: pointer;
+    }
 
-        &:hover {
-            background-color: color.$primary-color;
-            &::before {
-                opacity: 1;
+    &,
+    &[color="primary"] {
+        &::part(button) {
+            background-color: color.$primary-background-color;
+            color: color.$primary-text-color;
+            border: 1px solid color.$primary-border-color;
+
+            &:hover {
+                background-color: color.$primary-background-color-hover;
+                color: color.$primary-text-color-hover;
+                border: 1px solid color.$primary-border-color-hover;
+            }
+        }
+    }
+
+    &[color="secondary"] {
+        &::part(button) {
+            background-color: color.$secondary-background-color;
+            color: color.$secondary-text-color;
+            border: 1px solid color.$secondary-border-color;
+
+            &:hover {
+                background-color: color.$secondary-background-color-hover;
+                color: color.$secondary-text-color-hover;
+                border: 1px solid color.$secondary-border-color-hover;
+            }
+        }
+    }
+
+    &[color="success"] {
+        &::part(button) {
+            background-color: color.$success-background-color;
+            color: color.$success-text-color;
+            border: 1px solid color.$success-border-color;
+
+            &:hover {
+                background-color: color.$success-background-color-hover;
+                color: color.$success-text-color-hover;
+                border: 1px solid color.$success-border-color-hover;
+            }
+        }
+    }
+
+    &[color="warning"] {
+        &::part(button) {
+            background-color: color.$warning-background-color;
+            color: color.$warning-text-color;
+            border: 1px solid color.$warning-border-color;
+
+            &:hover {
+                background-color: color.$warning-background-color-hover;
+                color: color.$warning-text-color-hover;
+                border: 1px solid color.$warning-border-color-hover;
+            }
+        }
+    }
+
+    &[color="danger"] {
+        &::part(button) {
+            background-color: color.$danger-background-color;
+            color: color.$danger-text-color;
+            border: 1px solid color.$danger-border-color;
+
+            &:hover {
+                background-color: color.$danger-background-color-hover;
+                color: color.$danger-text-color-hover;
+                border: 1px solid color.$danger-border-color-hover;
             }
         }
     }

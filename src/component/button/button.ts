@@ -6,9 +6,13 @@ class ButtonOption implements IOption {
     [key: string]: string | boolean | null;
 
     public color: "primary" | "secondary" | "success" | "warning" | "danger";
+    public disable: boolean | null;
+    public size: "small" | "medium" | "large";
 
     public constructor() {
         this.color = "primary";
+        this.disable = false;
+        this.size = "medium";
     }
 }
 
@@ -23,11 +27,10 @@ class MaButton extends ComponentBase<ButtonOption> {
     }
 
     private _init() {
-        const button = this._shadow.querySelector<HTMLElement>(".max-button");
+        const button = this._shadow.querySelector<HTMLElement>(`[part="button"]`);
         if (button === null) {
             throw new Error("Label element not found.");
         }
-        button.classList.add(this.option.color);
         button.addEventListener("click", () => {
             this._dispatchEvent("click", null);
         });
