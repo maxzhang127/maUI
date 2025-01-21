@@ -4,12 +4,33 @@
 ma-button {
     &::part(button) {
         display: flex;
-        width: size.$button-width-m;
-        height: size.$button-height-m;
+        width: 100%;
+        height: 100%;
         border-radius: size.$border-radius-5;
         border: none;
         padding: size.$padding-5 size.$padding-5;
         cursor: pointer;
+    }
+
+    &[size="m"] {
+        &::part(button) {
+            width: size.$button-width-m;
+            height: size.$button-height-m;
+        }
+    }
+
+    &[size="s"] {
+        &::part(button) {
+            width: size.$button-width-s;
+            height: size.$button-height-s;
+        }
+    }
+
+    &[size="l"] {
+        &::part(button) {
+            width: size.$button-width-l;
+            height: size.$button-height-l;
+        }
     }
 
     &,
