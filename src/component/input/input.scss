@@ -1,44 +1,60 @@
-max-input {
-    position: relative;
+@use "../../common/style/color" as color;
+@use "../../common/style/size" as size;
 
-    &::part(input) {
-        border: 1px solid var(--color-gray-silver);
-        margin: var(--margin-10);
-        padding: var(--padding-20) var(--padding-20) var(--padding-10) var(--padding-10);
-        outline: none;
-        transition: border-color 0.2s ease, box-shadow 0.2s ease;
-
-        &:focus {
-            border-color: var(--color-focus);
-            box-shadow: var(--color-focus-shadow);
-        }
-
-        &:focus + ::part(label),
-        &:placeholder-shown + ::part(label),
-        &.has-value:not(:placeholder-shown) + ::part(label) {
-            top: 15px;
-            transform: none;
-            margin: 0;
-            left: 20px;
-            font-size: var(--text-size-10);
-            color: var(--color-black);
-
-            &.required:after {
-                content: "*";
-                color: var(--color-red);
-            }
+ma-input {
+    &[placeholder] {
+        &::part(input) {
+            color: color.$color-gray;
         }
     }
 
-    &::part(label) {
-        margin-left: var(--margin-10);
+    &:not([label]) {
+        &::part(label) {
+            display: none;
+        }
+    }
+
+    &::part(input-container) {
+        position: relative;
+    }
+
+    &::part(input) {
+        margin: size.$margin-15 size.$margin-10;
+        padding: size.$padding-10 size.$padding-5;
+        outline: none;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        border: 1px solid color.$gray-silver;
+        &:focus {
+            border-color: color.$color-focus;
+            box-shadow: color.$color-focus-shadow;
+        }
+    }
+
+    &::part(label little-label) {
         position: absolute;
-        color: var(--color-gray);
+        top: 0;
+        transform: none;
+        margin: 0;
+        left: 5px;
+        font-size: 10px;
+        color: #000000;
+        transition: all 0.2s ease;
+    }
+
+    &::part(required):after {
+        content: "*";
+        color: color.$color-red;
+    }
+
+    &::part(label big-label) {
+        margin-left: size.$margin-10;
+        position: absolute;
+        color: color.$color-gray;
         top: 50%;
         left: 10px;
         transform: translateY(-50%);
         transition: all 0.2s ease;
-        font-size: var(--text-size-14);
+        font-size: size.$text-size-14;
         pointer-events: none;
     }
 }

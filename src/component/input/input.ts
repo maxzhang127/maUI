@@ -20,7 +20,7 @@ class InputOption implements IOption {
         this.color = "default";
         this.size = "default";
         this.defaultValue = "默认值";
-        this.placeholder = "请输入内容";
+        this.placeholder = "";
         this.readonly = false;
         this.disabled = false;
         this.required = false;
@@ -29,21 +29,21 @@ class InputOption implements IOption {
 
 export class Input extends ComponentBase<InputOption> {
     public constructor() {
-        super(new InputOption(), "max-input");
+        super(new InputOption(), "ma-input");
     }
 
     public override connectedCallback() {
         super.connectedCallback();
+        this._attachEvent();
         this._initLabel();
         this._initInput();
-        this._attachEvent();
     }
 
     private _initLabel() {
         if (this.option.label === null) {
             return;
         }
-        const label = this._shadow.querySelector<HTMLLabelElement>(".label");
+        const label = this._shadow.querySelector<HTMLLabelElement>("[part=label]");
         if (label === null) {
             throw new Error("Label element not found.");
         }
@@ -53,10 +53,17 @@ export class Input extends ComponentBase<InputOption> {
         if (this.option.required) {
             label.classList.add("required");
         }
+
+        if (this.option.placeholder) {
+            label.part.add("little-label");
+        }
+        else {
+            label.part.add("big-label");
+        }
     }
 
     private _initInput() {
-        const input = this._shadow.querySelector<HTMLInputElement>(".input");
+        const input = this._shadow.querySelector<HTMLInputElement>("[part=input]");
         if (input === null) {
             throw new Error("Input element not found.");
         }
@@ -72,32 +79,50 @@ export class Input extends ComponentBase<InputOption> {
     }
 
     private _attachEvent() {
-        const input = this._shadow.querySelector<HTMLInputElement>(".input");
+        const input = this._shadow.querySelector<HTMLInputElement>("[part=input]");
+        const label = this._shadow.querySelector<HTMLLabelElement>("[part=label]");
+        if (label === null) {
+            throw new Error("Label element not found.");
+        }
         if (input === null) {
             throw new Error("Input element not found.");
         }
 
         input.addEventListener("input", (event) => {
             event.stopPropagation();
-            this._updateHasValue(input);
+            this._updateHasValue(input, label);
             this._dispatchEvent("input", input.value);
         });
 
         input.addEventListener("change", () => {
-            this._updateHasValue(input);
+            this._updateHasValue(input, label);
             this._dispatchEvent("change", input.value);
+        });
+
+        input.addEventListener("focus", () => {
+            label.part.add("little-label");
+            label.part.remove("big-label");
+        });
+
+        input.addEventListener("blur", () => {
+            if (input.value === "") {
+                label.part.remove("little-label");
+                label.part.add("big-label");
+            }
         });
     }
 
-    private _updateHasValue(input: HTMLInputElement) {
+    private _updateHasValue(input: HTMLInputElement, label: HTMLLabelElement) {
         this.option.value = input.value;
         if (this.option.value === "") {
-            input.classList.remove("has-value");
+            label.part.remove("little-label");
+            label.part.add("big-label");
         } else {
-            input.classList.add("has-value");
+            label.part.add("little-label");
+            label.part.remove("big-label");
         }
     }
 }
 
-customElements.define("max-input", Input);
+customElements.define("ma-input", Input);
 insertTemplate(template);
