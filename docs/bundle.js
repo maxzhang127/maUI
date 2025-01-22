@@ -24,7 +24,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 // Module
-var code = `<template id="max-input"><div class="max-input"><input part="input" type="text" id="input-field"> <label part="label" class="text-size-10" for="input-field">Input</label></div></template>`;
+var code = `<template id="ma-input"><div part="input-container"><input part="input" type="text" id="input-field"> <label part="label" for="input-field">Input</label></div></template>`;
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
 
@@ -52,7 +52,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 // Module
-var code = `<max-input>`;
+var code = `<ma-input></ma-input><ma-input label="标题"></ma-input>`;
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
 
@@ -226,7 +226,7 @@ class InputOption {
         this.color = "default";
         this.size = "default";
         this.defaultValue = "默认值";
-        this.placeholder = "请输入内容";
+        this.placeholder = "";
         this.readonly = false;
         this.disabled = false;
         this.required = false;
@@ -234,19 +234,19 @@ class InputOption {
 }
 class Input extends componentBase_1.ComponentBase {
     constructor() {
-        super(new InputOption(), "max-input");
+        super(new InputOption(), "ma-input");
     }
     connectedCallback() {
         super.connectedCallback();
+        this._attachEvent();
         this._initLabel();
         this._initInput();
-        this._attachEvent();
     }
     _initLabel() {
         if (this.option.label === null) {
             return;
         }
-        const label = this._shadow.querySelector(".label");
+        const label = this._shadow.querySelector("[part=label]");
         if (label === null) {
             throw new Error("Label element not found.");
         }
@@ -256,9 +256,15 @@ class Input extends componentBase_1.ComponentBase {
         if (this.option.required) {
             label.classList.add("required");
         }
+        if (this.option.placeholder) {
+            label.part.add("little-label");
+        }
+        else {
+            label.part.add("big-label");
+        }
     }
     _initInput() {
-        const input = this._shadow.querySelector(".input");
+        const input = this._shadow.querySelector("[part=input]");
         if (input === null) {
             throw new Error("Input element not found.");
         }
@@ -273,32 +279,48 @@ class Input extends componentBase_1.ComponentBase {
         input.disabled = this.option.disabled;
     }
     _attachEvent() {
-        const input = this._shadow.querySelector(".input");
+        const input = this._shadow.querySelector("[part=input]");
+        const label = this._shadow.querySelector("[part=label]");
+        if (label === null) {
+            throw new Error("Label element not found.");
+        }
         if (input === null) {
             throw new Error("Input element not found.");
         }
         input.addEventListener("input", (event) => {
             event.stopPropagation();
-            this._updateHasValue(input);
+            this._updateHasValue(input, label);
             this._dispatchEvent("input", input.value);
         });
         input.addEventListener("change", () => {
-            this._updateHasValue(input);
+            this._updateHasValue(input, label);
             this._dispatchEvent("change", input.value);
         });
+        input.addEventListener("focus", () => {
+            label.part.add("little-label");
+            label.part.remove("big-label");
+        });
+        input.addEventListener("blur", () => {
+            if (input.value === "") {
+                label.part.remove("little-label");
+                label.part.add("big-label");
+            }
+        });
     }
-    _updateHasValue(input) {
+    _updateHasValue(input, label) {
         this.option.value = input.value;
         if (this.option.value === "") {
-            input.classList.remove("has-value");
+            label.part.remove("little-label");
+            label.part.add("big-label");
         }
         else {
-            input.classList.add("has-value");
+            label.part.add("little-label");
+            label.part.remove("big-label");
         }
     }
 }
 exports.Input = Input;
-customElements.define("max-input", Input);
+customElements.define("ma-input", Input);
 (0, componentBase_1.insertTemplate)(input_html_1.default);
 
 
