@@ -1,0 +1,8 @@
+@use "../../common/style/color" as color;
+@use "../../common/style/size" as size;
+
+ma-select {
+    &::part(select-container) {
+        display: none;
+    }
+}

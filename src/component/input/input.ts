@@ -27,7 +27,7 @@ class InputOption implements IOption {
     }
 }
 
-export class Input extends ComponentBase<InputOption> {
+class MaInput extends ComponentBase<InputOption> {
     public constructor() {
         super(new InputOption(), "ma-input");
     }
@@ -124,5 +124,5 @@ export class Input extends ComponentBase<InputOption> {
     }
 }
 
-customElements.define("ma-input", Input);
+customElements.define("ma-input", MaInput);
 insertTemplate(template);

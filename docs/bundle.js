@@ -30,6 +30,34 @@ var code = `<template id="ma-input"><div part="input-container"><input part="inp
 
 /***/ }),
 
+/***/ 548:
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+// Module
+var code = `<template id="ma-select"><div part="select-label">Select</div><div part="select-container"><slot>options</slot></div></template>`;
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
+
+/***/ }),
+
+/***/ 129:
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+// Module
+var code = `<template id="ma-select-item"><slot>Select Item</slot></template>`;
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
+
+/***/ }),
+
 /***/ 775:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -58,6 +86,20 @@ var code = `<ma-input></ma-input><ma-input label="标题"></ma-input><ma-input p
 
 /***/ }),
 
+/***/ 108:
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+// Module
+var code = `<ma-select><ma-select-item>Option 1</ma-select-item><ma-select-item>Option 2</ma-select-item><ma-select-item>Option 3</ma-select-item></ma-select>`;
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
+
+/***/ }),
+
 /***/ 719:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -68,6 +110,15 @@ __webpack_require__.r(__webpack_exports__);
 /***/ }),
 
 /***/ 829:
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ 391:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -203,6 +254,8 @@ function insertTemplate(template) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 __webpack_require__(901);
 __webpack_require__(723);
+__webpack_require__(801);
+__webpack_require__(326);
 
 
 /***/ }),
@@ -215,7 +268,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.Input = void 0;
 const componentBase_1 = __webpack_require__(278);
 const input_html_1 = __importDefault(__webpack_require__(930));
 __webpack_require__(829);
@@ -232,7 +284,7 @@ class InputOption {
         this.required = false;
     }
 }
-class Input extends componentBase_1.ComponentBase {
+class MaInput extends componentBase_1.ComponentBase {
     constructor() {
         super(new InputOption(), "ma-input");
     }
@@ -319,9 +371,94 @@ class Input extends componentBase_1.ComponentBase {
         }
     }
 }
-exports.Input = Input;
-customElements.define("ma-input", Input);
+customElements.define("ma-input", MaInput);
 (0, componentBase_1.insertTemplate)(input_html_1.default);
+
+
+/***/ }),
+
+/***/ 801:
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.MaSelect = void 0;
+const componentBase_1 = __webpack_require__(278);
+__webpack_require__(391);
+const select_html_1 = __importDefault(__webpack_require__(548));
+class SelectOption {
+    constructor() {
+        this.value = "";
+        this.label = "选择";
+        this.selectionMode = "single";
+        this.disabled = false;
+    }
+}
+class MaSelect extends componentBase_1.ComponentBase {
+    constructor() {
+        super(new SelectOption(), "ma-select");
+    }
+    connectedCallback() {
+        super.connectedCallback();
+        this._init();
+    }
+    _init() {
+        const select = this._shadow.querySelector(`[part="select"]`);
+        if (select === null) {
+            throw new Error("Select element not found.");
+        }
+        select.addEventListener("change", () => {
+            this._dispatchEvent("change", select.value);
+        });
+    }
+}
+exports.MaSelect = MaSelect;
+customElements.define('ma-select', MaSelect);
+(0, componentBase_1.insertTemplate)(select_html_1.default);
+
+
+/***/ }),
+
+/***/ 326:
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.MaSelect = void 0;
+const componentBase_1 = __webpack_require__(278);
+const selectItem_html_1 = __importDefault(__webpack_require__(129));
+class SelectItemOption {
+    constructor() {
+        this.key = "";
+    }
+}
+class MaSelect extends componentBase_1.ComponentBase {
+    constructor() {
+        super(new SelectItemOption(), "ma-select-item");
+    }
+    connectedCallback() {
+        super.connectedCallback();
+        this._init();
+    }
+    _init() {
+        const select = this._shadow.querySelector(`[part="select"]`);
+        if (select === null) {
+            throw new Error("Select element not found.");
+        }
+        select.addEventListener("change", () => {
+            this._dispatchEvent("change", select.value);
+        });
+    }
+}
+exports.MaSelect = MaSelect;
+customElements.define('ma-select-item', MaSelect);
+(0, componentBase_1.insertTemplate)(selectItem_html_1.default);
 
 
 /***/ }),
@@ -349,9 +486,10 @@ __webpack_require__(696);
 __webpack_require__(115);
 const button_html_1 = __importDefault(__webpack_require__(775));
 const input_html_1 = __importDefault(__webpack_require__(410));
+const select_html_1 = __importDefault(__webpack_require__(108));
 const root = document.getElementById("main-container");
 if (root) {
-    root.innerHTML = button_html_1.default + input_html_1.default;
+    root.innerHTML = button_html_1.default + input_html_1.default + select_html_1.default;
 }
 
 
