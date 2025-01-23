@@ -105,7 +105,7 @@ export class Input extends ComponentBase<InputOption> {
         });
 
         input.addEventListener("blur", () => {
-            if (input.value === "") {
+            if (input.value === "" && !this.option.placeholder) {
                 label.part.remove("little-label");
                 label.part.add("big-label");
             }
@@ -114,7 +114,7 @@ export class Input extends ComponentBase<InputOption> {
 
     private _updateHasValue(input: HTMLInputElement, label: HTMLLabelElement) {
         this.option.value = input.value;
-        if (this.option.value === "") {
+        if (this.option.value === "" && !this.option.placeholder) {
             label.part.remove("little-label");
             label.part.add("big-label");
         } else {

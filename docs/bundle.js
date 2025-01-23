@@ -52,7 +52,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 // Module
-var code = `<ma-input></ma-input><ma-input label="标题"></ma-input>`;
+var code = `<ma-input></ma-input><ma-input label="标题"></ma-input><ma-input placeholder="请输入"></ma-input><ma-input label="标题" placeholder="请输入"></ma-input>`;
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
 
@@ -301,7 +301,7 @@ class Input extends componentBase_1.ComponentBase {
             label.part.remove("big-label");
         });
         input.addEventListener("blur", () => {
-            if (input.value === "") {
+            if (input.value === "" && !this.option.placeholder) {
                 label.part.remove("little-label");
                 label.part.add("big-label");
             }
@@ -309,7 +309,7 @@ class Input extends componentBase_1.ComponentBase {
     }
     _updateHasValue(input, label) {
         this.option.value = input.value;
-        if (this.option.value === "") {
+        if (this.option.value === "" && !this.option.placeholder) {
             label.part.remove("little-label");
             label.part.add("big-label");
         }
