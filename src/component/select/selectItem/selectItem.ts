@@ -7,7 +7,7 @@ class SelectItemOption implements IOption {
     public key: string | null;
 
     public constructor() {
-        this.key = "";
+        this.key = null;
     }
 }
 
@@ -23,13 +23,9 @@ export class MaSelect extends ComponentBase<SelectItemOption> {
     }
 
     private _init() {
-        const select = this._shadow.querySelector<HTMLSelectElement>(`[part="select"]`);
-        if (select === null) {
-            throw new Error("Select element not found.");
+        if (this.option.key === null) {
+            console.error("Key is required.");
         }
-        select.addEventListener("change", () => {
-            this._dispatchEvent("change", select.value);
-        });
     }
 }
 

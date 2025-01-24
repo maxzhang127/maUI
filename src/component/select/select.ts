@@ -26,17 +26,34 @@ export class MaSelect extends ComponentBase<SelectOption> {
 
     public override connectedCallback() {
         super.connectedCallback();
+        this._initLabel();
         this._init();
     }
 
     private _init() {
-        const select = this._shadow.querySelector<HTMLSelectElement>(`[part="select"]`);
-        if (select === null) {
-            throw new Error("Select element not found.");
+        const slot = this._shadow.querySelector<HTMLSlotElement>('slot');
+        if (slot === null) {
+            throw new Error("Slot element not found.");
         }
-        select.addEventListener("change", () => {
-            this._dispatchEvent("change", select.value);
+
+        const assignedElements = slot.assignedElements({ flatten: true });
+        const selectItems = assignedElements.filter(el => el.tagName.toLowerCase() === 'ma-select-item');
+
+        if (selectItems.length === 0) {
+            throw new Error("No select-item elements found in slot.");
+        }
+
+        selectItems.forEach(item => {
+            console.log(item);
         });
+    }
+
+    private _initLabel() {
+        const labelDom = this._shadow.querySelector<HTMLDivElement>("[part=select-label]");
+        if (labelDom === null) {
+            throw new Error("Label element not found.");
+        }
+        labelDom.innerText = this.option.label ?? "";
     }
 }
 

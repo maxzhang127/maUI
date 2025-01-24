@@ -1,5 +1,6 @@
-.test {
-    background-color: #f0f0f0;
-    margin: 0;
-    padding: 0;
+$demo-default-width: 200px;
+$demo-default-height: 30px;
+.default-container {
+    width: $demo-default-width;
+    height: $demo-default-height;
 }
