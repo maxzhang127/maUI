@@ -18,7 +18,7 @@ class SelectOption implements IOption {
     }
 }
 
-export class MaSelect extends ComponentBase<SelectOption> {
+class MaSelect extends ComponentBase<SelectOption> {
 
     public constructor() {
         super(new SelectOption(), "ma-select");
