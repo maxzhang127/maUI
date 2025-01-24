@@ -4,3 +4,16 @@ $demo-default-height: 30px;
     width: $demo-default-width;
     height: $demo-default-height;
 }
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Roboto", sans-serif;
+}
+#main-container {
+    width: 100vw;
+    height: 100vh;
+}
+.container {
+    width: 100%;
+    height: 100%;
+}
