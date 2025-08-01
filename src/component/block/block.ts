@@ -1,5 +1,5 @@
 import { ComponentBase, insertTemplate, ComponentOption } from "../componentBase";
-import "./block.scss";
+import styles from "./block.scss?raw";
 import content from "./block.html";
 
 interface BlockOption extends ComponentOption {
@@ -24,7 +24,8 @@ class MaBlock extends ComponentBase<BlockOption> {
 
         super(defaultOptions, {
             templateId: "ma-block",
-            observedAttributes: MaBlock.observedAttributes
+            observedAttributes: MaBlock.observedAttributes,
+            styles: styles
         });
     }
 

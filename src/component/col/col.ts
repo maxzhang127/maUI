@@ -1,5 +1,5 @@
 import { ComponentBase, insertTemplate, ComponentOption } from "../componentBase";
-import "./col.scss";
+import styles from "./col.scss?raw";
 import content from "./col.html";
 
 interface ColOption extends ComponentOption {
@@ -30,7 +30,8 @@ class MaCol extends ComponentBase<ColOption> {
 
         super(defaultOptions, {
             templateId: "ma-col",
-            observedAttributes: MaCol.observedAttributes
+            observedAttributes: MaCol.observedAttributes,
+            styles: styles
         });
     }
 

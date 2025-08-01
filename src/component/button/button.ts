@@ -1,6 +1,6 @@
 import { ComponentBase, insertTemplate, ComponentOption, createClassManager } from "../componentBase";
 import content from "./button.html";
-import "./button.scss";
+import styles from "./button.scss?raw";
 
 interface ButtonOption extends ComponentOption {
     color: "primary" | "secondary" | "success" | "warning" | "danger" | "info";
@@ -38,12 +38,13 @@ class MaButton extends ComponentBase<ButtonOption> {
 
         super(defaultOptions, {
             templateId: "ma-button",
-            observedAttributes: MaButton.observedAttributes
+            observedAttributes: MaButton.observedAttributes,
+            styles: styles
         });
     }
 
     protected _initComponent(): void {
-        this._buttonElement = this.querySelector('button[part="button"]');
+        this._buttonElement = this.querySelector('button');
         if (!this._buttonElement) {
             throw new Error("Button element not found in template");
         }

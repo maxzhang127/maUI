@@ -1,6 +1,6 @@
 import { ComponentBase, insertTemplate, ComponentOption } from "../componentBase";
 import template from "./input.html";
-import "./input.scss";
+import styles from "./input.scss?raw";
 
 interface InputOption extends ComponentOption {
     value: string;
@@ -39,13 +39,14 @@ class MaInput extends ComponentBase<InputOption> {
 
         super(defaultOptions, {
             templateId: "ma-input",
-            observedAttributes: MaInput.observedAttributes
+            observedAttributes: MaInput.observedAttributes,
+            styles: styles
         });
     }
 
     protected _initComponent(): void {
-        this._inputElement = this.querySelector<HTMLInputElement>("[part=input]");
-        this._labelElement = this.querySelector<HTMLLabelElement>("[part=label]");
+        this._inputElement = this.querySelector<HTMLInputElement>("input");
+        this._labelElement = this.querySelector<HTMLLabelElement>("label");
         
         if (!this._inputElement) {
             throw new Error("Input element not found in template");
@@ -199,11 +200,11 @@ class MaInput extends ComponentBase<InputOption> {
         const hasPlaceholder = this.getOption('placeholder') !== null;
         
         if (hasValue || hasPlaceholder) {
-            this._labelElement.part.add("little-label");
-            this._labelElement.part.remove("big-label");
+            this._labelElement.classList.add("little-label");
+            this._labelElement.classList.remove("big-label");
         } else {
-            this._labelElement.part.remove("little-label");
-            this._labelElement.part.add("big-label");
+            this._labelElement.classList.remove("little-label");
+            this._labelElement.classList.add("big-label");
         }
     }
 
@@ -223,8 +224,8 @@ class MaInput extends ComponentBase<InputOption> {
     }
 
     private _handleFocus(): void {
-        this._labelElement?.part.add("little-label");
-        this._labelElement?.part.remove("big-label");
+        this._labelElement?.classList.add("little-label");
+        this._labelElement?.classList.remove("big-label");
         this._dispatchEvent("ma-focus", { value: this.getOption('value') });
     }
 

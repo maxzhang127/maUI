@@ -24,7 +24,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 // Module
-var code = `<template id="ma-button"><button part="button"><slot></slot></button></template>`;
+var code = `<template id="ma-button"><button><slot></slot></button></template>`;
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
 
@@ -66,7 +66,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 // Module
-var code = `<template id="ma-input"><div part="input-container"><input part="input" type="text" id="input-field"> <label part="label" for="input-field">Input</label></div></template>`;
+var code = `<template id="ma-input"><div><input type="text" id="input-field"> <label for="input-field">Input</label></div></template>`;
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
 
@@ -94,7 +94,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 // Module
-var code = `<template id="ma-select"><div part="select-label">Select</div><div part="select-container"><slot>options</slot></div></template>`;
+var code = `<template id="ma-select"><div class="select-label">Select</div><div class="select-container"><slot>options</slot></div></template>`;
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (code);
 
@@ -128,7 +128,7 @@ var code = `<div class="container"><ma-container type="grid"><ma-row><ma-col>1</
 
 /***/ }),
 
-/***/ 930:
+/***/ 885:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -137,7 +137,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ 101:
+/***/ 960:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -146,7 +146,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ 719:
+/***/ 402:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -155,7 +155,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ 893:
+/***/ 266:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -164,7 +164,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ 277:
+/***/ 866:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -173,7 +173,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ 829:
+/***/ 50:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -182,16 +182,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ 477:
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-// extracted by mini-css-extract-plugin
-
-
-/***/ }),
-
-/***/ 391:
+/***/ 256:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -227,7 +218,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const componentBase_1 = __webpack_require__(278);
-__webpack_require__(101);
+const block_scss_raw_1 = __importDefault(__webpack_require__(885));
 const block_html_1 = __importDefault(__webpack_require__(407));
 class MaBlock extends componentBase_1.ComponentBase {
     static get observedAttributes() {
@@ -242,7 +233,8 @@ class MaBlock extends componentBase_1.ComponentBase {
         };
         super(defaultOptions, {
             templateId: "ma-block",
-            observedAttributes: MaBlock.observedAttributes
+            observedAttributes: MaBlock.observedAttributes,
+            styles: block_scss_raw_1.default
         });
     }
     _initComponent() {
@@ -287,7 +279,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const componentBase_1 = __webpack_require__(278);
 const button_html_1 = __importDefault(__webpack_require__(565));
-__webpack_require__(719);
+const button_scss_raw_1 = __importDefault(__webpack_require__(960));
 class MaButton extends componentBase_1.ComponentBase {
     // 观察的属性
     static get observedAttributes() {
@@ -307,13 +299,14 @@ class MaButton extends componentBase_1.ComponentBase {
         };
         super(defaultOptions, {
             templateId: "ma-button",
-            observedAttributes: MaButton.observedAttributes
+            observedAttributes: MaButton.observedAttributes,
+            styles: button_scss_raw_1.default
         });
         this._classManager = null;
         this._buttonElement = null;
     }
     _initComponent() {
-        this._buttonElement = this.querySelector('button[part="button"]');
+        this._buttonElement = this.querySelector('button');
         if (!this._buttonElement) {
             throw new Error("Button element not found in template");
         }
@@ -471,7 +464,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const componentBase_1 = __webpack_require__(278);
-__webpack_require__(893);
+const col_scss_raw_1 = __importDefault(__webpack_require__(402));
 const col_html_1 = __importDefault(__webpack_require__(79));
 class MaCol extends componentBase_1.ComponentBase {
     static get observedAttributes() {
@@ -489,7 +482,8 @@ class MaCol extends componentBase_1.ComponentBase {
         };
         super(defaultOptions, {
             templateId: "ma-col",
-            observedAttributes: MaCol.observedAttributes
+            observedAttributes: MaCol.observedAttributes,
+            styles: col_scss_raw_1.default
         });
     }
     _initComponent() {
@@ -549,6 +543,7 @@ class ComponentBase extends HTMLElement {
             delegatesFocus: config.delegatesFocus || false
         });
         this._initTemplate();
+        this._initStyles();
     }
     // 静态方法：获取观察的属性
     static get observedAttributes() {
@@ -633,6 +628,14 @@ class ComponentBase extends HTMLElement {
         }
         else {
             console.warn(`Template "${this._config.templateId}" not found for component`);
+        }
+    }
+    // 私有方法：初始化样式
+    _initStyles() {
+        if (this._config.styles) {
+            const style = new CSSStyleSheet();
+            style.replaceSync(this._config.styles);
+            this._shadow.adoptedStyleSheets = [style];
         }
     }
     // 私有方法：获取模板（带缓存）
@@ -827,7 +830,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const componentBase_1 = __webpack_require__(278);
-__webpack_require__(277);
+const container_scss_raw_1 = __importDefault(__webpack_require__(266));
 const container_html_1 = __importDefault(__webpack_require__(119));
 class MaContainer extends componentBase_1.ComponentBase {
     static get observedAttributes() {
@@ -839,7 +842,8 @@ class MaContainer extends componentBase_1.ComponentBase {
         };
         super(defaultOptions, {
             templateId: "ma-container",
-            observedAttributes: MaContainer.observedAttributes
+            observedAttributes: MaContainer.observedAttributes,
+            styles: container_scss_raw_1.default
         });
     }
     _initComponent() {
@@ -898,7 +902,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const componentBase_1 = __webpack_require__(278);
 const input_html_1 = __importDefault(__webpack_require__(647));
-__webpack_require__(829);
+const input_scss_raw_1 = __importDefault(__webpack_require__(866));
 class MaInput extends componentBase_1.ComponentBase {
     static get observedAttributes() {
         return ['value', 'label', 'color', 'size', 'placeholder', 'readonly', 'disabled', 'required', 'type'];
@@ -918,14 +922,15 @@ class MaInput extends componentBase_1.ComponentBase {
         };
         super(defaultOptions, {
             templateId: "ma-input",
-            observedAttributes: MaInput.observedAttributes
+            observedAttributes: MaInput.observedAttributes,
+            styles: input_scss_raw_1.default
         });
         this._inputElement = null;
         this._labelElement = null;
     }
     _initComponent() {
-        this._inputElement = this.querySelector("[part=input]");
-        this._labelElement = this.querySelector("[part=label]");
+        this._inputElement = this.querySelector("input");
+        this._labelElement = this.querySelector("label");
         if (!this._inputElement) {
             throw new Error("Input element not found in template");
         }
@@ -1056,12 +1061,12 @@ class MaInput extends componentBase_1.ComponentBase {
         const hasValue = ((_a = this._inputElement) === null || _a === void 0 ? void 0 : _a.value) !== '';
         const hasPlaceholder = this.getOption('placeholder') !== null;
         if (hasValue || hasPlaceholder) {
-            this._labelElement.part.add("little-label");
-            this._labelElement.part.remove("big-label");
+            this._labelElement.classList.add("little-label");
+            this._labelElement.classList.remove("big-label");
         }
         else {
-            this._labelElement.part.remove("little-label");
-            this._labelElement.part.add("big-label");
+            this._labelElement.classList.remove("little-label");
+            this._labelElement.classList.add("big-label");
         }
     }
     _handleInput(event) {
@@ -1079,8 +1084,8 @@ class MaInput extends componentBase_1.ComponentBase {
     }
     _handleFocus() {
         var _a, _b;
-        (_a = this._labelElement) === null || _a === void 0 ? void 0 : _a.part.add("little-label");
-        (_b = this._labelElement) === null || _b === void 0 ? void 0 : _b.part.remove("big-label");
+        (_a = this._labelElement) === null || _a === void 0 ? void 0 : _a.classList.add("little-label");
+        (_b = this._labelElement) === null || _b === void 0 ? void 0 : _b.classList.remove("big-label");
         this._dispatchEvent("ma-focus", { value: this.getOption('value') });
     }
     _handleBlur() {
@@ -1104,7 +1109,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.MaRow = void 0;
 const componentBase_1 = __webpack_require__(278);
-__webpack_require__(477);
+const row_scss_raw_1 = __importDefault(__webpack_require__(50));
 const row_html_1 = __importDefault(__webpack_require__(975));
 class MaRow extends componentBase_1.ComponentBase {
     static get observedAttributes() {
@@ -1118,7 +1123,8 @@ class MaRow extends componentBase_1.ComponentBase {
         };
         super(defaultOptions, {
             templateId: "ma-row",
-            observedAttributes: MaRow.observedAttributes
+            observedAttributes: MaRow.observedAttributes,
+            styles: row_scss_raw_1.default
         });
         this._colCount = 0;
         this._cols = [];
@@ -1174,7 +1180,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const componentBase_1 = __webpack_require__(278);
-__webpack_require__(391);
+const select_scss_raw_1 = __importDefault(__webpack_require__(256));
 const select_html_1 = __importDefault(__webpack_require__(233));
 class MaSelect extends componentBase_1.ComponentBase {
     static get observedAttributes() {
@@ -1193,7 +1199,8 @@ class MaSelect extends componentBase_1.ComponentBase {
         };
         super(defaultOptions, {
             templateId: "ma-select",
-            observedAttributes: MaSelect.observedAttributes
+            observedAttributes: MaSelect.observedAttributes,
+            styles: select_scss_raw_1.default
         });
         this._isOpen = false;
         this._selectedItems = [];
@@ -1203,7 +1210,7 @@ class MaSelect extends componentBase_1.ComponentBase {
         this._initDropdown();
     }
     _setupEventListeners() {
-        const selector = this.querySelector('[part="select-label"]');
+        const selector = this.querySelector('.select-label');
         if (selector) {
             selector.addEventListener('click', this._toggleDropdown.bind(this));
         }
@@ -1265,7 +1272,7 @@ class MaSelect extends componentBase_1.ComponentBase {
         this._handleSlotChange();
     }
     _updateLabel() {
-        const labelDom = this.querySelector("[part=select-label]");
+        const labelDom = this.querySelector(".select-label");
         if (!labelDom)
             return;
         const { label, placeholder, value } = this.options;
@@ -1466,9 +1473,6 @@ __webpack_require__(696);
 __webpack_require__(115);
 __webpack_require__(238);
 const demo_html_1 = __importDefault(__webpack_require__(839));
-// 测试SCSS文本导入功能
-const color_scss_raw_1 = __importDefault(__webpack_require__(930));
-console.log('SCSS内容作为文本:', color_scss_raw_1.default);
 const root = document.getElementById("main-container");
 if (root) {
     root.innerHTML = demo_html_1.default;

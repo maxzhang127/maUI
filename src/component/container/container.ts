@@ -1,5 +1,5 @@
 import { ComponentBase, insertTemplate, ComponentOption } from "../componentBase";
-import "./container.scss";
+import styles from "./container.scss?raw";
 import content from "./container.html";
 
 interface ContainerOption extends ComponentOption {
@@ -18,7 +18,8 @@ class MaContainer extends ComponentBase<ContainerOption> {
 
         super(defaultOptions, {
             templateId: "ma-container",
-            observedAttributes: MaContainer.observedAttributes
+            observedAttributes: MaContainer.observedAttributes,
+            styles: styles
         });
     }
 

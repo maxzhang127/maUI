@@ -7,6 +7,7 @@ export interface ComponentConfig {
     shadowMode?: "open" | "closed";
     observedAttributes?: string[];
     delegatesFocus?: boolean;
+    styles?: string; // 添加样式支持
 }
 
 export abstract class ComponentBase<T extends ComponentOption> extends HTMLElement {
@@ -28,6 +29,7 @@ export abstract class ComponentBase<T extends ComponentOption> extends HTMLEleme
         });
         
         this._initTemplate();
+        this._initStyles();
     }
 
     // 静态方法：获取观察的属性
@@ -149,6 +151,15 @@ export abstract class ComponentBase<T extends ComponentOption> extends HTMLEleme
             this._shadow.appendChild(template.content.cloneNode(true));
         } else {
             console.warn(`Template "${this._config.templateId}" not found for component`);
+        }
+    }
+
+    // 私有方法：初始化样式
+    private _initStyles(): void {
+        if (this._config.styles) {
+            const style = new CSSStyleSheet();
+            style.replaceSync(this._config.styles);
+            this._shadow.adoptedStyleSheets = [style];
         }
     }
 

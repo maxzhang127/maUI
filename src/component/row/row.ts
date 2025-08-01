@@ -1,5 +1,5 @@
 import { ComponentBase, insertTemplate, ComponentOption } from "../componentBase";
-import "./row.scss";
+import styles from "./row.scss?raw";
 import content from "./row.html";
 
 interface RowOption extends ComponentOption {
@@ -25,7 +25,8 @@ export class MaRow extends ComponentBase<RowOption> {
 
         super(defaultOptions, {
             templateId: "ma-row",
-            observedAttributes: MaRow.observedAttributes
+            observedAttributes: MaRow.observedAttributes,
+            styles: styles
         });
     }
 

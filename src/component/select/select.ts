@@ -1,5 +1,5 @@
 import { ComponentBase, insertTemplate, ComponentOption } from "../componentBase";
-import "./select.scss";
+import styles from "./select.scss?raw";
 import content from "./select.html";
 
 interface SelectOption extends ComponentOption {
@@ -35,7 +35,8 @@ class MaSelect extends ComponentBase<SelectOption> {
 
         super(defaultOptions, {
             templateId: "ma-select",
-            observedAttributes: MaSelect.observedAttributes
+            observedAttributes: MaSelect.observedAttributes,
+            styles: styles
         });
     }
 
@@ -45,7 +46,7 @@ class MaSelect extends ComponentBase<SelectOption> {
     }
 
     protected _setupEventListeners(): void {
-        const selector = this.querySelector('[part="select-label"]');
+        const selector = this.querySelector('.select-label');
         if (selector) {
             selector.addEventListener('click', this._toggleDropdown.bind(this));
         }
@@ -122,7 +123,7 @@ class MaSelect extends ComponentBase<SelectOption> {
     }
 
     private _updateLabel(): void {
-        const labelDom = this.querySelector<HTMLDivElement>("[part=select-label]");
+        const labelDom = this.querySelector<HTMLDivElement>(".select-label");
         if (!labelDom) return;
 
         const { label, placeholder, value } = this.options;
