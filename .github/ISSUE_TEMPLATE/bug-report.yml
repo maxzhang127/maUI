@@ -1,0 +1,190 @@
+name: 🐛 Bug Report
+description: 报告一个问题或错误
+title: "[Bug] "
+labels: ["bug", "needs-triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢你报告问题！详细的bug报告能帮助我们更快地定位和修复问题。
+
+  - type: checkboxes
+    id: preliminary-checks
+    attributes:
+      label: 前置检查
+      description: 请确认你已经完成以下检查
+      options:
+        - label: 我已经搜索了现有的 issues，确认这不是重复的问题
+          required: true
+        - label: 我已经阅读了相关文档和使用示例
+          required: true
+        - label: 我使用的是最新版本的 maUI
+          required: true
+
+  - type: dropdown
+    id: affected-component
+    attributes:
+      label: 受影响的组件
+      description: 哪个组件出现了问题？
+      options:
+        - ma-button
+        - ma-input  
+        - ma-select
+        - ma-container
+        - ma-row
+        - ma-col
+        - ma-block
+        - 构建系统
+        - 样式系统
+        - 其他
+    validations:
+      required: true
+
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: 问题描述
+      description: 清楚、简洁地描述这个bug
+      placeholder: 请详细描述遇到的问题...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: 期望行为
+      description: 描述你期望发生的行为
+      placeholder: 我期望...
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: 实际行为
+      description: 描述实际发生的行为
+      placeholder: 但实际上...
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction-steps
+    attributes:
+      label: 重现步骤
+      description: 提供重现这个问题的详细步骤
+      placeholder: |
+        1. 创建一个包含 xxx 的页面
+        2. 点击 xxx 按钮
+        3. 观察到错误行为
+    validations:
+      required: true
+
+  - type: textarea
+    id: code-example
+    attributes:
+      label: 代码示例
+      description: 提供能重现问题的最小代码示例
+      placeholder: |
+        ```html
+        <!-- 重现问题的代码 -->
+        <ma-button color="primary">测试按钮</ma-button>
+        ```
+        
+        ```typescript
+        // 相关的 JavaScript/TypeScript 代码
+        const button = document.querySelector('ma-button');
+        button.addEventListener('click', () => {
+          // 问题出现的代码
+        });
+        ```
+
+  - type: input
+    id: maui-version
+    attributes:
+      label: maUI 版本
+      description: 你使用的 maUI 版本
+      placeholder: "例如：1.0.0 或 commit hash"
+
+  - type: dropdown
+    id: browser
+    attributes:
+      label: 浏览器
+      description: 问题出现在哪个浏览器？
+      options:
+        - Chrome
+        - Firefox
+        - Safari
+        - Edge
+        - 其他
+    validations:
+      required: true
+
+  - type: input
+    id: browser-version
+    attributes:
+      label: 浏览器版本
+      description: 浏览器的具体版本号
+      placeholder: "例如：Chrome 120.0.0.0"
+
+  - type: dropdown
+    id: operating-system
+    attributes:
+      label: 操作系统
+      description: 你的操作系统
+      options:
+        - Windows
+        - macOS
+        - Linux
+        - iOS
+        - Android
+        - 其他
+
+  - type: textarea
+    id: console-errors
+    attributes:
+      label: 控制台错误
+      description: 如果有控制台错误信息，请贴在这里
+      placeholder: |
+        ```
+        请将控制台的错误信息粘贴在这里
+        ```
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: 截图或录屏
+      description: 如果适用，请提供截图或录屏来说明问题
+      placeholder: 可以拖拽图片到这里，或提供图片链接
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: 严重程度
+      description: 这个问题的严重程度如何？
+      options:
+        - 低 - 轻微的视觉问题或不影响功能的问题
+        - 中 - 功能受影响但有变通方案
+        - 高 - 功能完全不可用
+        - 紧急 - 导致应用崩溃或安全问题
+    validations:
+      required: true
+
+  - type: textarea
+    id: workaround
+    attributes:
+      label: 临时解决方案
+      description: 如果你找到了临时的解决方案，请分享
+      placeholder: 目前我通过 xxx 方式暂时解决了这个问题...
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: 补充信息
+      description: 其他任何有助于理解这个问题的信息
+      placeholder: |
+        - 特殊的使用环境
+        - 相关的第三方库
+        - 网络环境
+        - 其他相关问题

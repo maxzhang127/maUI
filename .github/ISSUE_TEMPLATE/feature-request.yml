@@ -1,0 +1,141 @@
+name: ✨ Feature Request
+description: 建议一个新功能或增强现有功能
+title: "[Feature] "
+labels: ["enhancement", "feature-request"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢你为 maUI 贡献想法！请详细描述你的功能需求，这将帮助我们更好地理解和实现。
+
+  - type: checkboxes
+    id: preliminary-checks
+    attributes:
+      label: 前置检查
+      description: 请确认你已经完成以下检查
+      options:
+        - label: 我已经搜索了现有的 issues，确认这不是重复的请求
+          required: true
+        - label: 我已经查看了项目文档和组件列表
+          required: true
+        - label: 这个功能确实适合 maUI 这个轻量级组件库
+          required: true
+
+  - type: dropdown
+    id: feature-type
+    attributes:
+      label: 功能类型
+      description: 这个功能请求属于哪个类别？
+      options:
+        - 新组件 (New Component)
+        - 现有组件增强 (Component Enhancement)
+        - 样式系统改进 (Style System)
+        - 构建工具优化 (Build Tools)
+        - 开发体验改进 (DX Improvement)
+        - 文档完善 (Documentation)
+        - 其他 (Other)
+    validations:
+      required: true
+
+  - type: input
+    id: related-component
+    attributes:
+      label: 相关组件
+      description: 如果这个功能与特定组件相关，请指定组件名称
+      placeholder: "例如：ma-button, ma-select, ma-input"
+
+  - type: textarea
+    id: problem-description
+    attributes:
+      label: 问题描述 / 使用场景
+      description: 描述你遇到的问题或希望实现的使用场景
+      placeholder: |
+        例如：
+        - 当前我需要在表单中使用日期选择器，但现有组件库中没有这个功能
+        - 现有的 button 组件缺少加载状态，无法满足异步操作的需求
+        - 希望能支持暗色主题切换
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed-solution
+    attributes:
+      label: 建议的解决方案
+      description: 描述你期望的功能实现方式
+      placeholder: |
+        请详细描述：
+        - 期望的 API 设计
+        - 组件的行为和交互
+        - 样式和主题支持
+        - 任何相关的技术考虑
+    validations:
+      required: true
+
+  - type: textarea
+    id: api-example
+    attributes:
+      label: API 使用示例
+      description: 提供期望的 API 使用方式示例
+      placeholder: |
+        ```html
+        <!-- 期望的使用方式 -->
+        <ma-date-picker 
+          value="2024-01-01" 
+          format="YYYY-MM-DD"
+          placeholder="请选择日期">
+        </ma-date-picker>
+        ```
+        
+        ```typescript
+        // 期望的事件处理
+        datePicket.addEventListener('change', (e) => {
+          console.log('选择的日期:', e.detail.value);
+        });
+        ```
+
+  - type: textarea
+    id: alternatives-considered
+    attributes:
+      label: 考虑过的替代方案
+      description: 你是否考虑过其他解决方案？为什么这个方案更好？
+      placeholder: |
+        例如：
+        - 考虑过使用第三方日期库，但希望保持组件库的一致性
+        - 尝试过自己实现，但缺少一些复杂的功能
+        - 其他组件库的类似功能，但不符合我们的设计风格
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: 优先级
+      description: 这个功能对你的项目有多重要？
+      options:
+        - 低 - 有时间的话希望能实现
+        - 中 - 会显著提升开发体验
+        - 高 - 项目急需这个功能
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: 贡献意愿
+      description: 你是否愿意为这个功能的实现做出贡献？
+      options:
+        - label: 我愿意协助设计这个功能的 API
+        - label: 我可以提供详细的使用场景和测试用例  
+        - label: 我愿意尝试实现这个功能（需要技术指导）
+        - label: 我可以帮助完善相关文档
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: 补充信息
+      description: 其他任何有助于理解这个功能请求的信息
+      placeholder: |
+        - 相关的截图或设计稿
+        - 参考的其他组件库实现
+        - 特殊的兼容性需求
+        - 性能方面的考虑
