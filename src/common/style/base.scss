@@ -1,0 +1,403 @@
+// ============================
+// maUI Base Styles
+// 基础样式和CSS重置
+// ============================
+
+@import './tokens.scss';
+@import './mixins.scss';
+
+// ==== CSS 重置 ====
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  line-height: 1.15;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  margin: 0;
+  font-family: var(--ma-font-family);
+  font-size: var(--ma-font-size-md);
+  font-weight: var(--ma-font-weight-normal);
+  line-height: var(--ma-line-height-md);
+  color: var(--ma-text-color-primary);
+  background-color: var(--ma-bg-color-layout);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+// ==== HTML元素重置 ====
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  @include button-reset;
+}
+
+ul,
+ol {
+  @include list-reset;
+}
+
+// 表格
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+// 链接
+a {
+  color: var(--ma-color-primary);
+  text-decoration: none;
+  
+  &:hover {
+    color: var(--ma-color-primary-light);
+    text-decoration: underline;
+  }
+  
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+// ==== 排版基础 ====
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  font-weight: var(--ma-font-weight-semibold);
+  line-height: var(--ma-line-height-sm);
+  color: var(--ma-text-color-primary);
+}
+
+h1 {
+  font-size: var(--ma-font-size-h1);
+  margin-bottom: var(--ma-spacing-lg);
+}
+
+h2 {
+  font-size: var(--ma-font-size-h2);
+  margin-bottom: var(--ma-spacing-md);
+}
+
+h3 {
+  font-size: var(--ma-font-size-h3);
+  margin-bottom: var(--ma-spacing-md);
+}
+
+h4 {
+  font-size: var(--ma-font-size-h4);
+  margin-bottom: var(--ma-spacing-sm);
+}
+
+h5 {
+  font-size: var(--ma-font-size-h5);
+  margin-bottom: var(--ma-spacing-sm);
+}
+
+h6 {
+  font-size: var(--ma-font-size-h6);
+  margin-bottom: var(--ma-spacing-sm);
+}
+
+p {
+  margin: 0 0 var(--ma-spacing-md) 0;
+  color: var(--ma-text-color-primary);
+  
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+// 代码
+code,
+pre {
+  font-family: var(--ma-font-family-code);
+  font-size: 0.875em;
+}
+
+code {
+  padding: 2px 4px;
+  background-color: var(--ma-color-gray-1);
+  border-radius: var(--ma-border-radius-xs);
+  color: var(--ma-text-color-primary);
+}
+
+pre {
+  padding: var(--ma-spacing-md);
+  background-color: var(--ma-color-gray-1);
+  border-radius: var(--ma-border-radius-sm);
+  overflow-x: auto;
+  
+  code {
+    padding: 0;
+    background: none;
+    border-radius: 0;
+  }
+}
+
+// 引用
+blockquote {
+  margin: var(--ma-spacing-lg) 0;
+  padding-left: var(--ma-spacing-lg);
+  border-left: 4px solid var(--ma-color-primary);
+  color: var(--ma-text-color-secondary);
+  font-style: italic;
+}
+
+// 分割线
+hr {
+  border: none;
+  height: 1px;
+  background-color: var(--ma-border-color-split);
+  margin: var(--ma-spacing-xl) 0;
+}
+
+// ==== 表单元素基础样式 ====
+input,
+textarea,
+select {
+  border: 1px solid var(--ma-border-color);
+  border-radius: var(--ma-border-radius-sm);
+  padding: var(--ma-spacing-sm) var(--ma-spacing-md);
+  background-color: var(--ma-bg-color-container);
+  color: var(--ma-text-color-primary);
+  
+  &:focus {
+    outline: none;
+    border-color: var(--ma-color-primary);
+    box-shadow: var(--ma-shadow-focus);
+  }
+  
+  &:disabled {
+    @include disabled;
+  }
+  
+  &::placeholder {
+    color: var(--ma-text-color-tertiary);
+  }
+}
+
+// ==== 滚动条样式 ====
+:root {
+  @include custom-scrollbar();
+}
+
+// ==== 工具类 ====
+
+// 隐藏类
+.ma-hidden {
+  display: none !important;
+}
+
+.ma-visually-hidden {
+  @include visually-hidden;
+}
+
+// 间距工具类
+.ma-m-0 { margin: 0 !important; }
+.ma-m-xs { margin: var(--ma-spacing-xs) !important; }
+.ma-m-sm { margin: var(--ma-spacing-sm) !important; }
+.ma-m-md { margin: var(--ma-spacing-md) !important; }
+.ma-m-lg { margin: var(--ma-spacing-lg) !important; }
+.ma-m-xl { margin: var(--ma-spacing-xl) !important; }
+
+.ma-p-0 { padding: 0 !important; }
+.ma-p-xs { padding: var(--ma-spacing-xs) !important; }
+.ma-p-sm { padding: var(--ma-spacing-sm) !important; }
+.ma-p-md { padding: var(--ma-spacing-md) !important; }
+.ma-p-lg { padding: var(--ma-spacing-lg) !important; }
+.ma-p-xl { padding: var(--ma-spacing-xl) !important; }
+
+// 文本工具类
+.ma-text-left { text-align: left !important; }
+.ma-text-center { text-align: center !important; }
+.ma-text-right { text-align: right !important; }
+
+.ma-text-xs { font-size: var(--ma-font-size-xs) !important; }
+.ma-text-sm { font-size: var(--ma-font-size-sm) !important; }
+.ma-text-md { font-size: var(--ma-font-size-md) !important; }
+.ma-text-lg { font-size: var(--ma-font-size-lg) !important; }
+.ma-text-xl { font-size: var(--ma-font-size-xl) !important; }
+
+.ma-text-primary { color: var(--ma-text-color-primary) !important; }
+.ma-text-secondary { color: var(--ma-text-color-secondary) !important; }
+.ma-text-tertiary { color: var(--ma-text-color-tertiary) !important; }
+
+.ma-text-ellipsis { @include text-ellipsis; }
+.ma-text-ellipsis-2 { @include text-ellipsis(2); }
+.ma-text-ellipsis-3 { @include text-ellipsis(3); }
+
+// 颜色工具类
+.ma-text-primary-color { color: var(--ma-color-primary) !important; }
+.ma-text-success { color: var(--ma-color-success) !important; }
+.ma-text-warning { color: var(--ma-color-warning) !important; }
+.ma-text-danger { color: var(--ma-color-danger) !important; }
+.ma-text-info { color: var(--ma-color-info) !important; }
+
+// 布局工具类
+.ma-flex { display: flex !important; }
+.ma-inline-flex { display: inline-flex !important; }
+.ma-block { display: block !important; }
+.ma-inline-block { display: inline-block !important; }
+.ma-inline { display: inline !important; }
+
+.ma-flex-center { @include center; }
+.ma-flex-center-h { @include center(horizontal); }
+.ma-flex-center-v { @include center(vertical); }
+
+.ma-flex-1 { flex: 1 !important; }
+.ma-flex-auto { flex: auto !important; }
+.ma-flex-none { flex: none !important; }
+
+// 位置工具类
+.ma-relative { position: relative !important; }
+.ma-absolute { position: absolute !important; }
+.ma-fixed { position: fixed !important; }
+.ma-sticky { position: sticky !important; }
+
+// 宽高工具类
+.ma-w-full { width: 100% !important; }
+.ma-h-full { height: 100% !important; }
+.ma-w-auto { width: auto !important; }
+.ma-h-auto { height: auto !important; }
+
+// 圆角工具类
+.ma-rounded-none { border-radius: 0 !important; }
+.ma-rounded-sm { border-radius: var(--ma-border-radius-sm) !important; }
+.ma-rounded-md { border-radius: var(--ma-border-radius-md) !important; }
+.ma-rounded-lg { border-radius: var(--ma-border-radius-lg) !important; }
+.ma-rounded-full { border-radius: var(--ma-border-radius-round) !important; }
+
+// 阴影工具类
+.ma-shadow-none { box-shadow: none !important; }
+.ma-shadow-sm { box-shadow: var(--ma-shadow-sm) !important; }
+.ma-shadow-md { box-shadow: var(--ma-shadow-md) !important; }
+.ma-shadow-lg { box-shadow: var(--ma-shadow-lg) !important; }
+
+// ==== 动画工具类 ====
+.ma-transition { @include transition; }
+.ma-transition-fast { @include transition(all, var(--ma-duration-fast)); }
+.ma-transition-slow { @include transition(all, var(--ma-duration-slow)); }
+
+// ==== 交互状态 ====
+.ma-pointer { cursor: pointer !important; }
+.ma-not-allowed { cursor: not-allowed !important; }
+.ma-grab { cursor: grab !important; }
+.ma-grabbing { cursor: grabbing !important; }
+
+.ma-select-none { @include no-select; }
+.ma-select-text { user-select: text !important; }
+.ma-select-all { user-select: all !important; }
+
+// ==== 响应式工具类 ====
+@include responsive(sm) {
+  .ma-sm\:hidden { display: none !important; }
+  .ma-sm\:block { display: block !important; }
+  .ma-sm\:flex { display: flex !important; }
+}
+
+@include responsive(md) {
+  .ma-md\:hidden { display: none !important; }
+  .ma-md\:block { display: block !important; }
+  .ma-md\:flex { display: flex !important; }
+}
+
+@include responsive(lg) {
+  .ma-lg\:hidden { display: none !important; }
+  .ma-lg\:block { display: block !important; }
+  .ma-lg\:flex { display: flex !important; }
+}
+
+// ==== 紧凑模式调整 ====
+[data-compact="true"] {
+  .ma-p-sm { padding: var(--ma-spacing-xs) !important; }
+  .ma-p-md { padding: var(--ma-spacing-sm) !important; }
+  .ma-p-lg { padding: var(--ma-spacing-md) !important; }
+  
+  .ma-m-sm { margin: var(--ma-spacing-xs) !important; }
+  .ma-m-md { margin: var(--ma-spacing-sm) !important; }
+  .ma-m-lg { margin: var(--ma-spacing-md) !important; }
+}
+
+// ==== 打印样式 ====
+@media print {
+  *,
+  *::before,
+  *::after {
+    background: transparent !important;
+    color: black !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+  
+  a,
+  a:visited {
+    text-decoration: underline;
+  }
+  
+  img {
+    page-break-inside: avoid;
+  }
+  
+  p,
+  h2,
+  h3 {
+    orphans: 3;
+    widows: 3;
+  }
+  
+  h2,
+  h3 {
+    page-break-after: avoid;
+  }
+}
+
+// ==== 可访问性增强 ====
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+// 高对比度模式
+@media (prefers-contrast: high) {
+  :root {
+    --ma-border-color: #000000;
+    --ma-text-color-primary: #000000;
+    --ma-bg-color-container: #ffffff;
+  }
+  
+  [data-theme="dark"] {
+    --ma-border-color: #ffffff;
+    --ma-text-color-primary: #ffffff;
+    --ma-bg-color-container: #000000;
+  }
+}

@@ -1,21 +1,47 @@
-import { ComponentBase, insertTemplate, IOption } from "../componentBase";
+import { ComponentBase, insertTemplate, ComponentOption } from "../componentBase";
 import "./container.scss";
 import content from "./container.html";
-import { MaRow } from "../row/row";
 
-class ContainerOption implements IOption {
-    [key: string]: string | boolean | null;
-
-    public type: "grid" | "flex" | null;
-
-    public constructor() {
-        this.type = null;
-    }
+interface ContainerOption extends ComponentOption {
+    type: "grid" | "flex" | null;
 }
 
 class MaContainer extends ComponentBase<ContainerOption> {
+    static get observedAttributes(): string[] {
+        return ['type'];
+    }
+
     public constructor() {
-        super(new ContainerOption(), "ma-container");
+        const defaultOptions: ContainerOption = {
+            type: null
+        };
+
+        super(defaultOptions, {
+            templateId: "ma-container",
+            observedAttributes: MaContainer.observedAttributes
+        });
+    }
+
+    protected _initComponent(): void {
+        this._updateContainerType();
+    }
+
+    protected _onOptionChange<K extends keyof ContainerOption>(
+        key: K, 
+        oldValue: ContainerOption[K], 
+        newValue: ContainerOption[K]
+    ): void {
+        if (key === 'type') {
+            this._updateContainerType();
+        }
+    }
+
+    private _updateContainerType(): void {
+        const { type } = this.options;
+        this.classList.remove('ma-container--grid', 'ma-container--flex');
+        if (type) {
+            this.classList.add(`ma-container--${type}`);
+        }
     }
 
     public override connectedCallback() {
@@ -24,34 +50,7 @@ class MaContainer extends ComponentBase<ContainerOption> {
     }
 
     private _init() {
-        this._initType();
-    }
-
-    private _initType() {
-        if (this.option.type === "grid") {
-            this.style.display = "grid";
-            this._initGrid();
-        }
-
-        if (this.option.type === "flex") {
-            this.style.display = "flex";
-        }
-
-        if (this.option.type === null) {
-            console.error("Type is required.");
-        }
-    }
-
-    private _initGrid() {
-        let innerHTML = "";
-        const rows = this.querySelectorAll<MaRow>("ma-row");
-        const gridTemplateRows = Array.from(rows).map((row) => {
-            innerHTML += row.innerHTML;
-            return row.getAttribute("height") ?? "auto";
-        }).join(" ");
-        this.style.gridTemplateRows = gridTemplateRows;
-        this.style.gridTemplateColumns = "1fr ".repeat(rows[0].colCount).trim();
-        this.innerHTML = innerHTML;
+        // 初始化逻辑
     }
 }
 

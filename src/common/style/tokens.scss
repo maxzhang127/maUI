@@ -1,0 +1,295 @@
+// ============================
+// maUI Design Tokens
+// 设计系统的基础变量定义
+// ============================
+
+// ==== 颜色系统 ====
+// 基础颜色
+:root {
+  // 品牌色
+  --ma-color-primary: #1890ff;
+  --ma-color-primary-light: #40a9ff;
+  --ma-color-primary-lighter: #69c0ff;
+  --ma-color-primary-dark: #096dd9;
+  --ma-color-primary-darker: #0050b3;
+
+  // 功能色
+  --ma-color-success: #52c41a;
+  --ma-color-success-light: #73d13d;
+  --ma-color-success-dark: #389e0d;
+
+  --ma-color-warning: #faad14;
+  --ma-color-warning-light: #ffc53d;
+  --ma-color-warning-dark: #d48806;
+
+  --ma-color-danger: #ff4d4f;
+  --ma-color-danger-light: #ff7875;
+  --ma-color-danger-dark: #cf1322;
+
+  --ma-color-info: #1890ff;
+  --ma-color-info-light: #40a9ff;
+  --ma-color-info-dark: #096dd9;
+
+  // 中性色
+  --ma-color-white: #ffffff;
+  --ma-color-black: #000000;
+  
+  --ma-color-gray-1: #f5f5f5;
+  --ma-color-gray-2: #fafafa;
+  --ma-color-gray-3: #f0f0f0;
+  --ma-color-gray-4: #d9d9d9;
+  --ma-color-gray-5: #bfbfbf;
+  --ma-color-gray-6: #8c8c8c;
+  --ma-color-gray-7: #595959;
+  --ma-color-gray-8: #434343;
+  --ma-color-gray-9: #262626;
+  --ma-color-gray-10: #1f1f1f;
+
+  // 文本色
+  --ma-text-color-primary: rgba(0, 0, 0, 0.88);
+  --ma-text-color-secondary: rgba(0, 0, 0, 0.65);
+  --ma-text-color-tertiary: rgba(0, 0, 0, 0.45);
+  --ma-text-color-quaternary: rgba(0, 0, 0, 0.25);
+
+  // 背景色
+  --ma-bg-color-container: #ffffff;
+  --ma-bg-color-elevated: #ffffff;
+  --ma-bg-color-layout: #f5f5f5;
+  --ma-bg-color-spotlight: #ffffff;
+  --ma-bg-color-mask: rgba(0, 0, 0, 0.45);
+
+  // 边框色
+  --ma-border-color: #d9d9d9;
+  --ma-border-color-split: #f0f0f0;
+}
+
+// 暗色主题
+[data-theme="dark"] {
+  // 品牌色在暗色主题下保持不变
+  --ma-color-primary: #1890ff;
+  --ma-color-primary-light: #40a9ff;
+  --ma-color-primary-dark: #096dd9;
+
+  // 功能色调整
+  --ma-color-success: #52c41a;
+  --ma-color-warning: #faad14;
+  --ma-color-danger: #ff4d4f;
+  --ma-color-info: #1890ff;
+
+  // 中性色反转
+  --ma-color-gray-1: #1f1f1f;
+  --ma-color-gray-2: #141414;
+  --ma-color-gray-3: #262626;
+  --ma-color-gray-4: #434343;
+  --ma-color-gray-5: #595959;
+  --ma-color-gray-6: #8c8c8c;
+  --ma-color-gray-7: #bfbfbf;
+  --ma-color-gray-8: #d9d9d9;
+  --ma-color-gray-9: #f0f0f0;
+  --ma-color-gray-10: #ffffff;
+
+  // 文本色反转
+  --ma-text-color-primary: rgba(255, 255, 255, 0.88);
+  --ma-text-color-secondary: rgba(255, 255, 255, 0.65);
+  --ma-text-color-tertiary: rgba(255, 255, 255, 0.45);
+  --ma-text-color-quaternary: rgba(255, 255, 255, 0.25);
+
+  // 背景色
+  --ma-bg-color-container: #141414;
+  --ma-bg-color-elevated: #1f1f1f;
+  --ma-bg-color-layout: #000000;
+  --ma-bg-color-spotlight: #262626;
+  --ma-bg-color-mask: rgba(0, 0, 0, 0.65);
+
+  // 边框色
+  --ma-border-color: #434343;
+  --ma-border-color-split: #262626;
+}
+
+// ==== 尺寸系统 ====
+:root {
+  // 基础尺寸单位
+  --ma-size-unit: 4px;
+
+  // 间距系统
+  --ma-spacing-xs: calc(var(--ma-size-unit) * 1);   // 4px
+  --ma-spacing-sm: calc(var(--ma-size-unit) * 2);   // 8px
+  --ma-spacing-md: calc(var(--ma-size-unit) * 3);   // 12px
+  --ma-spacing-lg: calc(var(--ma-size-unit) * 4);   // 16px
+  --ma-spacing-xl: calc(var(--ma-size-unit) * 5);   // 20px
+  --ma-spacing-xxl: calc(var(--ma-size-unit) * 6);  // 24px
+
+  // 组件尺寸
+  --ma-size-xs: 16px;
+  --ma-size-sm: 24px;
+  --ma-size-md: 32px;
+  --ma-size-lg: 40px;
+  --ma-size-xl: 48px;
+
+  // 边框圆角
+  --ma-border-radius-xs: 2px;
+  --ma-border-radius-sm: 4px;
+  --ma-border-radius-md: 6px;
+  --ma-border-radius-lg: 8px;
+  --ma-border-radius-xl: 12px;
+  --ma-border-radius-round: 50%;
+
+  // 边框宽度
+  --ma-border-width-sm: 1px;
+  --ma-border-width-md: 2px;
+  --ma-border-width-lg: 3px;
+}
+
+// ==== 字体系统 ====
+:root {
+  // 字体族
+  --ma-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --ma-font-family-code: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+
+  // 字体大小
+  --ma-font-size-xs: 10px;
+  --ma-font-size-sm: 12px;
+  --ma-font-size-md: 14px;
+  --ma-font-size-lg: 16px;
+  --ma-font-size-xl: 18px;
+  --ma-font-size-xxl: 20px;
+
+  // 标题字体大小
+  --ma-font-size-h1: 32px;
+  --ma-font-size-h2: 24px;
+  --ma-font-size-h3: 20px;
+  --ma-font-size-h4: 18px;
+  --ma-font-size-h5: 16px;
+  --ma-font-size-h6: 14px;
+
+  // 字体粗细
+  --ma-font-weight-light: 300;
+  --ma-font-weight-normal: 400;
+  --ma-font-weight-medium: 500;
+  --ma-font-weight-semibold: 600;
+  --ma-font-weight-bold: 700;
+
+  // 行高
+  --ma-line-height-xs: 1.2;
+  --ma-line-height-sm: 1.4;
+  --ma-line-height-md: 1.5;
+  --ma-line-height-lg: 1.6;
+  --ma-line-height-xl: 1.8;
+}
+
+// ==== 阴影系统 ====
+:root {
+  // 基础阴影
+  --ma-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --ma-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --ma-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --ma-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+  // 组件专用阴影
+  --ma-shadow-card: 0 2px 8px rgba(0, 0, 0, 0.15);
+  --ma-shadow-dropdown: 0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
+  --ma-shadow-modal: 0 16px 50px rgba(0, 0, 0, 0.15);
+
+  // Focus阴影
+  --ma-shadow-focus: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+
+// 暗色主题阴影调整
+[data-theme="dark"] {
+  --ma-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --ma-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+  --ma-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+  --ma-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
+
+  --ma-shadow-card: 0 2px 8px rgba(0, 0, 0, 0.4);
+  --ma-shadow-dropdown: 0 6px 16px 0 rgba(0, 0, 0, 0.3), 0 3px 6px -4px rgba(0, 0, 0, 0.35), 0 9px 28px 8px rgba(0, 0, 0, 0.25);
+  --ma-shadow-modal: 0 16px 50px rgba(0, 0, 0, 0.4);
+}
+
+// ==== 动画系统 ====
+:root {
+  // 持续时间
+  --ma-duration-fast: 0.1s;
+  --ma-duration-normal: 0.2s;
+  --ma-duration-slow: 0.3s;
+
+  // 缓动函数
+  --ma-ease-linear: linear;
+  --ma-ease-ease: ease;
+  --ma-ease-ease-in: ease-in;
+  --ma-ease-ease-out: ease-out;
+  --ma-ease-ease-in-out: ease-in-out;
+  --ma-ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+  // 组件专用动画
+  --ma-transition-base: all var(--ma-duration-normal) var(--ma-ease-ease-out);
+  --ma-transition-fade: opacity var(--ma-duration-normal) var(--ma-ease-ease-out);
+  --ma-transition-slide: transform var(--ma-duration-normal) var(--ma-ease-ease-out);
+}
+
+// ==== Z-Index 层级 ====
+:root {
+  --ma-z-dropdown: 1000;
+  --ma-z-sticky: 1010;
+  --ma-z-fixed: 1020;
+  --ma-z-overlay: 1030;
+  --ma-z-modal: 1040;
+  --ma-z-popover: 1050;
+  --ma-z-tooltip: 1060;
+  --ma-z-notification: 1070;
+}
+
+// ==== 响应式断点 ====
+:root {
+  --ma-breakpoint-xs: 480px;
+  --ma-breakpoint-sm: 576px;
+  --ma-breakpoint-md: 768px;
+  --ma-breakpoint-lg: 992px;
+  --ma-breakpoint-xl: 1200px;
+  --ma-breakpoint-xxl: 1600px;
+}
+
+// ==== SCSS 变量兼容 ====
+// 为了向后兼容，保留一些SCSS变量
+$ma-color-primary: var(--ma-color-primary);
+$ma-color-success: var(--ma-color-success);
+$ma-color-warning: var(--ma-color-warning);
+$ma-color-danger: var(--ma-color-danger);
+$ma-color-info: var(--ma-color-info);
+
+$ma-spacing-xs: var(--ma-spacing-xs);
+$ma-spacing-sm: var(--ma-spacing-sm);
+$ma-spacing-md: var(--ma-spacing-md);
+$ma-spacing-lg: var(--ma-spacing-lg);
+$ma-spacing-xl: var(--ma-spacing-xl);
+
+$ma-border-radius-sm: var(--ma-border-radius-sm);
+$ma-border-radius-md: var(--ma-border-radius-md);
+$ma-border-radius-lg: var(--ma-border-radius-lg);
+
+$ma-font-size-sm: var(--ma-font-size-sm);
+$ma-font-size-md: var(--ma-font-size-md);
+$ma-font-size-lg: var(--ma-font-size-lg);
+
+// ==== 工具类映射 ====
+// 可以通过mixins使用的工具函数
+
+@function ma-color($name) {
+  @return var(--ma-color-#{$name});
+}
+
+@function ma-spacing($size) {
+  @return var(--ma-spacing-#{$size});
+}
+
+@function ma-font-size($size) {
+  @return var(--ma-font-size-#{$size});
+}
+
+@function ma-border-radius($size) {
+  @return var(--ma-border-radius-#{$size});
+}
+
+@function ma-shadow($type) {
+  @return var(--ma-shadow-#{$type});
+}

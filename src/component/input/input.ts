@@ -1,126 +1,236 @@
-import { ComponentBase, insertTemplate, IOption } from "../componentBase";
+import { ComponentBase, insertTemplate, ComponentOption } from "../componentBase";
 import template from "./input.html";
 import "./input.scss";
-class InputOption implements IOption {
-    [key: string]: string | boolean | null;
 
-    public value: string | null;
-    public label: string | null;
-    public color: "default" | "primary" | "secondary" | "success" | "warning" | "danger";
-    public size: "small" | "default" | "large";
-    public defaultValue: string | null;
-    public placeholder: string | null;
-    public readonly: boolean;
-    public disabled: boolean;
-    public required: boolean;
-
-    public constructor() {
-        this.value = "";
-        this.label = "输入框";
-        this.color = "default";
-        this.size = "default";
-        this.defaultValue = "默认值";
-        this.placeholder = "";
-        this.readonly = false;
-        this.disabled = false;
-        this.required = false;
-    }
+interface InputOption extends ComponentOption {
+    value: string;
+    label: string | null;
+    color: "default" | "primary" | "secondary" | "success" | "warning" | "danger";
+    size: "small" | "default" | "large";
+    defaultValue: string | null;
+    placeholder: string | null;
+    readonly: boolean;
+    disabled: boolean;
+    required: boolean;
+    type: "text" | "password" | "email" | "number" | "tel" | "url";
 }
 
 class MaInput extends ComponentBase<InputOption> {
-    public constructor() {
-        super(new InputOption(), "ma-input");
+    private _inputElement: HTMLInputElement | null = null;
+    private _labelElement: HTMLLabelElement | null = null;
+
+    static get observedAttributes(): string[] {
+        return ['value', 'label', 'color', 'size', 'placeholder', 'readonly', 'disabled', 'required', 'type'];
     }
 
-    public override connectedCallback() {
-        super.connectedCallback();
-        this._attachEvent();
+    public constructor() {
+        const defaultOptions: InputOption = {
+            value: "",
+            label: "输入框",
+            color: "default",
+            size: "default",
+            defaultValue: null,
+            placeholder: null,
+            readonly: false,
+            disabled: false,
+            required: false,
+            type: "text"
+        };
+
+        super(defaultOptions, {
+            templateId: "ma-input",
+            observedAttributes: MaInput.observedAttributes
+        });
+    }
+
+    protected _initComponent(): void {
+        this._inputElement = this.querySelector<HTMLInputElement>("[part=input]");
+        this._labelElement = this.querySelector<HTMLLabelElement>("[part=label]");
+        
+        if (!this._inputElement) {
+            throw new Error("Input element not found in template");
+        }
+        if (!this._labelElement) {
+            throw new Error("Label element not found in template");
+        }
+
         this._initLabel();
         this._initInput();
     }
 
-    private _initLabel() {
-        if (this.option.label === null) {
-            return;
-        }
-        const label = this._shadow.querySelector<HTMLLabelElement>("[part=label]");
-        if (label === null) {
-            throw new Error("Label element not found.");
-        }
-        label.innerText = this.option.label;
-        label.style.color = this.option.color;
-        label.style.fontSize = this.option.size;
-        if (this.option.required) {
-            label.classList.add("required");
-        }
+    protected _setupEventListeners(): void {
+        if (!this._inputElement || !this._labelElement) return;
 
-        if (this.option.placeholder) {
-            label.part.add("little-label");
-        }
-        else {
-            label.part.add("big-label");
+        this._inputElement.addEventListener("input", this._handleInput.bind(this));
+        this._inputElement.addEventListener("change", this._handleChange.bind(this));
+        this._inputElement.addEventListener("focus", this._handleFocus.bind(this));
+        this._inputElement.addEventListener("blur", this._handleBlur.bind(this));
+    }
+
+    protected _onOptionChange<K extends keyof InputOption>(
+        key: K, 
+        oldValue: InputOption[K], 
+        newValue: InputOption[K]
+    ): void {
+        switch (key) {
+            case 'value':
+                this._updateInputValue();
+                break;
+            case 'label':
+                this._updateLabel();
+                break;
+            case 'placeholder':
+                this._updatePlaceholder();
+                break;
+            case 'disabled':
+            case 'readonly':
+                this._updateInputState();
+                break;
+            case 'required':
+                this._updateRequired();
+                break;
+            case 'type':
+                this._updateInputType();
+                break;
         }
     }
 
-    private _initInput() {
-        const input = this._shadow.querySelector<HTMLInputElement>("[part=input]");
-        if (input === null) {
-            throw new Error("Input element not found.");
-        }
-        if (this.option.value) {
-            input.value = this.option.value;
-            input.classList.add("has-value");
-        }
-        if (this.option.placeholder) {
-            input.placeholder = this.option.placeholder;
-        }
-        input.readOnly = this.option.readonly;
-        input.disabled = this.option.disabled;
+    // 公共方法
+    public focus(): void {
+        this._inputElement?.focus();
     }
 
-    private _attachEvent() {
-        const input = this._shadow.querySelector<HTMLInputElement>("[part=input]");
-        const label = this._shadow.querySelector<HTMLLabelElement>("[part=label]");
-        if (label === null) {
-            throw new Error("Label element not found.");
+    public blur(): void {
+        this._inputElement?.blur();
+    }
+
+    public getValue(): string {
+        return this._inputElement?.value || '';
+    }
+
+    public setValue(value: string): void {
+        this.setOption('value', value);
+    }
+
+    private _initLabel(): void {
+        if (!this._labelElement) return;
+        
+        const { label, required } = this.options;
+        
+        if (label) {
+            this._labelElement.textContent = label;
         }
-        if (input === null) {
-            throw new Error("Input element not found.");
+        
+        if (required) {
+            this._labelElement.classList.add("required");
         }
+        
+        this._updateLabelPosition();
+    }
 
-        input.addEventListener("input", (event) => {
-            event.stopPropagation();
-            this._updateHasValue(input, label);
-            this._dispatchEvent("input", input.value);
-        });
+    private _initInput(): void {
+        if (!this._inputElement) return;
+        
+        const { value, placeholder, readonly, disabled, type } = this.options;
+        
+        this._inputElement.value = value;
+        this._inputElement.type = type;
+        this._inputElement.readOnly = readonly;
+        this._inputElement.disabled = disabled;
+        
+        if (placeholder) {
+            this._inputElement.placeholder = placeholder;
+        }
+        
+        this._updateInputState();
+        this._updateLabelPosition();
+    }
 
-        input.addEventListener("change", () => {
-            this._updateHasValue(input, label);
-            this._dispatchEvent("change", input.value);
-        });
+    private _updateInputValue(): void {
+        if (this._inputElement) {
+            this._inputElement.value = this.getOption('value');
+            this._updateLabelPosition();
+        }
+    }
 
-        input.addEventListener("focus", () => {
-            label.part.add("little-label");
-            label.part.remove("big-label");
-        });
+    private _updateLabel(): void {
+        if (this._labelElement) {
+            const label = this.getOption('label');
+            this._labelElement.textContent = label || '';
+        }
+    }
 
-        input.addEventListener("blur", () => {
-            if (input.value === "" && !this.option.placeholder) {
-                label.part.remove("little-label");
-                label.part.add("big-label");
+    private _updatePlaceholder(): void {
+        if (this._inputElement) {
+            const placeholder = this.getOption('placeholder');
+            if (placeholder) {
+                this._inputElement.placeholder = placeholder;
+            } else {
+                this._inputElement.removeAttribute('placeholder');
             }
-        });
+            this._updateLabelPosition();
+        }
     }
 
-    private _updateHasValue(input: HTMLInputElement, label: HTMLLabelElement) {
-        this.option.value = input.value;
-        if (this.option.value === "" && !this.option.placeholder) {
-            label.part.remove("little-label");
-            label.part.add("big-label");
-        } else {
-            label.part.add("little-label");
-            label.part.remove("big-label");
+    private _updateInputState(): void {
+        if (this._inputElement) {
+            this._inputElement.readOnly = this.getOption('readonly');
+            this._inputElement.disabled = this.getOption('disabled');
         }
+    }
+
+    private _updateRequired(): void {
+        if (this._labelElement) {
+            const required = this.getOption('required');
+            this._labelElement.classList.toggle('required', required);
+        }
+    }
+
+    private _updateInputType(): void {
+        if (this._inputElement) {
+            this._inputElement.type = this.getOption('type');
+        }
+    }
+
+    private _updateLabelPosition(): void {
+        if (!this._labelElement) return;
+        
+        const hasValue = this._inputElement?.value !== '';
+        const hasPlaceholder = this.getOption('placeholder') !== null;
+        
+        if (hasValue || hasPlaceholder) {
+            this._labelElement.part.add("little-label");
+            this._labelElement.part.remove("big-label");
+        } else {
+            this._labelElement.part.remove("little-label");
+            this._labelElement.part.add("big-label");
+        }
+    }
+
+    private _handleInput(event: Event): void {
+        event.stopPropagation();
+        const value = (event.target as HTMLInputElement).value;
+        this.setOption('value', value);
+        this._updateLabelPosition();
+        this._dispatchEvent("ma-input", { value, originalEvent: event });
+    }
+
+    private _handleChange(event: Event): void {
+        const value = (event.target as HTMLInputElement).value;
+        this.setOption('value', value);
+        this._updateLabelPosition();
+        this._dispatchEvent("ma-change", { value, originalEvent: event });
+    }
+
+    private _handleFocus(): void {
+        this._labelElement?.part.add("little-label");
+        this._labelElement?.part.remove("big-label");
+        this._dispatchEvent("ma-focus", { value: this.getOption('value') });
+    }
+
+    private _handleBlur(): void {
+        this._updateLabelPosition();
+        this._dispatchEvent("ma-blur", { value: this.getOption('value') });
     }
 }
 

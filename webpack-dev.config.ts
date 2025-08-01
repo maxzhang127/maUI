@@ -18,7 +18,12 @@ const config: Configuration = {
     module: {
         rules: [
             {
+                test: /\.scss\?raw$/,
+                type: "asset/source",
+            },
+            {
                 test: /\.scss$/,
+                exclude: /\.scss\?raw$/,
                 use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
             },
             {
