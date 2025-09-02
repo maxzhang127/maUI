@@ -1,0 +1,520 @@
+// 输入框组件样式
+:host {
+  display: block;
+  font-family: inherit;
+  
+  // 基础变量
+  --ma-input-border-radius: 6px;
+  --ma-input-border-width: 1px;
+  --ma-input-transition: all 0.2s ease-in-out;
+  --ma-input-font-weight: 400;
+  --ma-input-line-height: 1.4;
+  
+  // 尺寸变量
+  --ma-input-small-height: 32px;
+  --ma-input-small-padding: 0 12px;
+  --ma-input-small-font-size: 13px;
+  --ma-input-small-label-font-size: 12px;
+  --ma-input-small-helper-font-size: 11px;
+  
+  --ma-input-medium-height: 40px;
+  --ma-input-medium-padding: 0 16px;
+  --ma-input-medium-font-size: 14px;
+  --ma-input-medium-label-font-size: 13px;
+  --ma-input-medium-helper-font-size: 12px;
+  
+  --ma-input-large-height: 48px;
+  --ma-input-large-padding: 0 20px;
+  --ma-input-large-font-size: 16px;
+  --ma-input-large-label-font-size: 14px;
+  --ma-input-large-helper-font-size: 13px;
+  
+  // 间距变量
+  --ma-input-label-margin-bottom: 6px;
+  --ma-input-helper-margin-top: 6px;
+  --ma-input-icon-gap: 8px;
+  
+  // 颜色变量 - 正常状态
+  --ma-input-bg: #ffffff;
+  --ma-input-border: #d1d5db;
+  --ma-input-border-hover: #9ca3af;
+  --ma-input-border-focus: #3b82f6;
+  --ma-input-text: #1f2937;
+  --ma-input-placeholder: #9ca3af;
+  --ma-input-label: #374151;
+  --ma-input-helper: #6b7280;
+  
+  // 颜色变量 - 错误状态
+  --ma-input-error-border: #ef4444;
+  --ma-input-error-bg: #fef2f2;
+  --ma-input-error-text: #dc2626;
+  --ma-input-error-helper: #dc2626;
+  
+  // 颜色变量 - 禁用状态
+  --ma-input-disabled-bg: #f9fafb;
+  --ma-input-disabled-border: #e5e7eb;
+  --ma-input-disabled-text: #9ca3af;
+  --ma-input-disabled-placeholder: #d1d5db;
+  --ma-input-disabled-label: #9ca3af;
+  
+  // 颜色变量 - 只读状态
+  --ma-input-readonly-bg: #f8fafc;
+  --ma-input-readonly-border: #e2e8f0;
+  --ma-input-readonly-text: #64748b;
+  
+  // 阴影变量
+  --ma-input-focus-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  --ma-input-error-focus-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+  
+  // 图标颜色
+  --ma-input-icon-color: #6b7280;
+  --ma-input-icon-hover-color: #374151;
+}
+
+// 标签样式
+.ma-input__label {
+  display: block;
+  margin-bottom: var(--ma-input-label-margin-bottom);
+  color: var(--ma-input-label);
+  font-weight: 500;
+  line-height: var(--ma-input-line-height);
+  
+  &:empty {
+    display: none;
+  }
+}
+
+// 输入框容器
+.ma-input__container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  border: var(--ma-input-border-width) solid var(--ma-input-border);
+  border-radius: var(--ma-input-border-radius);
+  background-color: var(--ma-input-bg);
+  transition: var(--ma-input-transition);
+  overflow: hidden;
+  
+  // 悬停状态
+  &:hover:not(.ma-input__container--disabled):not(.ma-input__container--readonly) {
+    border-color: var(--ma-input-border-hover);
+  }
+  
+  // 焦点状态
+  &--focused,
+  &:focus-within {
+    border-color: var(--ma-input-border-focus);
+    box-shadow: var(--ma-input-focus-shadow);
+    outline: none;
+    
+    &.ma-input__container--error {
+      border-color: var(--ma-input-error-border);
+      box-shadow: var(--ma-input-error-focus-shadow);
+    }
+  }
+  
+  // 尺寸变体
+  &--small {
+    height: var(--ma-input-small-height);
+    
+    .ma-input__field {
+      padding: var(--ma-input-small-padding);
+      font-size: var(--ma-input-small-font-size);
+    }
+    
+    .ma-input__label {
+      font-size: var(--ma-input-small-label-font-size);
+    }
+  }
+  
+  &--medium {
+    height: var(--ma-input-medium-height);
+    
+    .ma-input__field {
+      padding: var(--ma-input-medium-padding);
+      font-size: var(--ma-input-medium-font-size);
+    }
+    
+    .ma-input__label {
+      font-size: var(--ma-input-medium-label-font-size);
+    }
+  }
+  
+  &--large {
+    height: var(--ma-input-large-height);
+    
+    .ma-input__field {
+      padding: var(--ma-input-large-padding);
+      font-size: var(--ma-input-large-font-size);
+    }
+    
+    .ma-input__label {
+      font-size: var(--ma-input-large-label-font-size);
+    }
+  }
+  
+  // 样式变体
+  &--outlined {
+    // 默认已经是outlined样式
+  }
+  
+  &--filled {
+    background-color: #f8fafc;
+    border: none;
+    border-bottom: 2px solid var(--ma-input-border);
+    border-radius: var(--ma-input-border-radius) var(--ma-input-border-radius) 0 0;
+    
+    &:hover:not(.ma-input__container--disabled):not(.ma-input__container--readonly) {
+      background-color: #f1f5f9;
+      border-bottom-color: var(--ma-input-border-hover);
+    }
+    
+    &--focused,
+    &:focus-within {
+      background-color: var(--ma-input-bg);
+      border-bottom-color: var(--ma-input-border-focus);
+      box-shadow: none;
+      
+      &.ma-input__container--error {
+        border-bottom-color: var(--ma-input-error-border);
+      }
+    }
+  }
+  
+  &--standard {
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid var(--ma-input-border);
+    border-radius: 0;
+    
+    &:hover:not(.ma-input__container--disabled):not(.ma-input__container--readonly) {
+      border-bottom-color: var(--ma-input-border-hover);
+    }
+    
+    &--focused,
+    &:focus-within {
+      border-bottom-color: var(--ma-input-border-focus);
+      border-bottom-width: 2px;
+      box-shadow: none;
+      
+      &.ma-input__container--error {
+        border-bottom-color: var(--ma-input-error-border);
+      }
+    }
+  }
+  
+  // 错误状态
+  &--error {
+    border-color: var(--ma-input-error-border);
+    background-color: var(--ma-input-error-bg);
+    
+    .ma-input__field {
+      color: var(--ma-input-error-text);
+      
+      &::placeholder {
+        color: var(--ma-input-error-text);
+        opacity: 0.7;
+      }
+    }
+    
+    &.ma-input__container--filled {
+      background-color: #fef2f2;
+      border-bottom-color: var(--ma-input-error-border);
+    }
+    
+    &.ma-input__container--standard {
+      background-color: transparent;
+      border-bottom-color: var(--ma-input-error-border);
+    }
+  }
+  
+  // 禁用状态
+  &--disabled {
+    background-color: var(--ma-input-disabled-bg);
+    border-color: var(--ma-input-disabled-border);
+    cursor: not-allowed;
+    
+    .ma-input__field {
+      color: var(--ma-input-disabled-text);
+      cursor: not-allowed;
+      
+      &::placeholder {
+        color: var(--ma-input-disabled-placeholder);
+      }
+    }
+    
+    .ma-input__clear-button,
+    .ma-input__eye-button {
+      pointer-events: none;
+      opacity: 0.5;
+    }
+  }
+  
+  // 只读状态
+  &--readonly {
+    background-color: var(--ma-input-readonly-bg);
+    border-color: var(--ma-input-readonly-border);
+    
+    .ma-input__field {
+      color: var(--ma-input-readonly-text);
+      cursor: default;
+    }
+    
+    .ma-input__clear-button {
+      display: none;
+    }
+  }
+}
+
+// 输入框本体
+.ma-input__field {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--ma-input-text);
+  font-family: inherit;
+  font-weight: var(--ma-input-font-weight);
+  line-height: var(--ma-input-line-height);
+  
+  &::placeholder {
+    color: var(--ma-input-placeholder);
+    opacity: 1;
+  }
+  
+  // 清除浏览器默认样式
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  
+  &[type="number"] {
+    -moz-appearance: textfield;
+  }
+  
+  &::-webkit-search-decoration,
+  &::-webkit-search-cancel-button,
+  &::-webkit-search-results-button,
+  &::-webkit-search-results-decoration {
+    -webkit-appearance: none;
+  }
+  
+  // 密码字段的字体
+  &[type="password"] {
+    font-family: monospace, monospace;
+  }
+  
+  // 自动填充样式
+  &:-webkit-autofill,
+  &:-webkit-autofill:hover,
+  &:-webkit-autofill:focus,
+  &:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px var(--ma-input-bg) inset !important;
+    -webkit-text-fill-color: var(--ma-input-text) !important;
+  }
+}
+
+// 按钮样式（清空和密码可见性切换）
+.ma-input__clear-button,
+.ma-input__eye-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 28px;
+  margin: 0 4px;
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--ma-input-icon-color);
+  cursor: pointer;
+  transition: var(--ma-input-transition);
+  
+  &:hover {
+    color: var(--ma-input-icon-hover-color);
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+  
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+  }
+  
+  &:active {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+  
+  svg {
+    width: 16px;
+    height: 16px;
+    pointer-events: none;
+  }
+}
+
+.ma-input__clear-button {
+  order: 2;
+}
+
+.ma-input__eye-button {
+  order: 3;
+}
+
+// 辅助文本样式
+.ma-input__helper-text {
+  margin-top: var(--ma-input-helper-margin-top);
+  color: var(--ma-input-helper);
+  line-height: var(--ma-input-line-height);
+  
+  &--error {
+    color: var(--ma-input-error-helper);
+  }
+  
+  &:empty {
+    display: none;
+  }
+}
+
+// 小尺寸辅助文本
+:host(.ma-input--small) .ma-input__helper-text {
+  font-size: var(--ma-input-small-helper-font-size);
+}
+
+:host(.ma-input--medium) .ma-input__helper-text {
+  font-size: var(--ma-input-medium-helper-font-size);
+}
+
+:host(.ma-input--large) .ma-input__helper-text {
+  font-size: var(--ma-input-large-helper-font-size);
+}
+
+// 禁用状态的标签
+:host([disabled]) .ma-input__label {
+  color: var(--ma-input-disabled-label);
+}
+
+// 只读状态的标签
+:host([readonly]) .ma-input__label {
+  color: var(--ma-input-readonly-text);
+}
+
+// 深色主题支持
+@media (prefers-color-scheme: dark) {
+  :host {
+    --ma-input-bg: #1f2937;
+    --ma-input-border: #4b5563;
+    --ma-input-border-hover: #6b7280;
+    --ma-input-border-focus: #60a5fa;
+    --ma-input-text: #f9fafb;
+    --ma-input-placeholder: #9ca3af;
+    --ma-input-label: #d1d5db;
+    --ma-input-helper: #9ca3af;
+    
+    --ma-input-error-border: #f87171;
+    --ma-input-error-bg: #3f1f1f;
+    --ma-input-error-text: #fca5a5;
+    --ma-input-error-helper: #f87171;
+    
+    --ma-input-disabled-bg: #374151;
+    --ma-input-disabled-border: #4b5563;
+    --ma-input-disabled-text: #6b7280;
+    --ma-input-disabled-placeholder: #4b5563;
+    --ma-input-disabled-label: #6b7280;
+    
+    --ma-input-readonly-bg: #2d3748;
+    --ma-input-readonly-border: #4a5568;
+    --ma-input-readonly-text: #a0aec0;
+    
+    --ma-input-icon-color: #9ca3af;
+    --ma-input-icon-hover-color: #d1d5db;
+  }
+  
+  .ma-input__container--filled {
+    background-color: #374151;
+    
+    &:hover:not(.ma-input__container--disabled):not(.ma-input__container--readonly) {
+      background-color: #4b5563;
+    }
+    
+    &--focused,
+    &:focus-within {
+      background-color: var(--ma-input-bg);
+    }
+  }
+  
+  .ma-input__clear-button,
+  .ma-input__eye-button {
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    &:active {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+  }
+  
+  .ma-input__field {
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover,
+    &:-webkit-autofill:focus,
+    &:-webkit-autofill:active {
+      -webkit-box-shadow: 0 0 0 30px var(--ma-input-bg) inset !important;
+      -webkit-text-fill-color: var(--ma-input-text) !important;
+    }
+  }
+}
+
+// 高对比度模式支持
+@media (prefers-contrast: high) {
+  :host {
+    --ma-input-border-width: 2px;
+    --ma-input-focus-shadow: none;
+    --ma-input-error-focus-shadow: none;
+  }
+  
+  .ma-input__container {
+    &--focused,
+    &:focus-within {
+      border-width: 3px;
+    }
+  }
+}
+
+// RTL 语言支持
+:host([dir="rtl"]) {
+  .ma-input__clear-button {
+    order: 3;
+  }
+  
+  .ma-input__eye-button {
+    order: 2;
+  }
+}
+
+// 打印样式
+@media print {
+  .ma-input__clear-button,
+  .ma-input__eye-button {
+    display: none;
+  }
+  
+  .ma-input__container {
+    border: 1px solid #000;
+    background: transparent;
+    box-shadow: none;
+  }
+  
+  .ma-input__field {
+    color: #000;
+  }
+}
+
+// 减少动画模式
+@media (prefers-reduced-motion: reduce) {
+  :host {
+    --ma-input-transition: none;
+  }
+}

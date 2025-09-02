@@ -4,7 +4,7 @@ module.exports = {
   plugins: ['@typescript-eslint'],
   extends: [
     'eslint:recommended',
-    '@typescript-eslint/recommended'
+    'plugin:@typescript-eslint/recommended'
   ],
   env: {
     browser: true,
@@ -39,6 +39,7 @@ module.exports = {
   ignorePatterns: [
     'dist/**/*',
     'node_modules/**/*',
-    '*.js'
+    '*.js',
+    '**/*.d.ts'
   ]
 };
