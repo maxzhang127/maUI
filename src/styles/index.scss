@@ -1,0 +1,154 @@
+// maUI 全局样式入口
+
+// 变量定义
+:root {
+  // 颜色系统
+  --ma-primary: #007bff;
+  --ma-primary-light: #66b3ff;
+  --ma-primary-dark: #0056b3;
+  
+  --ma-secondary: #6c757d;
+  --ma-secondary-light: #9fa6ad;
+  --ma-secondary-dark: #545b62;
+  
+  --ma-success: #28a745;
+  --ma-success-light: #71dd8a;
+  --ma-success-dark: #1e7e34;
+  
+  --ma-danger: #dc3545;
+  --ma-danger-light: #f1919a;
+  --ma-danger-dark: #c82333;
+  
+  --ma-warning: #ffc107;
+  --ma-warning-light: #ffeb3b;
+  --ma-warning-dark: #ff8f00;
+  
+  --ma-info: #17a2b8;
+  --ma-info-light: #6cbdcf;
+  --ma-info-dark: #138496;
+  
+  // 中性色
+  --ma-white: #ffffff;
+  --ma-gray-50: #fafafa;
+  --ma-gray-100: #f5f5f5;
+  --ma-gray-200: #eeeeee;
+  --ma-gray-300: #e0e0e0;
+  --ma-gray-400: #bdbdbd;
+  --ma-gray-500: #9e9e9e;
+  --ma-gray-600: #757575;
+  --ma-gray-700: #616161;
+  --ma-gray-800: #424242;
+  --ma-gray-900: #212121;
+  --ma-black: #000000;
+  
+  // 间距系统
+  --ma-spacing-xs: 4px;
+  --ma-spacing-sm: 8px;
+  --ma-spacing-md: 16px;
+  --ma-spacing-lg: 24px;
+  --ma-spacing-xl: 32px;
+  --ma-spacing-2xl: 48px;
+  --ma-spacing-3xl: 64px;
+  
+  // 圆角
+  --ma-border-radius-xs: 2px;
+  --ma-border-radius-sm: 4px;
+  --ma-border-radius-md: 6px;
+  --ma-border-radius-lg: 8px;
+  --ma-border-radius-xl: 12px;
+  --ma-border-radius-2xl: 16px;
+  --ma-border-radius-full: 50%;
+  
+  // 阴影
+  --ma-shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --ma-shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  --ma-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --ma-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --ma-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  
+  // 字体
+  --ma-font-family-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --ma-font-family-mono: "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  
+  // 字体大小
+  --ma-font-size-xs: 0.75rem;   // 12px
+  --ma-font-size-sm: 0.875rem;  // 14px
+  --ma-font-size-base: 1rem;    // 16px
+  --ma-font-size-lg: 1.125rem;  // 18px
+  --ma-font-size-xl: 1.25rem;   // 20px
+  --ma-font-size-2xl: 1.5rem;   // 24px
+  --ma-font-size-3xl: 1.875rem; // 30px
+  --ma-font-size-4xl: 2.25rem;  // 36px
+  
+  // 字重
+  --ma-font-weight-light: 300;
+  --ma-font-weight-normal: 400;
+  --ma-font-weight-medium: 500;
+  --ma-font-weight-semibold: 600;
+  --ma-font-weight-bold: 700;
+  
+  // 行高
+  --ma-line-height-tight: 1.25;
+  --ma-line-height-snug: 1.375;
+  --ma-line-height-normal: 1.5;
+  --ma-line-height-relaxed: 1.625;
+  --ma-line-height-loose: 2;
+  
+  // 过渡动画
+  --ma-transition-fast: 150ms ease-in-out;
+  --ma-transition-base: 200ms ease-in-out;
+  --ma-transition-slow: 300ms ease-in-out;
+  
+  // Z-index
+  --ma-z-dropdown: 1000;
+  --ma-z-sticky: 1010;
+  --ma-z-fixed: 1020;
+  --ma-z-modal-backdrop: 1030;
+  --ma-z-modal: 1040;
+  --ma-z-popover: 1050;
+  --ma-z-tooltip: 1060;
+}
+
+// 重置样式
+* {
+  box-sizing: border-box;
+}
+
+// 工具类
+.ma-sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.ma-visually-hidden {
+  @extend .ma-sr-only;
+}
+
+// 响应式断点工具
+@mixin ma-respond-above($breakpoint) {
+  @if $breakpoint == xs {
+    @media (min-width: 480px) { @content; }
+  }
+  @if $breakpoint == sm {
+    @media (min-width: 640px) { @content; }
+  }
+  @if $breakpoint == md {
+    @media (min-width: 768px) { @content; }
+  }
+  @if $breakpoint == lg {
+    @media (min-width: 1024px) { @content; }
+  }
+  @if $breakpoint == xl {
+    @media (min-width: 1280px) { @content; }
+  }
+  @if $breakpoint == 2xl {
+    @media (min-width: 1536px) { @content; }
+  }
+}

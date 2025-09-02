@@ -1,0 +1,196 @@
+// 按钮组件样式
+:host {
+  display: inline-block;
+  --ma-button-border-radius: 6px;
+  --ma-button-font-weight: 500;
+  --ma-button-transition: all 0.2s ease-in-out;
+  
+  // 尺寸变量
+  --ma-button-small-height: 28px;
+  --ma-button-small-padding: 0 12px;
+  --ma-button-small-font-size: 12px;
+  
+  --ma-button-medium-height: 36px;
+  --ma-button-medium-padding: 0 16px;
+  --ma-button-medium-font-size: 14px;
+  
+  --ma-button-large-height: 44px;
+  --ma-button-large-padding: 0 20px;
+  --ma-button-large-font-size: 16px;
+  
+  // 颜色变量
+  --ma-primary: #007bff;
+  --ma-primary-hover: #0056b3;
+  --ma-primary-active: #004085;
+  
+  --ma-secondary: #6c757d;
+  --ma-secondary-hover: #545b62;
+  --ma-secondary-active: #3d4246;
+  
+  --ma-danger: #dc3545;
+  --ma-danger-hover: #c82333;
+  --ma-danger-active: #bd2130;
+  
+  --ma-white: #ffffff;
+  --ma-gray-100: #f8f9fa;
+  --ma-gray-300: #dee2e6;
+  --ma-gray-500: #adb5bd;
+  --ma-gray-700: #495057;
+}
+
+.ma-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 1px solid transparent;
+  border-radius: var(--ma-button-border-radius);
+  font-family: inherit;
+  font-weight: var(--ma-button-font-weight);
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  transition: var(--ma-button-transition);
+  outline: none;
+  
+  &:focus-visible {
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+  }
+  
+  // 尺寸样式
+  &--small {
+    height: var(--ma-button-small-height);
+    padding: var(--ma-button-small-padding);
+    font-size: var(--ma-button-small-font-size);
+  }
+  
+  &--medium {
+    height: var(--ma-button-medium-height);
+    padding: var(--ma-button-medium-padding);
+    font-size: var(--ma-button-medium-font-size);
+  }
+  
+  &--large {
+    height: var(--ma-button-large-height);
+    padding: var(--ma-button-large-padding);
+    font-size: var(--ma-button-large-font-size);
+  }
+  
+  // 主题样式
+  &--primary {
+    color: var(--ma-white);
+    background-color: var(--ma-primary);
+    border-color: var(--ma-primary);
+    
+    &:hover:not(:disabled) {
+      background-color: var(--ma-primary-hover);
+      border-color: var(--ma-primary-hover);
+    }
+    
+    &:active:not(:disabled) {
+      background-color: var(--ma-primary-active);
+      border-color: var(--ma-primary-active);
+      transform: translateY(1px);
+    }
+  }
+  
+  &--secondary {
+    color: var(--ma-white);
+    background-color: var(--ma-secondary);
+    border-color: var(--ma-secondary);
+    
+    &:hover:not(:disabled) {
+      background-color: var(--ma-secondary-hover);
+      border-color: var(--ma-secondary-hover);
+    }
+    
+    &:active:not(:disabled) {
+      background-color: var(--ma-secondary-active);
+      border-color: var(--ma-secondary-active);
+      transform: translateY(1px);
+    }
+  }
+  
+  &--danger {
+    color: var(--ma-white);
+    background-color: var(--ma-danger);
+    border-color: var(--ma-danger);
+    
+    &:hover:not(:disabled) {
+      background-color: var(--ma-danger-hover);
+      border-color: var(--ma-danger-hover);
+    }
+    
+    &:active:not(:disabled) {
+      background-color: var(--ma-danger-active);
+      border-color: var(--ma-danger-active);
+      transform: translateY(1px);
+    }
+  }
+  
+  &--ghost {
+    color: var(--ma-primary);
+    background-color: transparent;
+    border-color: var(--ma-primary);
+    
+    &:hover:not(:disabled) {
+      color: var(--ma-white);
+      background-color: var(--ma-primary);
+    }
+    
+    &:active:not(:disabled) {
+      color: var(--ma-white);
+      background-color: var(--ma-primary-active);
+      border-color: var(--ma-primary-active);
+      transform: translateY(1px);
+    }
+  }
+  
+  // 禁用状态
+  &--disabled,
+  &:disabled {
+    color: var(--ma-gray-500);
+    background-color: var(--ma-gray-100);
+    border-color: var(--ma-gray-300);
+    cursor: not-allowed;
+    opacity: 0.6;
+    
+    &:hover,
+    &:active {
+      transform: none;
+    }
+  }
+  
+  // 加载状态
+  &--loading {
+    cursor: default;
+    
+    .content {
+      opacity: 0.6;
+    }
+  }
+}
+
+.loading-spinner {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  
+  svg {
+    animation: spin 1s linear infinite;
+    color: currentColor;
+  }
+}
+
+.content {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

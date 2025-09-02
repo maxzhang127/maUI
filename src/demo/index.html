@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>maUI - 原生 Web Components UI 组件库演示</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 2rem;
+      background-color: #f8f9fa;
+    }
+    
+    .demo-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .demo-section {
+      margin-bottom: 3rem;
+    }
+    
+    .demo-section h2 {
+      color: #333;
+      border-bottom: 2px solid #007bff;
+      padding-bottom: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .demo-group {
+      margin-bottom: 2rem;
+    }
+    
+    .demo-group h3 {
+      color: #666;
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+    }
+    
+    .button-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+    }
+    
+    .code-block {
+      background: #f6f8fa;
+      border: 1px solid #e1e4e8;
+      border-radius: 6px;
+      padding: 1rem;
+      margin-top: 1rem;
+      font-family: "SFMono-Regular", Consolas, monospace;
+      font-size: 14px;
+      overflow-x: auto;
+    }
+    
+    .status-display {
+      background: #e8f5e8;
+      border: 1px solid #c3e6c3;
+      border-radius: 4px;
+      padding: 0.5rem 1rem;
+      margin-top: 1rem;
+      font-size: 14px;
+      color: #2d5a2d;
+    }
+  </style>
+</head>
+<body>
+  <div class="demo-container">
+    <h1>🎨 maUI 组件库演示</h1>
+    <p>基于原生 Web Components 构建的现代化 UI 组件库，使用 TypeScript + SCSS + Webpack 开发。</p>
+    
+    <div class="demo-section">
+      <h2>按钮组件 (ma-button)</h2>
+      
+      <div class="demo-group">
+        <h3>基础用法</h3>
+        <div class="button-group">
+          <ma-button>默认按钮</ma-button>
+          <ma-button variant="primary">主要按钮</ma-button>
+          <ma-button variant="secondary">次要按钮</ma-button>
+          <ma-button variant="danger">危险按钮</ma-button>
+          <ma-button variant="ghost">幽灵按钮</ma-button>
+        </div>
+        <div class="code-block">
+&lt;ma-button&gt;默认按钮&lt;/ma-button&gt;
+&lt;ma-button variant="primary"&gt;主要按钮&lt;/ma-button&gt;
+&lt;ma-button variant="secondary"&gt;次要按钮&lt;/ma-button&gt;
+&lt;ma-button variant="danger"&gt;危险按钮&lt;/ma-button&gt;
+&lt;ma-button variant="ghost"&gt;幽灵按钮&lt;/ma-button&gt;
+        </div>
+      </div>
+      
+      <div class="demo-group">
+        <h3>不同尺寸</h3>
+        <div class="button-group">
+          <ma-button size="small" variant="primary">小按钮</ma-button>
+          <ma-button size="medium" variant="primary">中按钮</ma-button>
+          <ma-button size="large" variant="primary">大按钮</ma-button>
+        </div>
+        <div class="code-block">
+&lt;ma-button size="small" variant="primary"&gt;小按钮&lt;/ma-button&gt;
+&lt;ma-button size="medium" variant="primary"&gt;中按钮&lt;/ma-button&gt;
+&lt;ma-button size="large" variant="primary"&gt;大按钮&lt;/ma-button&gt;
+        </div>
+      </div>
+      
+      <div class="demo-group">
+        <h3>禁用状态</h3>
+        <div class="button-group">
+          <ma-button disabled>禁用按钮</ma-button>
+          <ma-button variant="primary" disabled>禁用主要按钮</ma-button>
+          <ma-button variant="danger" disabled>禁用危险按钮</ma-button>
+        </div>
+        <div class="code-block">
+&lt;ma-button disabled&gt;禁用按钮&lt;/ma-button&gt;
+&lt;ma-button variant="primary" disabled&gt;禁用主要按钮&lt;/ma-button&gt;
+        </div>
+      </div>
+      
+      <div class="demo-group">
+        <h3>加载状态</h3>
+        <div class="button-group">
+          <ma-button loading variant="primary">加载中...</ma-button>
+          <ma-button id="loadingBtn" variant="secondary">点击测试加载</ma-button>
+        </div>
+        <div class="code-block">
+&lt;ma-button loading variant="primary"&gt;加载中...&lt;/ma-button&gt;
+        </div>
+      </div>
+      
+      <div class="demo-group">
+        <h3>事件测试</h3>
+        <div class="button-group">
+          <ma-button id="eventBtn" variant="primary">点击我</ma-button>
+        </div>
+        <div id="eventStatus" class="status-display">
+          等待点击事件...
+        </div>
+        <div class="code-block">
+// 监听自定义事件
+document.querySelector('#eventBtn').addEventListener('ma-click', (event) => {
+  console.log('按钮被点击了！', event.detail);
+});
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 组件库脚本将由 webpack 自动注入 -->
+</body>
+</html>
