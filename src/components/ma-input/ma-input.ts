@@ -191,15 +191,16 @@ class MaInput extends HTMLElement {
   }
 
   private async _handleChange(event: Event): Promise<void> {
-    const value = (event.target as HTMLInputElement).value;
+    const target = event.target as HTMLInputElement | null;
+    const value = target?.value ?? this._input.value;
     const previousValue = this._previousValue;
-    
+
     const validationResult = await this._validateValue(value);
-    
+
     const context: InputChangeContext = {
       value,
       previousValue,
-      isUserInput: true,
+      isUserInput: event instanceof Event ? event.isTrusted : false,
       validationResult
     };
     

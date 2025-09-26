@@ -25,7 +25,7 @@ npm install
 npm run dev
 ```
 
-访问 `http://localhost:3000/` 查看组件展示页面，或者 `http://localhost:3000/demo.html` 查看原始演示。
+访问 `http://localhost:3001/` 查看组件展示页面，或者 `http://localhost:3001/demo.html` 查看原始演示。
 
 ### 构建
 

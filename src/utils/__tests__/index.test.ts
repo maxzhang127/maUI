@@ -154,7 +154,7 @@ describe('工具函数测试', () => {
 
   describe('injectStyles', () => {
     beforeEach(() => {
-      // 清理之前的style元素
+      // 清理之前的 style 元素
       document.head.innerHTML = '';
     });
 
@@ -167,7 +167,7 @@ describe('工具函数测试', () => {
       expect(styleElement?.textContent).toBe(styles);
     });
 
-    it('应该支持带ID的样式注入', () => {
+    it('应该支持带 ID 的样式注入', () => {
       const styles = '.test { color: blue; }';
       const id = 'test-styles';
       
