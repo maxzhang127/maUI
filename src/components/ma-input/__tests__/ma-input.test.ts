@@ -205,6 +205,31 @@ describe('MaInput', () => {
       }).not.toThrow();
     });
 
+    it('setValue 应该触发 ma-change 事件并提供正确的上下文', async () => {
+      const validateResult = { valid: true, errors: [] };
+      const element: any = Object.create(MaInput.prototype);
+      element._input = document.createElement('input');
+      element._input.value = 'new value';
+      element._previousValue = 'old value';
+      element._validationRules = {};
+      element._lastValidationResult = validateResult;
+      element._validateValue = jest.fn().mockResolvedValue(validateResult);
+      element.dispatchEvent = jest.fn();
+      element.setAttribute = jest.fn();
+      element._updateComponent = jest.fn();
+
+      await element._handleChange(new Event('change'));
+
+      expect(element._validateValue).toHaveBeenCalledWith('new value');
+      expect(element.dispatchEvent).toHaveBeenCalledTimes(1);
+
+      const dispatchedEvent = element.dispatchEvent.mock.calls[0][0] as CustomEvent;
+      expect(dispatchedEvent.detail.value).toBe('new value');
+      expect(dispatchedEvent.detail.context.previousValue).toBe('old value');
+      expect(dispatchedEvent.detail.context.isUserInput).toBe(false);
+      expect(dispatchedEvent.detail.context.validationResult).toBe(validateResult);
+    });
+
     it('应该能添加到DOM而不抛出错误', () => {
       const newInput = document.createElement('ma-input') as MaInput;
       
