@@ -1,3 +1,4 @@
+import type { InputValidationRule, ValidationResult } from '@/types';
 import MaInput from '../ma-input';
 
 // 模拟CSS模块
@@ -206,15 +207,27 @@ describe('MaInput', () => {
     });
 
     it('setValue 应该触发 ma-change 事件并提供正确的上下文', async () => {
-      const validateResult = { valid: true, errors: [] };
-      const element: any = Object.create(MaInput.prototype);
+      type MaInputTestInstance = {
+        _handleChange: (event: Event) => Promise<void>;
+        _input: HTMLInputElement;
+        _previousValue: string;
+        _validationRules: InputValidationRule;
+        _lastValidationResult: ValidationResult;
+        _validateValue: jest.Mock<Promise<ValidationResult>, [string]>;
+        dispatchEvent: jest.Mock<boolean, [Event]>;
+        setAttribute: jest.Mock<void, [string, string]>;
+        _updateComponent: jest.Mock<void, []>;
+      };
+
+      const validateResult: ValidationResult = { valid: true, errors: [] };
+      const element = Object.create(MaInput.prototype) as MaInputTestInstance;
       element._input = document.createElement('input');
       element._input.value = 'new value';
       element._previousValue = 'old value';
       element._validationRules = {};
       element._lastValidationResult = validateResult;
       element._validateValue = jest.fn().mockResolvedValue(validateResult);
-      element.dispatchEvent = jest.fn();
+      element.dispatchEvent = jest.fn(() => true);
       element.setAttribute = jest.fn();
       element._updateComponent = jest.fn();
 

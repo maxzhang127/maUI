@@ -1,6 +1,10 @@
-import { ButtonSize, ButtonVariant } from '@/types';
+import { ButtonSize, ButtonType, ButtonVariant } from '@/types';
 import { classNames, generateId } from '@/utils';
 import buttonStyles from './ma-button.scss';
+
+const isButtonType = (value: string | null): value is ButtonType => (
+  value === 'button' || value === 'submit' || value === 'reset'
+);
 
 // 按钮组件类
 class MaButton extends HTMLElement {
@@ -77,13 +81,14 @@ class MaButton extends HTMLElement {
   private _updateButton(): void {
     const size = this.getAttribute('size') as ButtonSize || 'medium';
     const variant = this.getAttribute('variant') as ButtonVariant || 'primary';
-    const type = this.getAttribute('type') || 'button';
+    const typeAttribute = this.getAttribute('type');
+    const buttonType: ButtonType = isButtonType(typeAttribute) ? typeAttribute : 'button';
     const disabled = this.hasAttribute('disabled');
     const loading = this.hasAttribute('loading');
     const customClass = this.getAttribute('class') || '';
 
     // 更新按钮属性
-    this._button.type = type as any;
+    this._button.type = buttonType;
     this._button.disabled = disabled || loading;
     
     // 更新按钮类名

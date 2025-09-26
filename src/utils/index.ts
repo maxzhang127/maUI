@@ -10,47 +10,61 @@ export function classNames(...classes: (string | undefined | null)[]): string {
   return classes.filter(Boolean).join(' ');
 }
 
+type PlainObject = Record<string, unknown>;
+
+function isPlainObject(value: unknown): value is PlainObject {
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
+}
+
 // 深度合并对象
-export function deepMerge<T>(target: T, source: Partial<T>): T {
-  const result = { ...target };
-  
-  for (const key in source) {
-    const value = source[key];
-    if (value !== null && typeof value === 'object' && !Array.isArray(value)) {
-      (result as any)[key] = deepMerge((target as any)[key] || {}, value);
-    } else {
-      (result as any)[key] = value;
+export function deepMerge<T extends PlainObject>(target: T, source: Partial<T>): T {
+  const result: PlainObject = { ...target };
+
+  (Object.keys(source) as (keyof T)[]).forEach((key) => {
+    const sourceValue = source[key];
+
+    if (isPlainObject(sourceValue)) {
+      const targetValue = target[key];
+      const base: PlainObject = isPlainObject(targetValue) ? targetValue : {};
+      result[key as string] = deepMerge(base, sourceValue as Partial<PlainObject>);
+    } else if (sourceValue !== undefined) {
+      result[key as string] = sourceValue;
     }
-  }
-  
-  return result;
+  });
+
+  return result as T;
 }
 
 // 防抖函数
-export function debounce<T extends (...args: any[]) => any>(
+export function debounce<T extends (...args: unknown[]) => unknown>(
   func: T,
   wait: number
-): (...args: Parameters<T>) => void {
-  let timeout: ReturnType<typeof setTimeout>;
-  
-  return function (this: any, ...args: Parameters<T>) {
-    clearTimeout(timeout);
+): (this: ThisParameterType<T>, ...args: Parameters<T>) => void {
+  let timeout: ReturnType<typeof setTimeout> | undefined;
+
+  return function (this: ThisParameterType<T>, ...args: Parameters<T>) {
+    if (timeout) {
+      clearTimeout(timeout);
+    }
+
     timeout = setTimeout(() => func.apply(this, args), wait);
   };
 }
 
 // 节流函数
-export function throttle<T extends (...args: any[]) => any>(
+export function throttle<T extends (...args: unknown[]) => unknown>(
   func: T,
   limit: number
-): (...args: Parameters<T>) => void {
-  let inThrottle: boolean;
-  
-  return function (this: any, ...args: Parameters<T>) {
+): (this: ThisParameterType<T>, ...args: Parameters<T>) => void {
+  let inThrottle = false;
+
+  return function (this: ThisParameterType<T>, ...args: Parameters<T>) {
     if (!inThrottle) {
       func.apply(this, args);
       inThrottle = true;
-      setTimeout(() => (inThrottle = false), limit);
+      setTimeout(() => {
+        inThrottle = false;
+      }, limit);
     }
   };
 }
