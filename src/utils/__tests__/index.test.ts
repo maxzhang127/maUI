@@ -44,7 +44,17 @@ describe('工具函数测试', () => {
 
   describe('deepMerge', () => {
     it('应该深度合并对象', () => {
-      const target = {
+      type Target = {
+        a: number;
+        b: {
+          c: number;
+          d: number;
+          e?: number;
+        };
+        f?: number;
+      };
+
+      const target: Target = {
         a: 1,
         b: {
           c: 2,
@@ -52,17 +62,17 @@ describe('工具函数测试', () => {
         }
       };
 
-      const source = {
+      const source: Partial<Target> = {
         b: {
           c: 2, // 保持原有的 c 属性
           d: 4,
           e: 5
         },
         f: 6
-      } as any;
+      };
 
       const result = deepMerge(target, source);
-      
+
       expect(result).toEqual({
         a: 1,
         b: {
@@ -75,11 +85,19 @@ describe('工具函数测试', () => {
     });
 
     it('不应该修改原对象', () => {
-      const target = { a: 1, b: { c: 2 } };
-      const source = { b: { c: 2, d: 3 } } as any;
-      
+      type Target = {
+        a: number;
+        b: {
+          c: number;
+          d?: number;
+        };
+      };
+
+      const target: Target = { a: 1, b: { c: 2 } };
+      const source: Partial<Target> = { b: { c: 2, d: 3 } };
+
       deepMerge(target, source);
-      
+
       expect(target).toEqual({ a: 1, b: { c: 2 } });
     });
   });
