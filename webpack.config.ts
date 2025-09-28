@@ -37,7 +37,7 @@ const config = (_env: any, argv: { mode: string }): Configuration => {
         {
           test: /\.tsx?$/,
           use: 'ts-loader',
-          exclude: /node_modules/
+          exclude: [/node_modules/, /__tests__/]
         },
         {
           test: /\.s[ac]ss$/i,
