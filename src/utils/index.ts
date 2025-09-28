@@ -17,16 +17,22 @@ function isPlainObject(value: unknown): value is PlainObject {
 }
 
 // 深度合并对象
-export function deepMerge<T extends PlainObject>(target: T, source: Partial<T>): T {
+export function deepMerge<T extends PlainObject>(
+  target: T,
+  source: Partial<T>
+): T {
   const result: PlainObject = { ...target };
 
-  (Object.keys(source) as (keyof T)[]).forEach((key) => {
+  (Object.keys(source) as (keyof T)[]).forEach(key => {
     const sourceValue = source[key];
 
     if (isPlainObject(sourceValue)) {
       const targetValue = target[key];
       const base: PlainObject = isPlainObject(targetValue) ? targetValue : {};
-      result[key as string] = deepMerge(base, sourceValue as Partial<PlainObject>);
+      result[key as string] = deepMerge(
+        base,
+        sourceValue as Partial<PlainObject>
+      );
     } else if (sourceValue !== undefined) {
       result[key as string] = sourceValue;
     }
@@ -71,9 +77,11 @@ export function throttle<T extends (...args: unknown[]) => unknown>(
 
 // 检查是否支持 Web Components
 export function supportsWebComponents(): boolean {
-  return 'customElements' in window &&
+  return (
+    'customElements' in window &&
     'attachShadow' in Element.prototype &&
-    'getRootNode' in Element.prototype;
+    'getRootNode' in Element.prototype
+  );
 }
 
 // 样式注入工具

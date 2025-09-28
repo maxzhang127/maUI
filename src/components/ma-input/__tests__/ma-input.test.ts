@@ -20,7 +20,7 @@ jest.mock('../ma-input.scss', () => ({
 .ma-input__container--disabled { opacity: 0.5; }
 .ma-input__container--readonly { background: #f9f9f9; }
 .ma-input__container--focused { border-color: #1976d2; }
-.ma-input__helper-text--error { color: #f44336; }`
+.ma-input__helper-text--error { color: #f44336; }`,
 }));
 
 describe('MaInput', () => {
@@ -39,9 +39,23 @@ describe('MaInput', () => {
 
     it('应该有正确的观察属性', () => {
       const expectedAttributes = [
-        'size', 'variant', 'type', 'placeholder', 'value', 'disabled', 
-        'readonly', 'required', 'maxlength', 'minlength', 'pattern',
-        'autocomplete', 'label', 'error', 'helper-text', 'clearable', 'class'
+        'size',
+        'variant',
+        'type',
+        'placeholder',
+        'value',
+        'disabled',
+        'readonly',
+        'required',
+        'maxlength',
+        'minlength',
+        'pattern',
+        'autocomplete',
+        'label',
+        'error',
+        'helper-text',
+        'clearable',
+        'class',
       ];
       expect(MaInput.observedAttributes).toEqual(expectedAttributes);
     });
@@ -71,49 +85,73 @@ describe('MaInput', () => {
   describe('原型方法存在性检查', () => {
     it('应该有定义的getter和setter', () => {
       // 检查size属性
-      const sizeDescriptor = Object.getOwnPropertyDescriptor(MaInput.prototype, 'size');
+      const sizeDescriptor = Object.getOwnPropertyDescriptor(
+        MaInput.prototype,
+        'size'
+      );
       expect(sizeDescriptor).toBeDefined();
       expect(typeof sizeDescriptor?.get).toBe('function');
       expect(typeof sizeDescriptor?.set).toBe('function');
 
       // 检查variant属性
-      const variantDescriptor = Object.getOwnPropertyDescriptor(MaInput.prototype, 'variant');
+      const variantDescriptor = Object.getOwnPropertyDescriptor(
+        MaInput.prototype,
+        'variant'
+      );
       expect(variantDescriptor).toBeDefined();
       expect(typeof variantDescriptor?.get).toBe('function');
       expect(typeof variantDescriptor?.set).toBe('function');
 
       // 检查type属性
-      const typeDescriptor = Object.getOwnPropertyDescriptor(MaInput.prototype, 'type');
+      const typeDescriptor = Object.getOwnPropertyDescriptor(
+        MaInput.prototype,
+        'type'
+      );
       expect(typeDescriptor).toBeDefined();
       expect(typeof typeDescriptor?.get).toBe('function');
       expect(typeof typeDescriptor?.set).toBe('function');
 
       // 检查value属性
-      const valueDescriptor = Object.getOwnPropertyDescriptor(MaInput.prototype, 'value');
+      const valueDescriptor = Object.getOwnPropertyDescriptor(
+        MaInput.prototype,
+        'value'
+      );
       expect(valueDescriptor).toBeDefined();
       expect(typeof valueDescriptor?.get).toBe('function');
       expect(typeof valueDescriptor?.set).toBe('function');
 
       // 检查disabled属性
-      const disabledDescriptor = Object.getOwnPropertyDescriptor(MaInput.prototype, 'disabled');
+      const disabledDescriptor = Object.getOwnPropertyDescriptor(
+        MaInput.prototype,
+        'disabled'
+      );
       expect(disabledDescriptor).toBeDefined();
       expect(typeof disabledDescriptor?.get).toBe('function');
       expect(typeof disabledDescriptor?.set).toBe('function');
 
       // 检查readonly属性
-      const readonlyDescriptor = Object.getOwnPropertyDescriptor(MaInput.prototype, 'readonly');
+      const readonlyDescriptor = Object.getOwnPropertyDescriptor(
+        MaInput.prototype,
+        'readonly'
+      );
       expect(readonlyDescriptor).toBeDefined();
       expect(typeof readonlyDescriptor?.get).toBe('function');
       expect(typeof readonlyDescriptor?.set).toBe('function');
 
       // 检查required属性
-      const requiredDescriptor = Object.getOwnPropertyDescriptor(MaInput.prototype, 'required');
+      const requiredDescriptor = Object.getOwnPropertyDescriptor(
+        MaInput.prototype,
+        'required'
+      );
       expect(requiredDescriptor).toBeDefined();
       expect(typeof requiredDescriptor?.get).toBe('function');
       expect(typeof requiredDescriptor?.set).toBe('function');
 
       // 检查clearable属性
-      const clearableDescriptor = Object.getOwnPropertyDescriptor(MaInput.prototype, 'clearable');
+      const clearableDescriptor = Object.getOwnPropertyDescriptor(
+        MaInput.prototype,
+        'clearable'
+      );
       expect(clearableDescriptor).toBeDefined();
       expect(typeof clearableDescriptor?.get).toBe('function');
       expect(typeof clearableDescriptor?.set).toBe('function');
@@ -134,7 +172,9 @@ describe('MaInput', () => {
     });
 
     it('应该有生命周期方法', () => {
-      expect(typeof MaInput.prototype.attributeChangedCallback).toBe('function');
+      expect(typeof MaInput.prototype.attributeChangedCallback).toBe(
+        'function'
+      );
       expect(typeof MaInput.prototype.connectedCallback).toBe('function');
     });
   });
@@ -190,14 +230,14 @@ describe('MaInput', () => {
       const changeHandler = jest.fn();
       const focusHandler = jest.fn();
       const blurHandler = jest.fn();
-      
+
       expect(() => {
         input.addEventListener('ma-input', inputHandler);
         input.addEventListener('ma-change', changeHandler);
         input.addEventListener('ma-focus', focusHandler);
         input.addEventListener('ma-blur', blurHandler);
       }).not.toThrow();
-      
+
       expect(() => {
         input.removeEventListener('ma-input', inputHandler);
         input.removeEventListener('ma-change', changeHandler);
@@ -236,16 +276,19 @@ describe('MaInput', () => {
       expect(element._validateValue).toHaveBeenCalledWith('new value');
       expect(element.dispatchEvent).toHaveBeenCalledTimes(1);
 
-      const dispatchedEvent = element.dispatchEvent.mock.calls[0][0] as CustomEvent;
+      const dispatchedEvent = element.dispatchEvent.mock
+        .calls[0][0] as CustomEvent;
       expect(dispatchedEvent.detail.value).toBe('new value');
       expect(dispatchedEvent.detail.context.previousValue).toBe('old value');
       expect(dispatchedEvent.detail.context.isUserInput).toBe(false);
-      expect(dispatchedEvent.detail.context.validationResult).toBe(validateResult);
+      expect(dispatchedEvent.detail.context.validationResult).toBe(
+        validateResult
+      );
     });
 
     it('应该能添加到DOM而不抛出错误', () => {
       const newInput = document.createElement('ma-input') as MaInput;
-      
+
       expect(() => {
         document.body.appendChild(newInput);
       }).not.toThrow();
@@ -255,7 +298,9 @@ describe('MaInput', () => {
     });
 
     it('应该能调用生命周期方法而不抛出错误', () => {
-      expect(typeof MaInput.prototype.attributeChangedCallback).toBe('function');
+      expect(typeof MaInput.prototype.attributeChangedCallback).toBe(
+        'function'
+      );
       expect(typeof MaInput.prototype.connectedCallback).toBe('function');
     });
 
@@ -265,7 +310,8 @@ describe('MaInput', () => {
         if (input.size !== undefined) input.size = 'large';
         if (input.variant !== undefined) input.variant = 'filled';
         if (input.type !== undefined) input.type = 'email';
-        if (input.placeholder !== undefined) input.placeholder = 'Test placeholder';
+        if (input.placeholder !== undefined)
+          input.placeholder = 'Test placeholder';
         if (input.value !== undefined) input.value = 'test value';
         if (input.disabled !== undefined) input.disabled = true;
         if (input.readonly !== undefined) input.readonly = true;
@@ -282,12 +328,15 @@ describe('MaInput', () => {
         if (typeof input.focus === 'function') input.focus();
         if (typeof input.blur === 'function') input.blur();
         if (typeof input.select === 'function') input.select();
-        if (typeof input.setSelectionRange === 'function') input.setSelectionRange(0, 5);
+        if (typeof input.setSelectionRange === 'function')
+          input.setSelectionRange(0, 5);
         if (typeof input.clear === 'function') input.clear();
         if (typeof input.setValue === 'function') input.setValue('test');
         if (typeof input.getValue === 'function') input.getValue();
-        if (typeof input.clearValidation === 'function') input.clearValidation();
-        if (typeof input.getValidationResult === 'function') input.getValidationResult();
+        if (typeof input.clearValidation === 'function')
+          input.clearValidation();
+        if (typeof input.getValidationResult === 'function')
+          input.getValidationResult();
       }).not.toThrow();
     });
 
@@ -343,7 +392,7 @@ describe('MaInput', () => {
       if (!customElements.get('ma-input-test2')) {
         customElements.define('ma-input-test2', MaInput);
       }
-      
+
       const input = document.createElement('ma-input-test2');
       expect(input).toBeTruthy();
       expect(input.tagName.toLowerCase()).toBe('ma-input-test2');
@@ -351,14 +400,14 @@ describe('MaInput', () => {
 
     it('应该防止重复注册同名元素', () => {
       const tagName = 'ma-input-test3';
-      
+
       // 首次注册
       expect(() => {
         if (!customElements.get(tagName)) {
           customElements.define(tagName, MaInput);
         }
       }).not.toThrow();
-      
+
       // 尝试重复注册应该不会抛出错误（因为有条件检查）
       expect(() => {
         if (!customElements.get(tagName)) {
@@ -416,15 +465,15 @@ describe('MaInput', () => {
         input.setAttribute('size', 'small');
         input.setAttribute('size', 'medium');
         input.setAttribute('size', 'large');
-        
+
         input.setAttribute('variant', 'outlined');
         input.setAttribute('variant', 'filled');
         input.setAttribute('variant', 'standard');
-        
+
         input.setAttribute('type', 'text');
         input.setAttribute('type', 'email');
         input.setAttribute('type', 'password');
-        
+
         input.setAttribute('value', 'value1');
         input.setAttribute('value', 'value2');
         input.setAttribute('value', 'value3');
@@ -448,9 +497,16 @@ describe('MaInput', () => {
 
     it('应该支持所有预期事件类型的监听', () => {
       const events = [
-        'ma-input', 'ma-change', 'ma-focus', 'ma-blur', 
-        'ma-keydown', 'ma-keyup', 'ma-enter', 'ma-clear', 
-        'ma-valid', 'ma-invalid'
+        'ma-input',
+        'ma-change',
+        'ma-focus',
+        'ma-blur',
+        'ma-keydown',
+        'ma-keyup',
+        'ma-enter',
+        'ma-clear',
+        'ma-valid',
+        'ma-invalid',
       ];
 
       events.forEach(eventType => {
@@ -507,7 +563,7 @@ describe('MaInput', () => {
         if (typeof input.clearValidation === 'function') {
           input.clearValidation();
         }
-        
+
         if (typeof input.getValidationResult === 'function') {
           input.getValidationResult();
         }
@@ -518,7 +574,7 @@ describe('MaInput', () => {
   describe('类型安全性测试', () => {
     it('应该有正确的TypeScript类型定义', () => {
       const input = document.createElement('ma-input') as MaInput;
-      
+
       // 这些应该不会有TypeScript编译错误
       expect(typeof input.size).toBeDefined();
       expect(typeof input.variant).toBeDefined();

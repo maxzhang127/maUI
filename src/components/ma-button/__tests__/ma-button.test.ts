@@ -15,7 +15,14 @@ describe('MaButton', () => {
     });
 
     it('应该有正确的观察属性', () => {
-      expect(MaButton.observedAttributes).toEqual(['size', 'variant', 'type', 'disabled', 'loading', 'class']);
+      expect(MaButton.observedAttributes).toEqual([
+        'size',
+        'variant',
+        'type',
+        'disabled',
+        'loading',
+        'class',
+      ]);
     });
 
     it('应该能创建组件实例', () => {
@@ -32,22 +39,34 @@ describe('MaButton', () => {
 
   describe('原型方法存在性检查', () => {
     it('应该有定义的getter和setter', () => {
-      const sizeDescriptor = Object.getOwnPropertyDescriptor(MaButton.prototype, 'size');
+      const sizeDescriptor = Object.getOwnPropertyDescriptor(
+        MaButton.prototype,
+        'size'
+      );
       expect(sizeDescriptor).toBeDefined();
       expect(typeof sizeDescriptor?.get).toBe('function');
       expect(typeof sizeDescriptor?.set).toBe('function');
 
-      const variantDescriptor = Object.getOwnPropertyDescriptor(MaButton.prototype, 'variant');
+      const variantDescriptor = Object.getOwnPropertyDescriptor(
+        MaButton.prototype,
+        'variant'
+      );
       expect(variantDescriptor).toBeDefined();
       expect(typeof variantDescriptor?.get).toBe('function');
       expect(typeof variantDescriptor?.set).toBe('function');
 
-      const disabledDescriptor = Object.getOwnPropertyDescriptor(MaButton.prototype, 'disabled');
+      const disabledDescriptor = Object.getOwnPropertyDescriptor(
+        MaButton.prototype,
+        'disabled'
+      );
       expect(disabledDescriptor).toBeDefined();
       expect(typeof disabledDescriptor?.get).toBe('function');
       expect(typeof disabledDescriptor?.set).toBe('function');
 
-      const loadingDescriptor = Object.getOwnPropertyDescriptor(MaButton.prototype, 'loading');
+      const loadingDescriptor = Object.getOwnPropertyDescriptor(
+        MaButton.prototype,
+        'loading'
+      );
       expect(loadingDescriptor).toBeDefined();
       expect(typeof loadingDescriptor?.get).toBe('function');
       expect(typeof loadingDescriptor?.set).toBe('function');
@@ -60,7 +79,9 @@ describe('MaButton', () => {
     });
 
     it('应该有生命周期方法', () => {
-      expect(typeof MaButton.prototype.attributeChangedCallback).toBe('function');
+      expect(typeof MaButton.prototype.attributeChangedCallback).toBe(
+        'function'
+      );
       expect(typeof MaButton.prototype.connectedCallback).toBe('function');
     });
   });
@@ -98,11 +119,11 @@ describe('MaButton', () => {
 
     it('应该支持事件监听器的添加和移除', () => {
       const handler = jest.fn();
-      
+
       expect(() => {
         button.addEventListener('ma-click', handler);
       }).not.toThrow();
-      
+
       expect(() => {
         button.removeEventListener('ma-click', handler);
       }).not.toThrow();
@@ -110,7 +131,7 @@ describe('MaButton', () => {
 
     it('应该能添加到DOM而不抛出错误', () => {
       const newButton = document.createElement('ma-button') as MaButton;
-      
+
       expect(() => {
         document.body.appendChild(newButton);
       }).not.toThrow();
@@ -121,7 +142,9 @@ describe('MaButton', () => {
 
     it('应该能调用生命周期方法而不抛出错误', () => {
       // 由于组件内部方法在测试环境中可能不可用，我们只测试方法的存在性
-      expect(typeof MaButton.prototype.attributeChangedCallback).toBe('function');
+      expect(typeof MaButton.prototype.attributeChangedCallback).toBe(
+        'function'
+      );
       expect(typeof MaButton.prototype.connectedCallback).toBe('function');
     });
   });
@@ -140,7 +163,7 @@ describe('MaButton', () => {
       if (!customElements.get('ma-button-test2')) {
         customElements.define('ma-button-test2', MaButton);
       }
-      
+
       const button = document.createElement('ma-button-test2');
       expect(button).toBeTruthy();
       expect(button.tagName.toLowerCase()).toBe('ma-button-test2');

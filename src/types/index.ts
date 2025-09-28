@@ -22,10 +22,20 @@ export type ButtonType = 'button' | 'submit' | 'reset';
 // 输入框组件相关类型
 export type InputSize = 'small' | 'medium' | 'large';
 export type InputVariant = 'outlined' | 'filled' | 'standard';
-export type InputType = 
-  | 'text' | 'password' | 'email' | 'number' | 'tel' | 'url' 
-  | 'search' | 'date' | 'time' | 'datetime-local' 
-  | 'month' | 'week' | 'color';
+export type InputType =
+  | 'text'
+  | 'password'
+  | 'email'
+  | 'number'
+  | 'tel'
+  | 'url'
+  | 'search'
+  | 'date'
+  | 'time'
+  | 'datetime-local'
+  | 'month'
+  | 'week'
+  | 'color';
 
 // 验证规则接口
 export interface InputValidationRule {
@@ -83,17 +93,17 @@ export interface InputProps extends ComponentProps, InputEventHandlers {
   placeholder?: string;
   name?: string;
   id?: string;
-  
+
   // 状态属性
   disabled?: boolean;
   readonly?: boolean;
   required?: boolean;
   loading?: boolean;
-  
+
   // 样式属性
   size?: InputSize;
   variant?: InputVariant;
-  
+
   // 验证属性
   pattern?: string | RegExp;
   min?: number | string;
@@ -101,17 +111,17 @@ export interface InputProps extends ComponentProps, InputEventHandlers {
   minLength?: number;
   maxLength?: number;
   step?: number | string;
-  
+
   // 特殊属性
   autocomplete?: string;
   autofocus?: boolean;
   clearable?: boolean;
-  
+
   // 标签和提示
   label?: string;
   helperText?: string;
   error?: string;
-  
+
   // 验证规则
   validationRules?: InputValidationRule;
 }

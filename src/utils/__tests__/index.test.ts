@@ -1,11 +1,11 @@
-import { 
-  generateId, 
-  classNames, 
-  deepMerge, 
-  debounce, 
-  throttle, 
-  supportsWebComponents, 
-  injectStyles 
+import {
+  generateId,
+  classNames,
+  deepMerge,
+  debounce,
+  throttle,
+  supportsWebComponents,
+  injectStyles,
 } from '../index';
 
 describe('工具函数测试', () => {
@@ -13,7 +13,7 @@ describe('工具函数测试', () => {
     it('应该生成带前缀的唯一ID', () => {
       const id1 = generateId('test');
       const id2 = generateId('test');
-      
+
       expect(id1).toMatch(/^test-[a-z0-9]+$/);
       expect(id2).toMatch(/^test-[a-z0-9]+$/);
       expect(id1).not.toBe(id2);
@@ -58,17 +58,17 @@ describe('工具函数测试', () => {
         a: 1,
         b: {
           c: 2,
-          d: 3
-        }
+          d: 3,
+        },
       };
 
       const source: Partial<Target> = {
         b: {
           c: 2, // 保持原有的 c 属性
           d: 4,
-          e: 5
+          e: 5,
         },
-        f: 6
+        f: 6,
       };
 
       const result = deepMerge(target, source);
@@ -78,9 +78,9 @@ describe('工具函数测试', () => {
         b: {
           c: 2,
           d: 4,
-          e: 5
+          e: 5,
         },
-        f: 6
+        f: 6,
       });
     });
 
@@ -188,7 +188,7 @@ describe('工具函数测试', () => {
     it('应该支持带 ID 的样式注入', () => {
       const styles = '.test { color: blue; }';
       const id = 'test-styles';
-      
+
       injectStyles(styles, id);
 
       const styleElement = document.getElementById(id);

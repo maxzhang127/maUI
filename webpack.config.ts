@@ -45,8 +45,32 @@ const config = (_env: any, argv: { mode: string }): Configuration => {
             /setupTests/
           ]
         },
+        // SCSS 作为字符串导入 (用于 Web Components Shadow DOM)
         {
           test: /\.s[ac]ss$/i,
+          resourceQuery: /inline/,
+          use: [
+            {
+              loader: 'to-string-loader'
+            },
+            {
+              loader: 'css-loader',
+              options: {
+                exportType: 'string'
+              }
+            },
+            {
+              loader: 'sass-loader',
+              options: {
+                api: 'modern'
+              }
+            }
+          ]
+        },
+        // SCSS 作为 CSS 模块导入 (普通样式)
+        {
+          test: /\.s[ac]ss$/i,
+          resourceQuery: { not: [/inline/] },
           use: [
             isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
             {
@@ -62,7 +86,7 @@ const config = (_env: any, argv: { mode: string }): Configuration => {
             {
               loader: 'sass-loader',
               options: {
-                api: 'modern' // 使用现代 API
+                api: 'modern'
               }
             }
           ]
@@ -81,6 +105,13 @@ const config = (_env: any, argv: { mode: string }): Configuration => {
         {
           test: /\.(woff|woff2|eot|ttf|otf)$/i,
           type: 'asset/resource'
+        },
+        {
+          test: /\.html$/i,
+          loader: 'html-loader',
+          options: {
+            esModule: false
+          }
         }
       ]
     },
