@@ -12,8 +12,7 @@ const config = (_env: any, argv: { mode: string }): Configuration => {
 
   return {
     entry: {
-      index: './src/index.ts',
-      demo: './src/demo/index.ts'
+      index: './src/index.ts'
     },
     output: {
       path: path.resolve(__dirname, 'dist'),
@@ -80,20 +79,15 @@ const config = (_env: any, argv: { mode: string }): Configuration => {
     },
     plugins: [
       new HtmlWebpackPlugin({
-        template: './src/demo/index.html',
-        filename: 'demo.html',
-        chunks: ['demo']
-      }),
-      new HtmlWebpackPlugin({
-        template: './demo.html',
+        template: './src/index.html',
         filename: 'index.html',
-        chunks: ['demo']
+        chunks: ['index']
       }),
-      ...(isProduction 
+      ...(isProduction
         ? [new MiniCssExtractPlugin({
             filename: '[name].[contenthash].css',
             chunkFilename: '[id].[contenthash].css'
-          })] 
+          })]
         : []
       )
     ],
@@ -104,7 +98,7 @@ const config = (_env: any, argv: { mode: string }): Configuration => {
       compress: true,
       port: 3001,
       hot: true,
-      open: '/demo.html'
+      open: '/index.html'
     },
     optimization: {
       splitChunks: {
