@@ -8,38 +8,37 @@
     "isolatedModules": true,
     "noEmit": false,
     "jsx": "preserve",
-    
+
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    
-    "declaration": true,
-    "declarationMap": true,
+
+    "declaration": false,
+    "declarationMap": false,
     "sourceMap": true,
-    
+
     "baseUrl": "./",
     "paths": {
       "@/*": ["src/*"]
     },
-    
+
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    
+
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": [
-    "src/**/*",
-    "webpack.config.ts"
-  ],
+  "include": ["src/**/*", "webpack.config.ts"],
   "exclude": [
     "node_modules",
     "dist",
-    "**/__tests__/*",
-    "**/*.test.ts",
-    "**/*.test.tsx"
+    "**/__tests__/**/*",
+    "**/*.test.*",
+    "**/*.spec.*",
+    "setupTests.ts",
+    "webpack.config.ts"
   ]
 }

@@ -71,9 +71,9 @@ export function throttle<T extends (...args: unknown[]) => unknown>(
 
 // 检查是否支持 Web Components
 export function supportsWebComponents(): boolean {
-  return 'customElements' in window && 
-         'attachShadow' in Element.prototype && 
-         'getRootNode' in Element.prototype;
+  return 'customElements' in window &&
+    'attachShadow' in Element.prototype &&
+    'getRootNode' in Element.prototype;
 }
 
 // 样式注入工具
@@ -81,7 +81,7 @@ export function injectStyles(styles: string, id?: string): void {
   if (id && document.getElementById(id)) {
     return; // 已经注入过了
   }
-  
+
   const style = document.createElement('style');
   if (id) style.id = id;
   style.textContent = styles;

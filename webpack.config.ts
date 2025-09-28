@@ -4,6 +4,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { Configuration } from 'webpack';
 import 'webpack-dev-server';
+import NpmDtsPlugin from 'npm-dts-webpack-plugin';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -12,7 +13,7 @@ const config = (_env: any, argv: { mode: string }): Configuration => {
 
   return {
     entry: {
-      index: './src/index.ts'
+      index: './src/index.ts',
     },
     output: {
       path: path.resolve(__dirname, 'dist'),
@@ -36,7 +37,13 @@ const config = (_env: any, argv: { mode: string }): Configuration => {
         {
           test: /\.tsx?$/,
           use: 'ts-loader',
-          exclude: [/node_modules/, /__tests__/]
+          exclude: [
+            /node_modules/,
+            /__tests__/,
+            /\.test\./,
+            /\.spec\./,
+            /setupTests/
+          ]
         },
         {
           test: /\.s[ac]ss$/i,
@@ -46,8 +53,8 @@ const config = (_env: any, argv: { mode: string }): Configuration => {
               loader: 'css-loader',
               options: {
                 modules: {
-                  localIdentName: isProduction 
-                    ? '[hash:base64:8]' 
+                  localIdentName: isProduction
+                    ? '[hash:base64:8]'
                     : '[name]__[local]__[hash:base64:5]'
                 }
               }
@@ -81,13 +88,19 @@ const config = (_env: any, argv: { mode: string }): Configuration => {
       new HtmlWebpackPlugin({
         template: './src/index.html',
         filename: 'index.html',
-        chunks: ['index']
+        chunks: ['index', 'components']
       }),
       ...(isProduction
-        ? [new MiniCssExtractPlugin({
+        ? [
+          new MiniCssExtractPlugin({
             filename: '[name].[contenthash].css',
             chunkFilename: '[id].[contenthash].css'
-          })]
+          }),
+          new (NpmDtsPlugin as any)({
+            entry: './src/components.ts',
+            output: './dist/components.d.ts'
+          })
+        ]
         : []
       )
     ],
