@@ -5,9 +5,9 @@ Object.defineProperty(window, 'customElements', {
   value: {
     define: jest.fn(),
     get: jest.fn(),
-    whenDefined: jest.fn().mockResolvedValue(undefined)
+    whenDefined: jest.fn().mockResolvedValue(undefined),
   },
-  writable: true
+  writable: true,
 });
 
 // 模拟 ShadowRoot
@@ -16,15 +16,15 @@ Object.defineProperty(Element.prototype, 'attachShadow', {
     appendChild: jest.fn(),
     innerHTML: '',
     querySelector: jest.fn(),
-    querySelectorAll: jest.fn()
+    querySelectorAll: jest.fn(),
   }),
-  writable: true
+  writable: true,
 });
 
 // 模拟 getRootNode
 Object.defineProperty(Element.prototype, 'getRootNode', {
   value: jest.fn().mockReturnValue(document),
-  writable: true
+  writable: true,
 });
 
 // 全局测试配置

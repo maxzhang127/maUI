@@ -4,7 +4,8 @@ module.exports = {
   plugins: ['@typescript-eslint'],
   extends: [
     'eslint:recommended',
-    'plugin:@typescript-eslint/recommended'
+    'plugin:@typescript-eslint/recommended',
+    'prettier'
   ],
   env: {
     browser: true,
@@ -30,11 +31,8 @@ module.exports = {
     'prefer-const': 'error',
     'no-var': 'error',
     
-    // 代码风格
-    'semi': ['error', 'always'],
-    'quotes': ['error', 'single'],
-    'indent': ['error', 2],
-    'comma-dangle': ['error', 'never']
+    // 代码风格 - 移除与 Prettier 冲突的规则
+    // 这些规则由 Prettier 处理：semi, quotes, indent, comma-dangle
   },
   ignorePatterns: [
     'dist/**/*',

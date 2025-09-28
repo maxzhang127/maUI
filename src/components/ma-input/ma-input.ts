@@ -1,6 +1,13 @@
-import { InputSize, InputType, InputVariant, InputValidationRule, ValidationResult, InputChangeContext } from '@/types';
+import {
+  InputSize,
+  InputType,
+  InputVariant,
+  InputValidationRule,
+  ValidationResult,
+  InputChangeContext,
+} from '@/types';
 import { classNames, generateId } from '@/utils';
-import inputStyles from './ma-input.scss';
+import inputStyles from './ma-input.scss?inline';
 
 class MaInput extends HTMLElement {
   private _shadowRoot: ShadowRoot;
@@ -16,38 +23,52 @@ class MaInput extends HTMLElement {
 
   static get observedAttributes(): string[] {
     return [
-      'size', 'variant', 'type', 'placeholder', 'value', 'disabled', 
-      'readonly', 'required', 'maxlength', 'minlength', 'pattern',
-      'autocomplete', 'label', 'error', 'helper-text', 'clearable', 'class'
+      'size',
+      'variant',
+      'type',
+      'placeholder',
+      'value',
+      'disabled',
+      'readonly',
+      'required',
+      'maxlength',
+      'minlength',
+      'pattern',
+      'autocomplete',
+      'label',
+      'error',
+      'helper-text',
+      'clearable',
+      'class',
     ];
   }
 
   constructor() {
     super();
-    
+
     const id = generateId('ma-input');
     this.setAttribute('id', id);
     this._shadowRoot = this.attachShadow({ mode: 'open' });
-    
+
     this._inputContainer = document.createElement('div');
     this._label = document.createElement('label');
     this._input = document.createElement('input');
     this._helperText = document.createElement('div');
     this._clearButton = document.createElement('button');
     this._eyeButton = document.createElement('button');
-    
+
     this._initializeComponent();
   }
 
   private _initializeComponent(): void {
     const style = document.createElement('style');
     style.textContent = inputStyles;
-    
+
     this._label.className = 'ma-input__label';
     this._inputContainer.className = 'ma-input__container';
     this._input.className = 'ma-input__field';
     this._helperText.className = 'ma-input__helper-text';
-    
+
     this._clearButton.className = 'ma-input__clear-button';
     this._clearButton.innerHTML = `
       <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -55,7 +76,7 @@ class MaInput extends HTMLElement {
       </svg>
     `;
     this._clearButton.type = 'button';
-    
+
     this._eyeButton.className = 'ma-input__eye-button';
     this._eyeButton.innerHTML = `
       <svg class="eye-open" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -66,30 +87,37 @@ class MaInput extends HTMLElement {
       </svg>
     `;
     this._eyeButton.type = 'button';
-    
+
     this._inputContainer.appendChild(this._input);
     this._inputContainer.appendChild(this._clearButton);
     this._inputContainer.appendChild(this._eyeButton);
-    
+
     this._input.addEventListener('input', this._handleInput.bind(this));
     this._input.addEventListener('change', this._handleChange.bind(this));
     this._input.addEventListener('focus', this._handleFocus.bind(this));
     this._input.addEventListener('blur', this._handleBlur.bind(this));
     this._input.addEventListener('keydown', this._handleKeydown.bind(this));
     this._input.addEventListener('keyup', this._handleKeyup.bind(this));
-    
+
     this._clearButton.addEventListener('click', this._handleClear.bind(this));
-    this._eyeButton.addEventListener('click', this._handleTogglePassword.bind(this));
-    
+    this._eyeButton.addEventListener(
+      'click',
+      this._handleTogglePassword.bind(this)
+    );
+
     this._shadowRoot.appendChild(style);
     this._shadowRoot.appendChild(this._label);
     this._shadowRoot.appendChild(this._inputContainer);
     this._shadowRoot.appendChild(this._helperText);
-    
+
     this._updateComponent();
   }
 
-  attributeChangedCallback(_name: string, oldValue: string, newValue: string): void {
+  attributeChangedCallback(
+    _name: string,
+    oldValue: string,
+    newValue: string
+  ): void {
     if (oldValue !== newValue) {
       this._updateComponent();
     }
@@ -100,9 +128,10 @@ class MaInput extends HTMLElement {
   }
 
   private _updateComponent(): void {
-    const size = this.getAttribute('size') as InputSize || 'medium';
-    const variant = this.getAttribute('variant') as InputVariant || 'outlined';
-    const type = this.getAttribute('type') as InputType || 'text';
+    const size = (this.getAttribute('size') as InputSize) || 'medium';
+    const variant =
+      (this.getAttribute('variant') as InputVariant) || 'outlined';
+    const type = (this.getAttribute('type') as InputType) || 'text';
     const placeholder = this.getAttribute('placeholder') || '';
     const value = this.getAttribute('value') || '';
     const disabled = this.hasAttribute('disabled');
@@ -127,7 +156,7 @@ class MaInput extends HTMLElement {
     this._input.disabled = disabled;
     this._input.readOnly = readonly;
     this._input.required = required;
-    
+
     if (maxlength) this._input.maxLength = parseInt(maxlength, 10);
     if (minlength) this._input.minLength = parseInt(minlength, 10);
     if (pattern) this._input.pattern = pattern;
@@ -141,7 +170,8 @@ class MaInput extends HTMLElement {
 
     // 使用验证结果来设置错误状态
     const hasValidationError = !this._lastValidationResult.valid;
-    const displayError = error || (hasValidationError ? this._lastValidationResult.errors[0] : '');
+    const displayError =
+      error || (hasValidationError ? this._lastValidationResult.errors[0] : '');
 
     this._inputContainer.className = classNames(
       'ma-input__container',
@@ -153,7 +183,8 @@ class MaInput extends HTMLElement {
       customClass
     );
 
-    this._clearButton.style.display = clearable && value && !disabled && !readonly ? 'flex' : 'none';
+    this._clearButton.style.display =
+      clearable && value && !disabled && !readonly ? 'flex' : 'none';
     this._eyeButton.style.display = type === 'password' ? 'flex' : 'none';
 
     this._helperText.textContent = displayError || helperText;
@@ -161,7 +192,8 @@ class MaInput extends HTMLElement {
       'ma-input__helper-text',
       displayError ? 'ma-input__helper-text--error' : ''
     );
-    this._helperText.style.display = displayError || helperText ? 'block' : 'none';
+    this._helperText.style.display =
+      displayError || helperText ? 'block' : 'none';
   }
 
   private async _handleInput(event: Event): Promise<void> {
@@ -169,23 +201,25 @@ class MaInput extends HTMLElement {
     const previousValue = this._previousValue;
     this._previousValue = value;
     this.setAttribute('value', value);
-    
+
     // 验证输入值
     const validationResult = await this._validateValue(value);
-    
+
     const context: InputChangeContext = {
       value,
       previousValue,
       isUserInput: true,
-      validationResult
+      validationResult,
     };
-    
-    this.dispatchEvent(new CustomEvent('ma-input', {
-      detail: { value, context, originalEvent: event },
-      bubbles: true,
-      composed: true
-    }));
-    
+
+    this.dispatchEvent(
+      new CustomEvent('ma-input', {
+        detail: { value, context, originalEvent: event },
+        bubbles: true,
+        composed: true,
+      })
+    );
+
     // 更新显示状态
     this._updateComponent();
   }
@@ -201,83 +235,97 @@ class MaInput extends HTMLElement {
       value,
       previousValue,
       isUserInput: event instanceof Event ? event.isTrusted : false,
-      validationResult
+      validationResult,
     };
-    
-    this.dispatchEvent(new CustomEvent('ma-change', {
-      detail: { value, context, originalEvent: event },
-      bubbles: true,
-      composed: true
-    }));
+
+    this.dispatchEvent(
+      new CustomEvent('ma-change', {
+        detail: { value, context, originalEvent: event },
+        bubbles: true,
+        composed: true,
+      })
+    );
   }
 
   private _handleFocus(event: FocusEvent): void {
     this._inputContainer.classList.add('ma-input__container--focused');
-    
-    this.dispatchEvent(new CustomEvent('ma-focus', {
-      detail: { originalEvent: event },
-      bubbles: true,
-      composed: true
-    }));
+
+    this.dispatchEvent(
+      new CustomEvent('ma-focus', {
+        detail: { originalEvent: event },
+        bubbles: true,
+        composed: true,
+      })
+    );
   }
 
   private _handleBlur(event: FocusEvent): void {
     this._inputContainer.classList.remove('ma-input__container--focused');
-    
-    this.dispatchEvent(new CustomEvent('ma-blur', {
-      detail: { originalEvent: event },
-      bubbles: true,
-      composed: true
-    }));
+
+    this.dispatchEvent(
+      new CustomEvent('ma-blur', {
+        detail: { originalEvent: event },
+        bubbles: true,
+        composed: true,
+      })
+    );
   }
 
   private _handleKeydown(event: KeyboardEvent): void {
     // 处理Enter键事件
     if (event.key === 'Enter') {
       const value = this._input.value;
-      this.dispatchEvent(new CustomEvent('ma-enter', {
-        detail: { value, originalEvent: event },
-        bubbles: true,
-        composed: true
-      }));
+      this.dispatchEvent(
+        new CustomEvent('ma-enter', {
+          detail: { value, originalEvent: event },
+          bubbles: true,
+          composed: true,
+        })
+      );
     }
-    
-    this.dispatchEvent(new CustomEvent('ma-keydown', {
-      detail: { originalEvent: event },
-      bubbles: true,
-      composed: true
-    }));
+
+    this.dispatchEvent(
+      new CustomEvent('ma-keydown', {
+        detail: { originalEvent: event },
+        bubbles: true,
+        composed: true,
+      })
+    );
   }
 
   private _handleKeyup(event: KeyboardEvent): void {
-    this.dispatchEvent(new CustomEvent('ma-keyup', {
-      detail: { originalEvent: event },
-      bubbles: true,
-      composed: true
-    }));
+    this.dispatchEvent(
+      new CustomEvent('ma-keyup', {
+        detail: { originalEvent: event },
+        bubbles: true,
+        composed: true,
+      })
+    );
   }
 
   private _handleClear(): void {
     this._input.value = '';
     this.setAttribute('value', '');
     this._updateComponent();
-    
-    this.dispatchEvent(new CustomEvent('ma-clear', {
-      detail: {},
-      bubbles: true,
-      composed: true
-    }));
-    
+
+    this.dispatchEvent(
+      new CustomEvent('ma-clear', {
+        detail: {},
+        bubbles: true,
+        composed: true,
+      })
+    );
+
     this._input.focus();
   }
 
   private _handleTogglePassword(): void {
     const isPassword = this._input.type === 'password';
     this._input.type = isPassword ? 'text' : 'password';
-    
+
     const eyeOpen = this._eyeButton.querySelector('.eye-open') as HTMLElement;
     const eyeClose = this._eyeButton.querySelector('.eye-close') as HTMLElement;
-    
+
     if (isPassword) {
       eyeOpen.style.display = 'none';
       eyeClose.style.display = 'block';
@@ -290,45 +338,58 @@ class MaInput extends HTMLElement {
   // 验证相关方法
   private async _validateValue(value: string): Promise<ValidationResult> {
     const errors: string[] = [];
-    
+
     // 必填验证
     if (this._validationRules.required && !value.trim()) {
       errors.push('此字段为必填项');
     }
-    
+
     if (value) {
       // 长度验证
-      if (this._validationRules.minLength !== undefined && value.length < this._validationRules.minLength) {
+      if (
+        this._validationRules.minLength !== undefined &&
+        value.length < this._validationRules.minLength
+      ) {
         errors.push(`最少需要输入 ${this._validationRules.minLength} 个字符`);
       }
-      
-      if (this._validationRules.maxLength !== undefined && value.length > this._validationRules.maxLength) {
+
+      if (
+        this._validationRules.maxLength !== undefined &&
+        value.length > this._validationRules.maxLength
+      ) {
         errors.push(`最多只能输入 ${this._validationRules.maxLength} 个字符`);
       }
-      
+
       // 数值验证
       const numValue = parseFloat(value);
       if (this._input.type === 'number' && !isNaN(numValue)) {
-        if (this._validationRules.min !== undefined && numValue < this._validationRules.min) {
+        if (
+          this._validationRules.min !== undefined &&
+          numValue < this._validationRules.min
+        ) {
           errors.push(`输入值不能小于 ${this._validationRules.min}`);
         }
-        
-        if (this._validationRules.max !== undefined && numValue > this._validationRules.max) {
+
+        if (
+          this._validationRules.max !== undefined &&
+          numValue > this._validationRules.max
+        ) {
           errors.push(`输入值不能大于 ${this._validationRules.max}`);
         }
       }
-      
+
       // 正则验证
       if (this._validationRules.pattern) {
-        const pattern = typeof this._validationRules.pattern === 'string' 
-          ? new RegExp(this._validationRules.pattern) 
-          : this._validationRules.pattern;
-          
+        const pattern =
+          typeof this._validationRules.pattern === 'string'
+            ? new RegExp(this._validationRules.pattern)
+            : this._validationRules.pattern;
+
         if (!pattern.test(value)) {
           errors.push('输入格式不正确');
         }
       }
-      
+
       // 自定义验证
       if (this._validationRules.custom) {
         try {
@@ -338,58 +399,62 @@ class MaInput extends HTMLElement {
           } else if (customResult === false) {
             errors.push('输入值不符合要求');
           }
-        } catch (error) {
+        } catch {
           errors.push('验证失败');
         }
       }
     }
-    
+
     const result: ValidationResult = {
       valid: errors.length === 0,
-      errors
+      errors,
     };
-    
+
     this._lastValidationResult = result;
-    
+
     // 触发验证事件
     if (result.valid) {
-      this.dispatchEvent(new CustomEvent('ma-valid', {
-        detail: { result },
-        bubbles: true,
-        composed: true
-      }));
+      this.dispatchEvent(
+        new CustomEvent('ma-valid', {
+          detail: { result },
+          bubbles: true,
+          composed: true,
+        })
+      );
     } else {
-      this.dispatchEvent(new CustomEvent('ma-invalid', {
-        detail: { result, errors: result.errors },
-        bubbles: true,
-        composed: true
-      }));
+      this.dispatchEvent(
+        new CustomEvent('ma-invalid', {
+          detail: { result, errors: result.errors },
+          bubbles: true,
+          composed: true,
+        })
+      );
     }
-    
+
     return result;
   }
 
   private _updateValidationRules(): void {
     const rules: InputValidationRule = {};
-    
+
     // 从属性中提取验证规则
     if (this.hasAttribute('required')) rules.required = true;
-    
+
     const minLength = this.getAttribute('minlength');
     if (minLength) rules.minLength = parseInt(minLength, 10);
-    
+
     const maxLength = this.getAttribute('maxlength');
     if (maxLength) rules.maxLength = parseInt(maxLength, 10);
-    
+
     const pattern = this.getAttribute('pattern');
     if (pattern) rules.pattern = pattern;
-    
+
     const min = this.getAttribute('min');
     if (min) rules.min = parseFloat(min);
-    
+
     const max = this.getAttribute('max');
     if (max) rules.max = parseFloat(max);
-    
+
     this._validationRules = rules;
   }
 
@@ -405,7 +470,11 @@ class MaInput extends HTMLElement {
     this._input.select();
   }
 
-  public setSelectionRange(start: number, end: number, direction?: 'forward' | 'backward' | 'none'): void {
+  public setSelectionRange(
+    start: number,
+    end: number,
+    direction?: 'forward' | 'backward' | 'none'
+  ): void {
     this._input.setSelectionRange(start, end, direction);
   }
 
@@ -422,7 +491,9 @@ class MaInput extends HTMLElement {
     this._updateComponent();
   }
 
-  public setCustomValidation(customFn: (value: string) => boolean | string | Promise<boolean | string>): void {
+  public setCustomValidation(
+    customFn: (value: string) => boolean | string | Promise<boolean | string>
+  ): void {
     this._validationRules.custom = customFn;
   }
 
@@ -431,12 +502,12 @@ class MaInput extends HTMLElement {
     this._previousValue = oldValue;
     this._input.value = value;
     this.setAttribute('value', value);
-    
+
     if (!options?.silent) {
       // 触发change事件
       this._handleChange(new Event('change'));
     }
-    
+
     this._updateComponent();
   }
 
