@@ -40,6 +40,10 @@ module.exports = {
     'dist/**/*',
     'node_modules/**/*',
     '*.js',
-    '**/*.d.ts'
+    '**/*.d.ts',
+    '**/__tests__/**/*',
+    '**/*.test.*',
+    '**/*.spec.*',
+    '**/setupTests.*'
   ]
 };

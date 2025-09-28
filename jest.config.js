@@ -19,5 +19,5 @@ module.exports = {
     '^@/(.*)$': '<rootDir>/src/$1',
     '\\.(css|scss|sass)$': 'identity-obj-proxy'
   },
-  setupFilesAfterEnv: ['<rootDir>/src/setupTests.ts']
+  setupFilesAfterEnv: ['<rootDir>/src/utils/setupTests.ts']
 };
