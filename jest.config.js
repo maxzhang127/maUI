@@ -17,7 +17,9 @@ module.exports = {
   ],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
-    '\\.(css|scss|sass)$': 'identity-obj-proxy'
+    '\\.(css|scss|sass)\\?inline$': '<rootDir>/src/utils/__mocks__/styleMock.js',
+    '\\.(css|scss|sass)$': 'identity-obj-proxy',
+    '\\.(html)$': '<rootDir>/src/utils/__mocks__/htmlMock.js'
   },
   setupFilesAfterEnv: ['<rootDir>/src/utils/setupTests.ts']
 };

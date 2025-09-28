@@ -1,97 +1,75 @@
 import { ButtonSize, ButtonType, ButtonVariant } from '@/types';
-import { classNames, generateId } from '@/utils';
-import buttonStyles from './ma-button.scss';
+import { classNames } from '@/utils';
+import { ComponentsBase, ComponentConfig } from '../componentsBase';
+import buttonStyles from './ma-button.scss?inline';
+import buttonTemplate from './templates/button.html';
+import loadingSpinnerTemplate from './templates/loading-spinner.html';
 
-const isButtonType = (value: string | null): value is ButtonType => (
-  value === 'button' || value === 'submit' || value === 'reset'
-);
+const isButtonType = (value: string | null): value is ButtonType =>
+  value === 'button' || value === 'submit' || value === 'reset';
 
-// 按钮组件类
-class MaButton extends HTMLElement {
-  private _shadowRoot: ShadowRoot;
+class MaButton extends ComponentsBase {
   private _button: HTMLButtonElement;
   private _loadingSpinner: HTMLElement;
 
-  // 观察的属性
   static get observedAttributes(): string[] {
     return ['size', 'variant', 'type', 'disabled', 'loading', 'class'];
   }
 
   constructor() {
-    super();
-    
-    const id = generateId('ma-button');
-    this.setAttribute('id', id);
-    this._shadowRoot = this.attachShadow({ mode: 'open' });
-    
-    this._button = document.createElement('button');
-    this._loadingSpinner = document.createElement('span');
-    
-    this._initializeComponent();
+    const config: ComponentConfig = {
+      tagName: 'ma-button',
+      styles: buttonStyles,
+      shadowMode: 'open',
+    };
+
+    super(config);
+
+    // 元素将在_createElements中创建
+    this._button = {} as HTMLButtonElement;
+    this._loadingSpinner = {} as HTMLElement;
+
+    // 完成组件初始化
+    this._completeInitialization();
   }
 
-  private _initializeComponent(): void {
-    // 创建样式
-    const style = document.createElement('style');
-    style.textContent = buttonStyles;
-    
-    // 设置加载动画
-    this._loadingSpinner.className = 'loading-spinner';
-    this._loadingSpinner.innerHTML = `
-      <svg width="16" height="16" viewBox="0 0 24 24">
-        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none" stroke-dasharray="31.416" stroke-dashoffset="31.416">
-          <animate attributeName="stroke-dasharray" dur="2s" values="0 31.416;15.708 15.708;0 31.416" repeatCount="indefinite"/>
-          <animate attributeName="stroke-dashoffset" dur="2s" values="0;-15.708;-31.416" repeatCount="indefinite"/>
-        </circle>
-      </svg>
-    `;
+  protected _createElements(): void {
+    // 创建loading spinner元素
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = loadingSpinnerTemplate;
+    this._loadingSpinner = tempDiv.firstElementChild as HTMLElement;
 
-    // 设置按钮内容
-    this._button.innerHTML = `
-      <span class="content">
-        <slot></slot>
-      </span>
-    `;
-    
-    // 添加事件监听
+    // 使用模板创建button元素
+    const buttonTempDiv = document.createElement('div');
+    buttonTempDiv.innerHTML = buttonTemplate;
+    this._button = buttonTempDiv.firstElementChild as HTMLButtonElement;
+
+    this._shadowRoot.appendChild(this._button);
+  }
+
+  protected _bindEvents(): void {
     this._button.addEventListener('click', this._handleClick.bind(this));
     this._button.addEventListener('focus', this._handleFocus.bind(this));
     this._button.addEventListener('blur', this._handleBlur.bind(this));
-    
-    // 组装 Shadow DOM
-    this._shadowRoot.appendChild(style);
-    this._shadowRoot.appendChild(this._button);
-    
-    this._updateButton();
   }
 
-  // 属性变化时触发
-  attributeChangedCallback(_name: string, oldValue: string, newValue: string): void {
-    if (oldValue !== newValue) {
-      this._updateButton();
-    }
-  }
-
-  // 连接到 DOM 时触发
-  connectedCallback(): void {
-    this._updateButton();
-  }
-
-  // 更新按钮状态和样式
-  private _updateButton(): void {
-    const size = this.getAttribute('size') as ButtonSize || 'medium';
-    const variant = this.getAttribute('variant') as ButtonVariant || 'primary';
+  protected _updateComponent(): void {
+    const size = this._getAttributeWithDefault('size', 'medium' as ButtonSize);
+    const variant = this._getAttributeWithDefault(
+      'variant',
+      'primary' as ButtonVariant
+    );
     const typeAttribute = this.getAttribute('type');
-    const buttonType: ButtonType = isButtonType(typeAttribute) ? typeAttribute : 'button';
-    const disabled = this.hasAttribute('disabled');
-    const loading = this.hasAttribute('loading');
+    const buttonType: ButtonType = isButtonType(typeAttribute)
+      ? typeAttribute
+      : 'button';
+    const disabled = this._getBooleanAttribute('disabled');
+    const loading = this._getBooleanAttribute('loading');
     const customClass = this.getAttribute('class') || '';
 
-    // 更新按钮属性
     this._button.type = buttonType;
     this._button.disabled = disabled || loading;
-    
-    // 更新按钮类名
+
     this._button.className = classNames(
       'ma-button',
       `ma-button--${size}`,
@@ -101,10 +79,12 @@ class MaButton extends HTMLElement {
       customClass
     );
 
-    // 处理加载状态
     if (loading) {
       if (!this._button.contains(this._loadingSpinner)) {
-        this._button.insertBefore(this._loadingSpinner, this._button.firstChild);
+        this._button.insertBefore(
+          this._loadingSpinner,
+          this._button.firstChild
+        );
       }
     } else {
       if (this._button.contains(this._loadingSpinner)) {
@@ -113,39 +93,27 @@ class MaButton extends HTMLElement {
     }
   }
 
-  // 事件处理
   private _handleClick(event: MouseEvent): void {
-    if (this.hasAttribute('disabled') || this.hasAttribute('loading')) {
+    if (
+      this._getBooleanAttribute('disabled') ||
+      this._getBooleanAttribute('loading')
+    ) {
       event.preventDefault();
       event.stopPropagation();
       return;
     }
 
-    // 触发自定义事件
-    this.dispatchEvent(new CustomEvent('ma-click', {
-      detail: { originalEvent: event },
-      bubbles: true,
-      composed: true
-    }));
+    this._dispatchCustomEvent('ma-click', { originalEvent: event });
   }
 
   private _handleFocus(event: FocusEvent): void {
-    this.dispatchEvent(new CustomEvent('ma-focus', {
-      detail: { originalEvent: event },
-      bubbles: true,
-      composed: true
-    }));
+    this._dispatchCustomEvent('ma-focus', { originalEvent: event });
   }
 
   private _handleBlur(event: FocusEvent): void {
-    this.dispatchEvent(new CustomEvent('ma-blur', {
-      detail: { originalEvent: event },
-      bubbles: true,
-      composed: true
-    }));
+    this._dispatchCustomEvent('ma-blur', { originalEvent: event });
   }
 
-  // 公共方法
   public focus(): void {
     this._button.focus();
   }
@@ -158,45 +126,36 @@ class MaButton extends HTMLElement {
     this._button.click();
   }
 
-  // 属性 getter/setter
   get size(): ButtonSize {
-    return (this.getAttribute('size') as ButtonSize) || 'medium';
+    return this._getAttributeWithDefault('size', 'medium' as ButtonSize);
   }
 
   set size(value: ButtonSize) {
-    this.setAttribute('size', value);
+    this._setAttribute('size', value);
   }
 
   get variant(): ButtonVariant {
-    return (this.getAttribute('variant') as ButtonVariant) || 'primary';
+    return this._getAttributeWithDefault('variant', 'primary' as ButtonVariant);
   }
 
   set variant(value: ButtonVariant) {
-    this.setAttribute('variant', value);
+    this._setAttribute('variant', value);
   }
 
   get disabled(): boolean {
-    return this.hasAttribute('disabled');
+    return this._getBooleanAttribute('disabled');
   }
 
   set disabled(value: boolean) {
-    if (value) {
-      this.setAttribute('disabled', '');
-    } else {
-      this.removeAttribute('disabled');
-    }
+    this._setAttribute('disabled', value);
   }
 
   get loading(): boolean {
-    return this.hasAttribute('loading');
+    return this._getBooleanAttribute('loading');
   }
 
   set loading(value: boolean) {
-    if (value) {
-      this.setAttribute('loading', '');
-    } else {
-      this.removeAttribute('loading');
-    }
+    this._setAttribute('loading', value);
   }
 }
 
