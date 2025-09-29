@@ -1,156 +1,196 @@
-﻿# MA-BUTTON 组件 API 设计文档
+# ma-button API 设计
 
-## 概述
+## 背景与对标
 
-`ma-button` 是遵循 Web Components 标准实现的按钮组件，聚焦一致的交互反馈、主题适配与状态管理。组件内置多种尺寸与变体，可在表单提交、操作面板、确认流程等场景中复用，同时通过 Shadow DOM 保持样式隔离并提供 CSS 变量用于深度定制。
+`ma-button` 是遵循 Web Components 规范封装的按钮组件，用于承载应用中的主要与次要操作，目标是在可扩展的基础上提供一致的交互体验、清晰的语义层级以及易于主题化的视觉语言。
 
-## 基础用法
+## 设计目标
+
+- **一致性**：预设的尺寸与变体对应明确的交互反馈，保证跨页面视觉与行为统一。
+- **语义清晰**：属性命名与值域与主流库保持一致，可直观表达操作优先级、视觉层级与状态。
+- **主题友好**：依赖 CSS 自定义属性提供设计令牌（Design Tokens），支持品牌化拓展与暗色模式切换。
+- **渐进增强**：默认提供可用逻辑（加载阻断、禁用保护、焦点可视化），允许在需要时覆盖到更复杂的设计系统。
+
+## 组件架构与解剖
+
+- 基于 `ComponentsBase` 封装，Shadow DOM（`open`）保证样式隔离。
+- 内部结构：`<button>` + `.content` 容器（承载默认插槽内容）。
+- 加载态时会在内容前插入内置的 SVG loading spinner，保证文本与图标对齐。
+- 所有交互事件向外透出自定义事件，以便在宿主上下文中监听。
+
+## 快速上手
 
 ```html
-<!-- 默认（primary、medium、type="button"） -->
-<ma-button>提交</ma-button>
+<!-- Primary / medium / button -->
+<ma-button id="submit">提交</ma-button>
 
-<!-- 提交按钮 -->
+<!-- 表单提交按钮 -->
 <form>
-  <ma-button type="submit">保存</ma-button>
+  <ma-button type="submit" variant="primary">保存</ma-button>
 </form>
 
-<!-- 禁用与加载态 -->
-<ma-button disabled>不可点击</ma-button>
-<ma-button loading>处理中...</ma-button>
+<!-- 次要操作 + 加载状态联动 -->
+<ma-button id="export" variant="secondary" loading>导出中...</ma-button>
 ```
-
-## 插槽 (Slots)
-
-- 默认插槽：用于放置按钮文案或自定义内容（如图标+文本）。内容会被包裹在 `.content` 容器中以保持对齐。
-
-## API 参考
-
-### 属性 (Attributes)
-
-#### 基础属性
-- `type`: 'button' | 'submit' | 'reset' — 对应原生 button 元素的 type，默认为 `button`。
-- `class`: string — 透传到内部按钮的额外类名，可与宿主的类名共存，便于精细调整。
-
-#### 样式属性
-- `size`: 'small' | 'medium' | 'large' — 控制高度、字号与内边距，默认 `medium`。
-- `variant`: 'primary' | 'secondary' | 'danger' | 'ghost' — 预置主题风格，默认 `primary`。
-
-#### 状态属性
-- `disabled`: boolean — 置于禁用态，同时阻断点击事件与 hover/active 效果。
-- `loading`: boolean — 展示内置加载动画并阻断交互，内部会自动禁用按钮以避免重复触发。
-
-> 属性更新会触发组件内部的重新渲染逻辑，保持宿主属性与 Shadow DOM 按钮的状态一致。
-
-### 事件 (Events)
-
-所有事件均为可冒泡且 `composed: true`，因而可在宿主元素之外监听。
-
-- `ma-click`
-  ```javascript
-  detail: { originalEvent: MouseEvent }
-  ```
-  在按钮未禁用/未加载时点击触发，等价于原生 click。
-
-- `ma-focus`
-  ```javascript
-  detail: { originalEvent: FocusEvent }
-  ```
-  内部 button 获得焦点时触发，可与表单校验、可访问性提示联动。
-
-- `ma-blur`
-  ```javascript
-  detail: { originalEvent: FocusEvent }
-  ```
-  内部 button 失去焦点时触发。
-
-### 方法 (Methods)
-
-- `focus(): void` — 主动聚焦内部按钮。
-- `blur(): void` — 移除焦点。
-- `click(): void` — 调用原生 `HTMLButtonElement.click()`，会根据 `disabled/loading` 状态决定是否触发 `ma-click`。
-
-## 状态与交互细节
-
-- 禁用或加载时会阻止默认点击行为并停止事件冒泡，保障外层逻辑安全。
-- `loading` 属性会插入一个内置的 SVG 旋转图标到按钮开头，并降低内容不透明度以提示等待状态。
-- 组件构造时自动生成 `id`（`ma-button-xxxx`），方便调试；亦可手动覆盖。
-
-## 样式与定制
-
-通过 CSS 变量可全局定制配色与尺寸：
-
-```css
-ma-button {
-  --ma-primary: #4f46e5;
-  --ma-primary-hover: #4338ca;
-  --ma-button-border-radius: 8px;
-}
-```
-
-| 变量名 | 说明 |
-| --- | --- |
-| `--ma-button-border-radius` | 按钮圆角 |
-| `--ma-button-font-weight` | 字重 |
-| `--ma-button-transition` | 交互动画 |
-| `--ma-button-small-height/padding/font-size` 等 | 三种尺寸的高度、内边距、字号 |
-| `--ma-primary` / `--ma-secondary` / `--ma-danger` | 主题底色与边框色 |
-| `--ma-primary-hover` / `--ma-secondary-hover` 等 | Hover 状态颜色 |
-| `--ma-primary-active` / `--ma-secondary-active` 等 | Active 状态颜色 |
-| `--ma-gray-100` / `--ma-gray-300` / `--ma-gray-500` | 禁用态配色 |
-
-组件使用 `:host` 作用域变量，因此可在单个实例或全局范围内重写，亦可配合 `class` 属性实现更精细的主题扩展。
-
-## 使用示例
-
-### 图标按钮
-
-```html
-<ma-button class="with-icon">
-  <svg class="icon" viewBox="0 0 16 16" aria-hidden="true">...</svg>
-  新建
-</ma-button>
-```
-
-```css
-ma-button.with-icon .icon {
-  width: 16px;
-  height: 16px;
-  margin-right: 4px;
-}
-```
-
-### 操作组
-
-```html
-<div role="group" aria-label="操作">
-  <ma-button size="small" variant="secondary">重置</ma-button>
-  <ma-button size="small" variant="primary">提交</ma-button>
-</div>
-```
-
-### 加载态联动
 
 ```javascript
-const actionButton = document.querySelector('ma-button#export');
+const exportButton = document.querySelector('#export');
 
-actionButton.addEventListener('ma-click', async () => {
-  actionButton.loading = true;
+exportButton.addEventListener('ma-click', async () => {
+  exportButton.loading = true;
   try {
     await exportData();
   } finally {
-    actionButton.loading = false;
+    exportButton.loading = false;
   }
 });
 ```
 
-## 设计原则
+## 插槽 (Slots)
 
-- **一致性**：封装常见的尺寸、主题和过渡效果，保持项目视觉统一。
-- **可访问性**：保留原生 `button` 焦点环与键盘交互，同时通过自定义事件暴露焦点信息。
-- **可扩展性**：支持透传类名、CSS 变量与外部自定义内容，便于与设计系统及图标库集成。
+- **默认插槽**：承载按钮文案或自定义内容，内部通过 `.content` 容器实现垂直居中。与 Material UI `startIcon/endIcon`、Chakra UI `leftIcon/rightIcon` 类似，可放置任意自定义图标：
 
-## 兼容性
+  ```html
+  <ma-button variant="primary" class="with-icon">
+    <svg class="icon" viewBox="0 0 16 16" aria-hidden="true">...</svg>
+    新建
+  </ma-button>
+  ```
 
-- 现代浏览器（Chrome 60+, Firefox 63+, Safari 11+, Edge 79+）
-- Shadow DOM 原生支持场景下表现最佳；不支持的环境可配合 polyfill 使用
+  ```css
+  ma-button.with-icon .icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 4px;
+  }
+  ```
+
+> 未来可考虑通过命名插槽（`slot="icon"`）或 `part` 属性进一步提升可控性。
+
+## HTML 属性
+
+| 属性       | 取值                                            | 默认值    | 用途                                                                                       | 对标参考                |
+| ---------- | ----------------------------------------------- | --------- | ------------------------------------------------------------------------------------------ | ----------------------- |
+| `type`     | `button` \| `submit` \| `reset`                 | `button`  | 对齐原生 `HTMLButtonElement` 行为，支持表单提交、重置场景。                                | Material UI、Ant Design |
+| `size`     | `small` \| `medium` \| `large`                  | `medium`  | 控制高度、内边距与字号。数值映射参考 MUI/Chakra 的尺寸体系。                               | Material UI、Chakra UI  |
+| `variant`  | `primary` \| `secondary` \| `danger` \| `ghost` | `primary` | 表达视觉层级与语义色彩。`ghost` 用于弱化强调、与 Chakra 的 `ghost` 与 AntD `text` 相对应。 | Ant Design、Chakra UI   |
+| `disabled` | boolean attribute                               | -         | 禁用按钮并屏蔽事件。                                                                       | 所有主流库              |
+| `loading`  | boolean attribute                               | -         | 展示加载 spinner 并阻断交互，防止重复提交。                                                | Ant Design、Chakra UI   |
+| `class`    | string                                          | -         | 透传到内部按钮，允许在特定实例上追加 BEM/Utility 类名。                                    | Bootstrap               |
+
+> 其他标准 HTML 属性（如 `name`、`form`、`value` 等）可通过 `setAttribute` 直接添加到 `<ma-button>`，内部 `<button>` 会继承受控属性。
+
+### JavaScript 属性访问器
+
+```javascript
+const button = document.querySelector('ma-button');
+
+button.variant = 'danger';
+button.size = 'large';
+button.disabled = false;
+button.loading = true;
+```
+
+- Setter 会同步触发 `_updateComponent`，保持宿主属性与 Shadow DOM 状态一致。
+- 同时兼容属性与 `setAttribute/removeAttribute` 调用，方便与框架式状态管理集成。
+
+## 自定义事件
+
+事件均 `bubbles: true` 且 `composed: true`，可在组件外层捕获。
+
+| 事件名     | 触发时机                       | 事件负载                        |
+| ---------- | ------------------------------ | ------------------------------- |
+| `ma-click` | 非禁用且非加载状态下点击触发   | `{ originalEvent: MouseEvent }` |
+| `ma-focus` | 内部 `<button>` 获得焦点时触发 | `{ originalEvent: FocusEvent }` |
+| `ma-blur`  | 内部 `<button>` 失去焦点时触发 | `{ originalEvent: FocusEvent }` |
+
+## 公共方法
+
+- `focus(): void` — 聚焦内部按钮，保持与原生方法对齐。
+- `blur(): void` — 移除焦点，便于在模态或对话框中协调焦点管理。
+- `click(): void` — 调用原生 `HTMLButtonElement.click()`；若 `disabled`/`loading` 为真，将阻断点击。
+
+## 状态与交互细节
+
+- **Hover/Active**：依据 `variant` 派生 hover/active 颜色，遵循 Material/AntD 中“主按钮渐变-次按钮描边/透明”的规范。
+- **Disabled**：禁用时移除阴影并降低对比度，同时禁止 hover 反馈，防止误导用户。内部通过 `button.disabled = true` 阻断键盘触发。
+- **Loading**：加载态插入内置 spinner 并将文本透明度设为 0.6。遵循 AntD 的“按钮保持尺寸不变、内容轻量提示”原则。
+- **Focus**：显示可访问的焦点环（outline）。建议在自定义主题时保留至少 3:1 的对比度，与 WCAG 2.1 AA 要求对齐。
+
+## 样式与主题定制
+
+`ma-button` 通过 CSS 自定义属性暴露设计令牌，可结合 Design Token 系统实现品牌化主题。
+
+### 样式变量一览
+
+| 变量名                                                              | 默认值                            | 作用                         |
+| ------------------------------------------------------------------- | --------------------------------- | ---------------------------- |
+| `--ma-button-border-radius`                                         | `6px`                             | 按钮圆角                     |
+| `--ma-button-font-weight`                                           | `500`                             | 字重                         |
+| `--ma-button-transition`                                            | `all 0.2s ease-in-out`            | 动画过渡                     |
+| **尺寸（size）**                                                    |                                   |                              |
+| `--ma-button-small-height`                                          | `28px`                            | 小尺寸高度                   |
+| `--ma-button-small-padding`                                         | `0 12px`                          | 小尺寸内边距                 |
+| `--ma-button-small-font-size`                                       | `12px`                            | 小尺寸字号                   |
+| `--ma-button-medium-height`                                         | `36px`                            | 中尺寸高度                   |
+| `--ma-button-medium-padding`                                        | `0 16px`                          | 中尺寸内边距                 |
+| `--ma-button-medium-font-size`                                      | `14px`                            | 中尺寸字号                   |
+| `--ma-button-large-height`                                          | `44px`                            | 大尺寸高度                   |
+| `--ma-button-large-padding`                                         | `0 20px`                          | 大尺寸内边距                 |
+| `--ma-button-large-font-size`                                       | `16px`                            | 大尺寸字号                   |
+| **语义色彩**                                                        |                                   |                              |
+| `--ma-primary` / `--ma-primary-hover` / `--ma-primary-active`       | `#007bff` / `#0056b3` / `#004085` | Primary 变体的主色及交互态   |
+| `--ma-secondary` / `--ma-secondary-hover` / `--ma-secondary-active` | `#6c757d` / `#545b62` / `#3d4246` | Secondary 变体的主色及交互态 |
+| `--ma-danger` / `--ma-danger-hover` / `--ma-danger-active`          | `#dc3545` / `#c82333` / `#bd2130` | Danger 变体的主色及交互态    |
+| `--ma-white`                                                        | `#ffffff`                         | 文字/图标颜色                |
+| `--ma-gray-100` / `--ma-gray-300` / `--ma-gray-500`                 | `#f8f9fa` / `#dee2e6` / `#adb5bd` | 禁用背景、边框与文字颜色     |
+
+### 定制策略
+
+```css
+/* 全局主题 */
+:root[data-theme='dark'] {
+  --ma-primary: #3b82f6;
+  --ma-primary-hover: #2563eb;
+  --ma-primary-active: #1d4ed8;
+  --ma-button-border-radius: 8px;
+}
+
+/* 局部差异化 */
+ma-button[data-tone='success'] {
+  --ma-primary: #10b981;
+  --ma-primary-hover: #059669;
+  --ma-primary-active: #047857;
+}
+```
+
+- 建议使用 Design Token 命名（如 `--color-brand-primary`）接入企业级设计体系。
+- 若需大范围覆盖，可结合外层 `class`（如 `.ma-button--xs`）或未来计划的 `part` 选择器，使主题切换更具可控性。
+
+## 可访问性建议
+
+- 始终提供明确的按钮文案；当仅展示图标时，需补充 `aria-label` 与 `title`。
+- 确保 `variant` 自定义颜色与背景的对比度符合 WCAG 2.1 AA（视觉重点 ≥ 4.5:1）。
+- 禁用与加载状态需同步暴露给屏幕阅读器，可根据需要增加 `aria-busy="true"` 等属性。
+- 在键盘导航密集的场景下，利用 `ma-focus`/`ma-blur` 事件配合焦点管理，避免焦点陷阱。
+
+## 与设计系统的协作建议
+
+1. **命名收敛**：无论设计稿中使用“主要按钮/次要按钮”还是“强强调/弱强调”，均建议映射到 `variant`，减少设计与实现的术语差异。
+2. **操作分组**：在工具栏/按钮组中，通过统一的尺寸与间距，借鉴 Bootstrap 的 Button Group，实现左右对齐与分隔。
+3. **反馈节奏**：结合 `loading` 状态与外部 Toast/Alert，参考 Ant Design 的“提交后 300ms 仍未完成即进入加载态”的规则，提高响应透明度。
+
+## 后续演进路线（Roadmap）
+
+- **块级展示 (`block`)**：提供宽度 100% 的变体，对齐 Ant Design/Bootstrap 在移动端的用法。
+- **图标插槽优化**：考虑添加 `slot="icon"` 或 `iconPlacement` 属性，借鉴 Chakra 的 API 以简化图标按钮。
+- **语义色彩扩展**：支持 `success`、`warning` 等 tone，参考 Chakra `colorScheme` 概念，提升语义覆盖。
+- **Button Group 组件**：封装按钮组容器，提供分隔线、紧凑模式等能力。
+- **Loading 自定义**：允许通过 `slot="spinner"` 或 CSS `part` 覆盖默认加载图标，满足品牌化需求。
+
+## 浏览器兼容性
+
+- 现代浏览器（Chrome 60+、Firefox 63+、Safari 11+、Edge 79+）。
+- 若运行环境缺少 Web Components/Shadow DOM 原生支持，可引入 `@webcomponents/webcomponentsjs` polyfill。
+
+通过以上设计，`ma-button` 能够在保持 API 简洁的前提下，复用主流控件库的最佳实践，同时为后续拓展留出足够空间。

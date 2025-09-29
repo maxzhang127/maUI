@@ -1,0 +1,72 @@
+<section class="demo-section">
+  <h2>🔘 ma-button</h2>
+
+  <div class="demo-group">
+    <h3>变体 (Variants)</h3>
+    <div class="demo-row">
+      <ma-button variant="primary">Primary</ma-button>
+      <ma-button variant="secondary">Secondary</ma-button>
+      <ma-button variant="danger">Danger</ma-button>
+      <ma-button variant="ghost">Ghost</ma-button>
+    </div>
+  </div>
+
+  <div class="demo-group">
+    <h3>尺寸 (Sizes)</h3>
+    <div class="demo-row">
+      <ma-button size="small">Small</ma-button>
+      <ma-button size="medium">Medium</ma-button>
+      <ma-button size="large">Large</ma-button>
+    </div>
+  </div>
+
+  <div class="demo-group">
+    <h3>状态 (States)</h3>
+    <div class="demo-row">
+      <ma-button>Normal</ma-button>
+      <ma-button disabled>Disabled</ma-button>
+      <ma-button loading>Loading</ma-button>
+      <ma-button id="toggle-loading">Toggle Loading</ma-button>
+    </div>
+  </div>
+
+  <div class="demo-group">
+    <h3>带图标 (With Icons)</h3>
+    <div class="demo-row">
+      <ma-button variant="primary" class="with-icon">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor">
+          <path
+            d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2z"
+          />
+        </svg>
+        新建
+      </ma-button>
+      <ma-button variant="secondary" class="with-icon">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor">
+          <path
+            d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
+          />
+        </svg>
+        删除
+      </ma-button>
+    </div>
+  </div>
+
+  <div class="demo-group">
+    <h3>表单按钮 (Form Buttons)</h3>
+    <form class="demo-form" id="test-form">
+      <ma-button type="submit" variant="primary">提交表单</ma-button>
+      <ma-button type="reset" variant="secondary">重置表单</ma-button>
+      <ma-button type="button" variant="ghost">普通按钮</ma-button>
+    </form>
+  </div>
+
+  <div class="demo-group">
+    <h3>事件测试 (Event Testing)</h3>
+    <div class="demo-row">
+      <ma-button id="click-test">点击测试</ma-button>
+      <ma-button id="focus-test">焦点测试</ma-button>
+    </div>
+    <div id="event-log" class="event-log"></div>
+  </div>
+</section>

@@ -172,3 +172,138 @@
     }
   }
 }
+
+// Demo 页面样式
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--ma-font-family-sans);
+  background-color: var(--ma-gray-50);
+  color: var(--ma-gray-900);
+  line-height: var(--ma-line-height-normal);
+}
+
+.header {
+  background: linear-gradient(
+    135deg,
+    var(--ma-primary) 0%,
+    var(--ma-primary-dark) 100%
+  );
+  color: var(--ma-white);
+  padding: var(--ma-spacing-2xl) var(--ma-spacing-lg);
+  text-align: center;
+  margin-bottom: var(--ma-spacing-2xl);
+
+  h1 {
+    margin: 0 0 var(--ma-spacing-sm) 0;
+    font-size: var(--ma-font-size-4xl);
+    font-weight: var(--ma-font-weight-bold);
+  }
+
+  p {
+    margin: 0;
+    font-size: var(--ma-font-size-lg);
+    opacity: 0.9;
+  }
+}
+
+.main-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--ma-spacing-lg);
+}
+
+.demo-section {
+  margin-bottom: var(--ma-spacing-3xl);
+
+  h2 {
+    font-size: var(--ma-font-size-2xl);
+    font-weight: var(--ma-font-weight-semibold);
+    margin: 0 0 var(--ma-spacing-xl) 0;
+    color: var(--ma-gray-800);
+    border-bottom: 2px solid var(--ma-gray-200);
+    padding-bottom: var(--ma-spacing-sm);
+  }
+}
+
+.demo-group {
+  background: var(--ma-white);
+  border-radius: var(--ma-border-radius-lg);
+  padding: var(--ma-spacing-xl);
+  margin-bottom: var(--ma-spacing-lg);
+  box-shadow: var(--ma-shadow-sm);
+  border: 1px solid var(--ma-gray-200);
+
+  h3 {
+    font-size: var(--ma-font-size-lg);
+    font-weight: var(--ma-font-weight-medium);
+    margin: 0 0 var(--ma-spacing-lg) 0;
+    color: var(--ma-gray-700);
+  }
+}
+
+.demo-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ma-spacing-md);
+  align-items: center;
+}
+
+.demo-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ma-spacing-md);
+  align-items: center;
+  padding: var(--ma-spacing-lg);
+  background: var(--ma-gray-50);
+  border-radius: var(--ma-border-radius-md);
+  border: 1px dashed var(--ma-gray-300);
+}
+
+// 带图标按钮的图标样式
+ma-button.with-icon .icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 4px;
+  flex-shrink: 0;
+}
+
+// 事件日志
+.event-log {
+  margin-top: var(--ma-spacing-lg);
+  background: var(--ma-gray-900);
+  color: var(--ma-gray-100);
+  border-radius: var(--ma-border-radius-md);
+  padding: var(--ma-spacing-md);
+  min-height: 120px;
+  max-height: 200px;
+  overflow-y: auto;
+  font-family: var(--ma-font-family-mono);
+  font-size: var(--ma-font-size-sm);
+
+  .log-entry {
+    padding: var(--ma-spacing-xs) 0;
+    border-bottom: 1px solid var(--ma-gray-700);
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  &:empty::before {
+    content: "事件日志将显示在这里...";
+    color: var(--ma-gray-500);
+    font-style: italic;
+  }
+}
+
+// 响应式布局
+@include ma-respond-above(md) {
+  .demo-row {
+    flex-wrap: nowrap;
+  }
+
+  .demo-form {
+    flex-wrap: nowrap;
+  }
+}
