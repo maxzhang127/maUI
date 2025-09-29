@@ -18,8 +18,8 @@
     "lint:fix": "eslint src --ext .ts,.tsx --fix",
     "format": "prettier --write \"src/**/*.{ts,tsx,scss,css,json}\"",
     "format:check": "prettier --check \"src/**/*.{ts,tsx,scss,css,json}\"",
-    "test": "jest",
-    "test:watch": "jest --watch",
+    "test": "npm run generate:mocks && jest",
+    "test:watch": "npm run generate:mocks && jest --watch",
     "generate:mocks": "node scripts/generate-html-mocks.js",
     "prepublishOnly": "npm run clean && npm run build"
   },

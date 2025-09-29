@@ -1,0 +1,44 @@
+<section class="ma-layout">
+  <header part="header" class="ma-layout__header">
+    <slot name="header"></slot>
+  </header>
+
+  <div part="subheader" class="ma-layout__subheader">
+    <slot name="subheader"></slot>
+  </div>
+
+  <aside part="sider" class="ma-layout__sider" id="ma-layout-sider" aria-label="Navigation sidebar">
+    <div part="sider-content" class="ma-layout__sider-content">
+      <slot name="sider"></slot>
+    </div>
+    <button
+      part="toggle"
+      class="ma-layout__toggle"
+      type="button"
+      aria-label="Toggle sidebar"
+      aria-controls="ma-layout-sider"
+      style="display: none;"
+    >
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+        <path d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+      </svg>
+    </button>
+  </aside>
+
+  <main part="content" class="ma-layout__content">
+    <div class="scroll-container">
+      <div class="content-wrapper">
+        <slot name="content"></slot>
+      </div>
+    </div>
+  </main>
+
+  <footer part="footer" class="ma-layout__footer">
+    <slot name="footer"></slot>
+  </footer>
+
+  <!-- Default slot for overlay content -->
+  <div class="ma-layout__overlay">
+    <slot></slot>
+  </div>
+</section>

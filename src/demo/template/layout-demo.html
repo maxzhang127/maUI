@@ -1,0 +1,163 @@
+<section class="demo-section">
+  <h2>🏗️ ma-layout</h2>
+
+  <div class="demo-group">
+    <h3>基础布局 (Basic Layout)</h3>
+    <div class="layout-demo-container">
+      <ma-layout class="demo-layout" style="height: 300px;">
+        <div slot="header" class="layout-demo-header">Header</div>
+        <div slot="content" class="layout-demo-content">Content Area</div>
+        <div slot="footer" class="layout-demo-footer">Footer</div>
+      </ma-layout>
+    </div>
+  </div>
+
+  <div class="demo-group">
+    <h3>带侧边栏 (With Sidebar)</h3>
+    <div class="layout-demo-container">
+      <ma-layout
+        class="demo-layout"
+        has-sider="true"
+        sider-position="left"
+        style="height: 300px;">
+        <div slot="header" class="layout-demo-header">Header</div>
+        <div slot="sider" class="layout-demo-sider">Sidebar</div>
+        <div slot="content" class="layout-demo-content">Main Content</div>
+        <div slot="footer" class="layout-demo-footer">Footer</div>
+      </ma-layout>
+    </div>
+  </div>
+
+  <div class="demo-group">
+    <h3>可折叠侧边栏 (Collapsible Sidebar)</h3>
+    <div class="layout-demo-container">
+      <ma-layout
+        id="collapsible-layout"
+        class="demo-layout"
+        has-sider="true"
+        sider-position="left"
+        collapsible="true"
+        style="height: 300px;">
+        <div slot="header" class="layout-demo-header">
+          Header with Toggle
+          <ma-button id="toggle-sider" size="small" variant="ghost">Toggle Sidebar</ma-button>
+        </div>
+        <div slot="sider" class="layout-demo-sider">
+          <p>Collapsible Sidebar</p>
+          <ul>
+            <li>Menu Item 1</li>
+            <li>Menu Item 2</li>
+            <li>Menu Item 3</li>
+          </ul>
+        </div>
+        <div slot="content" class="layout-demo-content">
+          <p>This content area adjusts when sidebar is toggled.</p>
+          <p>Resize to see responsive behavior.</p>
+        </div>
+        <div slot="footer" class="layout-demo-footer">Footer</div>
+      </ma-layout>
+    </div>
+  </div>
+
+  <div class="demo-group">
+    <h3>右侧边栏 (Right Sidebar)</h3>
+    <div class="layout-demo-container">
+      <ma-layout
+        class="demo-layout"
+        has-sider="true"
+        sider-position="right"
+        style="height: 300px;">
+        <div slot="header" class="layout-demo-header">Header</div>
+        <div slot="content" class="layout-demo-content">Main Content</div>
+        <div slot="sider" class="layout-demo-sider">Right Sidebar</div>
+        <div slot="footer" class="layout-demo-footer">Footer</div>
+      </ma-layout>
+    </div>
+  </div>
+
+  <div class="demo-group">
+    <h3>水平布局 (Horizontal Layout)</h3>
+    <div class="layout-demo-container">
+      <ma-layout
+        class="demo-layout"
+        orientation="horizontal"
+        has-sider="true"
+        style="height: 300px;">
+        <div slot="sider" class="layout-demo-sider">Left Panel</div>
+        <div slot="content" class="layout-demo-content">
+          <div slot="header" class="layout-demo-header">Content Header</div>
+          <div>Content Body</div>
+          <div slot="footer" class="layout-demo-footer">Content Footer</div>
+        </div>
+        <div slot="sider" class="layout-demo-sider">Right Panel</div>
+      </ma-layout>
+    </div>
+  </div>
+
+  <div class="demo-group">
+    <h3>间距和填充 (Spacing and Padding)</h3>
+    <div class="demo-row">
+      <div class="layout-demo-container">
+        <h4>紧凑 (Compact)</h4>
+        <ma-layout
+          class="demo-layout"
+          padding="compact"
+          gap="sm"
+          style="height: 200px;">
+          <div slot="header" class="layout-demo-header">Compact Header</div>
+          <div slot="content" class="layout-demo-content">Compact Content</div>
+        </ma-layout>
+      </div>
+      <div class="layout-demo-container">
+        <h4>舒适 (Comfortable)</h4>
+        <ma-layout
+          class="demo-layout"
+          padding="comfortable"
+          gap="lg"
+          style="height: 200px;">
+          <div slot="header" class="layout-demo-header">Comfortable Header</div>
+          <div slot="content" class="layout-demo-content">Comfortable Content</div>
+        </ma-layout>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo-group">
+    <h3>粘性元素 (Sticky Elements)</h3>
+    <div class="layout-demo-container">
+      <ma-layout
+        class="demo-layout"
+        sticky-header="true"
+        sticky-footer="true"
+        style="height: 300px;">
+        <div slot="header" class="layout-demo-header">Sticky Header</div>
+        <div slot="content" class="layout-demo-content">
+          <p>Content with sticky header and footer</p>
+          <div style="height: 500px; background: linear-gradient(to bottom, #f0f0f0, #e0e0e0);">
+            Scrollable content area...
+          </div>
+        </div>
+        <div slot="footer" class="layout-demo-footer">Sticky Footer</div>
+      </ma-layout>
+    </div>
+  </div>
+
+  <div class="demo-group">
+    <h3>事件测试 (Event Testing)</h3>
+    <div class="layout-demo-container">
+      <ma-layout
+        id="event-test-layout"
+        class="demo-layout"
+        has-sider="true"
+        collapsible="true"
+        style="height: 250px;">
+        <div slot="header" class="layout-demo-header">Event Test Layout</div>
+        <div slot="sider" class="layout-demo-sider">Toggle me!</div>
+        <div slot="content" class="layout-demo-content">
+          <ma-button id="programmatic-toggle">Programmatic Toggle</ma-button>
+          <div id="layout-event-log" class="event-log"></div>
+        </div>
+      </ma-layout>
+    </div>
+  </div>
+</section>
