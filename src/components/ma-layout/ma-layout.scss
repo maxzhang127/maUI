@@ -1,0 +1,401 @@
+// CSS Custom Properties (Design Tokens)
+:host {
+  // Background and colors
+  --ma-layout-background: var(--surface-1, #ffffff);
+  --ma-layout-color: var(--text-normal, #1f2937);
+  --ma-layout-border-color: var(--divider, #e5e7eb);
+
+  // Spacing
+  --ma-layout-gap-none: 0;
+  --ma-layout-gap-xs: 8px;
+  --ma-layout-gap-sm: 16px;
+  --ma-layout-gap-md: 24px;
+  --ma-layout-gap-lg: 32px;
+  --ma-layout-gap: var(--ma-layout-gap-md);
+
+  --ma-layout-padding-none: 0;
+  --ma-layout-padding-compact: 16px;
+  --ma-layout-padding-comfortable: 24px;
+  --ma-layout-padding: var(--ma-layout-padding-comfortable);
+
+  // Sider dimensions
+  --ma-layout-sider-width: 256px;
+  --ma-layout-sider-width-collapsed: 64px;
+
+  // Header
+  --ma-layout-header-height: 56px;
+
+  // Shadows and effects
+  --ma-layout-shadow: var(--shadow-sm, 0 1px 3px rgba(0, 0, 0, 0.1));
+
+  // Semantic colors
+  --ma-layout-accent: var(--brand-500, #3b82f6);
+
+  // Max content width for centering
+  --ma-layout-max-content-width: 1200px;
+
+  // Animation timing
+  --ma-layout-transition-duration: 160ms;
+  --ma-layout-transition-timing: cubic-bezier(0.2, 0, 0.38, 0.9);
+
+  display: block;
+  width: 100%;
+  height: 100%;
+  color: var(--ma-layout-color);
+  background-color: var(--ma-layout-background);
+}
+
+// Main layout container
+.ma-layout {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  background-color: inherit;
+  color: inherit;
+
+  // Default vertical layout
+  grid-template-areas:
+    "header header"
+    "subheader subheader"
+    "sider content"
+    "footer footer";
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto 1fr auto;
+  gap: var(--ma-layout-gap);
+
+  // Orientation variations
+  &.orientation-horizontal {
+    grid-template-areas:
+      "header header"
+      "subheader subheader"
+      "content content"
+      "sider sider"
+      "footer footer";
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto 1fr auto auto;
+
+    .ma-layout__sider {
+      grid-area: sider;
+    }
+
+    .ma-layout__content {
+      grid-area: content;
+    }
+  }
+
+  // No sider layout
+  &:not(.has-sider) {
+    grid-template-areas:
+      "header"
+      "subheader"
+      "content"
+      "footer";
+    grid-template-columns: 1fr;
+
+    .ma-layout__sider {
+      display: none;
+    }
+  }
+
+  // Sider position variations
+  &.has-sider.sider-right {
+    grid-template-areas:
+      "header header"
+      "subheader subheader"
+      "content sider"
+      "footer footer";
+
+    &.orientation-horizontal {
+      grid-template-areas:
+        "header header"
+        "subheader subheader"
+        "content content"
+        "sider sider"
+        "footer footer";
+    }
+  }
+
+  // Gap variations
+  &.gap-none {
+    gap: var(--ma-layout-gap-none);
+  }
+  &.gap-xs {
+    gap: var(--ma-layout-gap-xs);
+  }
+  &.gap-sm {
+    gap: var(--ma-layout-gap-sm);
+  }
+  &.gap-md {
+    gap: var(--ma-layout-gap-md);
+  }
+  &.gap-lg {
+    gap: var(--ma-layout-gap-lg);
+  }
+
+  // Collapsed state
+  &.collapsed {
+    .ma-layout__sider {
+      --ma-layout-sider-current-width: var(--ma-layout-sider-width-collapsed);
+    }
+
+    .ma-layout__toggle svg {
+      transform: rotate(180deg);
+    }
+  }
+
+  // Sticky header
+  &.sticky-header {
+    .ma-layout__header,
+    .ma-layout__subheader {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      transition: box-shadow var(--ma-layout-transition-duration)
+        var(--ma-layout-transition-timing);
+
+      &[data-shadow="true"] {
+        box-shadow: var(--ma-layout-shadow);
+      }
+    }
+  }
+
+  // Sticky footer
+  &.sticky-footer {
+    .ma-layout__footer {
+      position: sticky;
+      bottom: 0;
+      z-index: 50;
+    }
+  }
+}
+
+// Header
+.ma-layout__header {
+  grid-area: header;
+  min-height: var(--ma-layout-header-height);
+  display: flex;
+  align-items: center;
+  background-color: inherit;
+  border-bottom: 1px solid var(--ma-layout-border-color);
+}
+
+// Subheader
+.ma-layout__subheader {
+  grid-area: subheader;
+  background-color: inherit;
+  border-bottom: 1px solid var(--ma-layout-border-color);
+
+  // Hide when empty
+  &:not(:has(*)) {
+    display: none;
+  }
+}
+
+// Sider
+.ma-layout__sider {
+  grid-area: sider;
+  position: relative;
+  width: var(--ma-layout-sider-current-width, var(--ma-layout-sider-width));
+  background-color: inherit;
+  border-right: 1px solid var(--ma-layout-border-color);
+  transition: width var(--ma-layout-transition-duration)
+    var(--ma-layout-transition-timing);
+  overflow: hidden;
+
+  .sider-right & {
+    border-right: none;
+    border-left: 1px solid var(--ma-layout-border-color);
+  }
+}
+
+.ma-layout__sider-content {
+  height: 100%;
+  overflow: auto;
+}
+
+// Sider toggle button
+.ma-layout__toggle {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--ma-layout-border-color);
+  border-radius: 4px;
+  background-color: var(--ma-layout-background);
+  color: var(--ma-layout-color);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--ma-layout-transition-duration)
+    var(--ma-layout-transition-timing);
+
+  &:hover {
+    background-color: var(--ma-layout-accent);
+    color: white;
+    border-color: var(--ma-layout-accent);
+  }
+
+  &:focus {
+    outline: 2px solid var(--ma-layout-accent);
+    outline-offset: 2px;
+  }
+
+  svg {
+    transition: transform var(--ma-layout-transition-duration)
+      var(--ma-layout-transition-timing);
+  }
+}
+
+// Content
+.ma-layout__content {
+  grid-area: content;
+  position: relative;
+  min-height: 0; // Allow flexbox shrinking
+  background-color: inherit;
+}
+
+.scroll-container {
+  height: 100%;
+  overflow: auto;
+
+  .content-scroll-page & {
+    overflow: visible;
+  }
+
+  .content-scroll-none & {
+    overflow: hidden;
+  }
+}
+
+.content-wrapper {
+  padding: var(--ma-layout-padding);
+  min-height: 100%;
+
+  .padding-none & {
+    padding: var(--ma-layout-padding-none);
+  }
+  .padding-compact & {
+    padding: var(--ma-layout-padding-compact);
+  }
+  .padding-comfortable & {
+    padding: var(--ma-layout-padding-comfortable);
+  }
+
+  // Max width centering
+  max-width: var(--ma-layout-max-content-width);
+  margin: 0 auto;
+}
+
+// Footer
+.ma-layout__footer {
+  grid-area: footer;
+  background-color: inherit;
+  border-top: 1px solid var(--ma-layout-border-color);
+
+  // Hide when empty
+  &:not(:has(*)) {
+    display: none;
+  }
+}
+
+// Overlay for floating content
+.ma-layout__overlay {
+  position: relative;
+  z-index: 1000;
+  pointer-events: none;
+
+  * {
+    pointer-events: auto;
+  }
+}
+
+// Responsive breakpoints
+:host([data-breakpoint="sm"]) {
+  --ma-layout-gap: var(--ma-layout-gap-sm);
+  --ma-layout-padding: var(--ma-layout-padding-compact);
+
+  .ma-layout {
+    gap: var(--ma-layout-gap-sm);
+  }
+
+  .content-wrapper {
+    padding: var(--ma-layout-padding-compact);
+  }
+
+  // Auto-hide sider on small screens
+  &.has-sider:not(.collapsed) {
+    .ma-layout__sider {
+      transform: translateX(-100%);
+    }
+  }
+}
+
+:host([data-breakpoint="md"]) {
+  .ma-layout {
+    gap: var(--ma-layout-gap-md);
+  }
+}
+
+:host([data-breakpoint="lg"]) {
+  .ma-layout {
+    gap: var(--ma-layout-gap-lg);
+  }
+}
+
+// Empty slot states
+:host([data-slot-header-empty="true"]) .ma-layout__header {
+  display: none;
+}
+
+:host([data-slot-subheader-empty="true"]) .ma-layout__subheader {
+  display: none;
+}
+
+:host([data-slot-sider-empty="true"]) .ma-layout__sider {
+  display: none;
+}
+
+:host([data-slot-footer-empty="true"]) .ma-layout__footer {
+  display: none;
+}
+
+// Accessibility
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+// Focus management
+:host {
+  &:focus-within {
+    .ma-layout__sider {
+      outline: 2px solid var(--ma-layout-accent);
+      outline-offset: -2px;
+    }
+  }
+}
+
+// High contrast mode
+@media (prefers-contrast: high) {
+  :host {
+    --ma-layout-border-color: currentColor;
+
+    .ma-layout__toggle {
+      border-width: 2px;
+    }
+  }
+}
+
+// Dark theme support
+:host([data-theme="dark"]) {
+  --ma-layout-background: #1f2933;
+  --ma-layout-color: #f7fafc;
+  --ma-layout-border-color: rgba(255, 255, 255, 0.08);
+  --ma-layout-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+}

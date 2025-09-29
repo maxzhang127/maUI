@@ -10,13 +10,49 @@
     />
   </head>
   <body>
-    <!-- Header -->
-    <header class="header">
-      <div class="header-content">
-        <h1>🎨 maUI</h1>
-        <p>基于原生 Web Components 构建的现代化 UI 组件库</p>
+    <ma-layout
+      has-sider="true"
+      sider-position="left"
+      collapsible="true"
+      padding="none"
+      gap="none"
+      content-scroll="contain"
+      sticky-header="true">
+
+      <!-- 顶部标题栏 -->
+      <div slot="header" class="demo-header">
+        <div class="header-content">
+          <h1>🎨 maUI</h1>
+          <p>基于原生 Web Components 构建的现代化 UI 组件库</p>
+        </div>
       </div>
-    </header>
-    <div class="main-container"></div>
+
+      <!-- 侧边栏导航 -->
+      <nav slot="sider" class="demo-nav">
+        <h3>文档</h3>
+        <ul class="nav-menu">
+          <li><a href="#getting-started" class="nav-link active" data-component="getting-started">🚀 快速开始</a></li>
+          <li><a href="#theme" class="nav-link" data-component="theme">🎨 主题定制</a></li>
+        </ul>
+
+        <h3>组件</h3>
+        <ul class="nav-menu">
+          <li><a href="#button" class="nav-link" data-component="button">🔘 Button 按钮</a></li>
+          <li><a href="#layout" class="nav-link" data-component="layout">🏗️ Layout 布局</a></li>
+        </ul>
+      </nav>
+
+      <!-- 主要内容区域 -->
+      <main slot="content" class="demo-content">
+        <div class="content-wrapper">
+          <!-- 动态内容将在这里渲染 -->
+        </div>
+      </main>
+
+      <!-- 底部信息 -->
+      <div slot="footer" class="demo-footer">
+        <p>&copy; 2024 maUI - Modern Web Components UI Library</p>
+      </div>
+    </ma-layout>
   </body>
 </html>
