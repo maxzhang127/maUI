@@ -13,7 +13,7 @@ const config = (_env: any, argv: { mode: string }): Configuration => {
 
   return {
     entry: {
-      index: './src/index.ts',
+      index: './src/demo/index.ts',
     },
     output: {
       path: path.resolve(__dirname, 'dist'),
@@ -41,8 +41,7 @@ const config = (_env: any, argv: { mode: string }): Configuration => {
             /node_modules/,
             /__tests__/,
             /\.test\./,
-            /\.spec\./,
-            /setupTests/
+            /\.spec\./
           ]
         },
         // SCSS 作为字符串导入 (用于 Web Components Shadow DOM)
@@ -67,9 +66,26 @@ const config = (_env: any, argv: { mode: string }): Configuration => {
             }
           ]
         },
-        // SCSS 作为 CSS 模块导入 (普通样式)
+        // Demo 样式文件 (不使用 CSS 模块)
         {
           test: /\.s[ac]ss$/i,
+          include: path.resolve(__dirname, 'src/demo'),
+          resourceQuery: { not: [/inline/] },
+          use: [
+            isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
+            'css-loader',
+            {
+              loader: 'sass-loader',
+              options: {
+                api: 'modern'
+              }
+            }
+          ]
+        },
+        // 组件样式文件 (使用 CSS 模块)
+        {
+          test: /\.s[ac]ss$/i,
+          exclude: path.resolve(__dirname, 'src/demo'),
           resourceQuery: { not: [/inline/] },
           use: [
             isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
@@ -117,9 +133,9 @@ const config = (_env: any, argv: { mode: string }): Configuration => {
     },
     plugins: [
       new HtmlWebpackPlugin({
-        template: './src/index.html',
+        template: './src/demo/index.html',
         filename: 'index.html',
-        chunks: ['index', 'components']
+        chunks: ['index']
       }),
       ...(isProduction
         ? [
@@ -142,7 +158,7 @@ const config = (_env: any, argv: { mode: string }): Configuration => {
       compress: true,
       port: 3001,
       hot: true,
-      open: '/index.html'
+      open: false
     },
     optimization: {
       splitChunks: {
