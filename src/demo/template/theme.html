@@ -1,0 +1,149 @@
+<section class="demo-section">
+  <h2>🎨 主题定制</h2>
+
+  <div class="demo-group">
+    <h3>CSS 自定义属性</h3>
+    <p>maUI 使用 CSS 自定义属性（CSS Variables）来实现主题定制。你可以通过覆盖这些变量来自定义组件的外观：</p>
+
+    <div class="code-block">
+      <pre><code>:root {
+  /* 主色调 */
+  --ma-primary-color: #007bff;
+  --ma-secondary-color: #6c757d;
+  --ma-success-color: #28a745;
+  --ma-danger-color: #dc3545;
+  --ma-warning-color: #ffc107;
+
+  /* 字体 */
+  --ma-font-family: 'Inter', -apple-system, sans-serif;
+  --ma-font-size-base: 14px;
+
+  /* 间距 */
+  --ma-spacing-xs: 4px;
+  --ma-spacing-sm: 8px;
+  --ma-spacing-md: 16px;
+  --ma-spacing-lg: 24px;
+
+  /* 圆角 */
+  --ma-border-radius: 6px;
+
+  /* 阴影 */
+  --ma-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}</code></pre>
+    </div>
+  </div>
+
+  <div class="demo-group">
+    <h3>主题切换示例</h3>
+    <p>点击下面的按钮来体验不同的主题：</p>
+
+    <div class="theme-switcher">
+      <ma-button id="default-theme" variant="primary" size="small">默认主题</ma-button>
+      <ma-button id="dark-theme" variant="secondary" size="small">深色主题</ma-button>
+      <ma-button id="colorful-theme" variant="secondary" size="small">彩色主题</ma-button>
+      <ma-button id="minimal-theme" variant="secondary" size="small">极简主题</ma-button>
+    </div>
+  </div>
+
+  <div class="demo-group">
+    <h3>主题预览</h3>
+    <div class="theme-preview" id="theme-preview">
+      <div class="preview-section">
+        <h4>按钮组件</h4>
+        <div class="demo-row">
+          <ma-button variant="primary">Primary</ma-button>
+          <ma-button variant="secondary">Secondary</ma-button>
+          <ma-button variant="danger">Danger</ma-button>
+          <ma-button variant="ghost">Ghost</ma-button>
+        </div>
+      </div>
+
+      <div class="preview-section">
+        <h4>布局组件</h4>
+        <ma-layout class="preview-layout" has-sider="true" style="height: 200px;">
+          <div slot="header" class="preview-header">预览 Header</div>
+          <div slot="sider" class="preview-sider">Sidebar</div>
+          <div slot="content" class="preview-content">Content Area</div>
+          <div slot="footer" class="preview-footer">Footer</div>
+        </ma-layout>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo-group">
+    <h3>深色主题</h3>
+    <p>maUI 内置了对深色主题的支持。添加 <code>data-theme="dark"</code> 到 body 或容器元素：</p>
+
+    <div class="code-block">
+      <pre><code>&lt;body data-theme="dark"&gt;
+  &lt;ma-button variant="primary"&gt;深色主题按钮&lt;/ma-button&gt;
+&lt;/body&gt;</code></pre>
+    </div>
+
+    <div class="dark-theme-preview" data-theme="dark">
+      <h4>深色主题预览</h4>
+      <div class="demo-row">
+        <ma-button variant="primary">Primary</ma-button>
+        <ma-button variant="secondary">Secondary</ma-button>
+        <ma-button variant="danger">Danger</ma-button>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo-group">
+    <h3>自定义主题示例</h3>
+    <p>创建你自己的主题：</p>
+
+    <div class="code-block">
+      <pre><code>/* 紫色主题 */
+.purple-theme {
+  --ma-primary-color: #6f42c1;
+  --ma-primary-hover: #5a359a;
+  --ma-primary-active: #4e2d83;
+
+  --ma-secondary-color: #e83e8c;
+  --ma-secondary-hover: #d61a7b;
+  --ma-secondary-active: #c01568;
+}
+
+/* 大字体主题 */
+.large-font-theme {
+  --ma-font-size-base: 16px;
+  --ma-font-size-sm: 14px;
+  --ma-font-size-lg: 20px;
+}
+
+/* 圆角主题 */
+.rounded-theme {
+  --ma-border-radius: 20px;
+  --ma-border-radius-sm: 12px;
+  --ma-border-radius-lg: 28px;
+}</code></pre>
+    </div>
+  </div>
+
+  <div class="demo-group">
+    <h3>组件级主题</h3>
+    <p>你也可以为特定组件实例定制主题：</p>
+
+    <div class="custom-styled-components">
+      <ma-button
+        style="--ma-primary-color: #ff6b6b; --ma-border-radius: 20px;"
+        variant="primary">
+        自定义样式按钮
+      </ma-button>
+
+      <ma-button
+        style="--ma-primary-color: #4ecdc4; --ma-font-size-base: 18px;"
+        variant="primary">
+        大号青色按钮
+      </ma-button>
+
+      <ma-button
+        style="--ma-primary-color: #45b7d1; --ma-box-shadow: 0 4px 15px rgba(69, 183, 209, 0.3);"
+        variant="primary">
+        带阴影按钮
+      </ma-button>
+    </div>
+  </div>
+</section>

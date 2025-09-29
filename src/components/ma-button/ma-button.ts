@@ -75,7 +75,12 @@ class MaButton extends ComponentsBase {
   }
 
   get variant(): ButtonVariant {
-    const validVariants: readonly ButtonVariant[] = ['primary', 'secondary', 'danger', 'ghost'];
+    const validVariants: readonly ButtonVariant[] = [
+      'primary',
+      'secondary',
+      'danger',
+      'ghost',
+    ];
     const currentValue = this.getAttribute('variant') as ButtonVariant;
 
     if (!currentValue) {
@@ -91,7 +96,12 @@ class MaButton extends ComponentsBase {
   }
 
   set variant(value: ButtonVariant) {
-    const validVariants: readonly ButtonVariant[] = ['primary', 'secondary', 'danger', 'ghost'];
+    const validVariants: readonly ButtonVariant[] = [
+      'primary',
+      'secondary',
+      'danger',
+      'ghost',
+    ];
     if (validVariants.includes(value)) {
       this._lastValidVariant = value;
     }
