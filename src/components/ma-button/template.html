@@ -1,8 +1,3 @@
-// Mock for HTML files in Jest
-module.exports = '<div>Mock HTML Template</div>';
-
-// 模拟 HTML 模板，确保测试中使用正确的模板结构
-jest.mock('../templates/button.html', () => `
 <button class="ma-button" part="button">
   <span class="spinner" part="spinner" aria-hidden="true">
     <svg viewBox="0 0 24 24" fill="none">
@@ -14,4 +9,3 @@ jest.mock('../templates/button.html', () => `
     <slot></slot>
   </span>
 </button>
-`, { virtual: true });

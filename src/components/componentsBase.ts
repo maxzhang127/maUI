@@ -1,5 +1,3 @@
-import { generateId } from '@/utils';
-
 export interface ComponentConfig {
   tagName: string;
   styles?: string;
@@ -20,9 +18,6 @@ export abstract class ComponentsBase extends HTMLElement {
   constructor(config: ComponentConfig) {
     super();
     this._config = config;
-
-    const id = generateId(this._config.tagName);
-    this.setAttribute('id', id);
 
     this._shadowRoot = this.attachShadow({
       mode: this._config.shadowMode || 'open',
@@ -128,8 +123,26 @@ export abstract class ComponentsBase extends HTMLElement {
 
   protected _getAttributeWithDefault<T extends string>(
     name: string,
-    defaultValue: T
+    defaultValue: T,
+    validValues?: readonly T[]
   ): T {
-    return (this.getAttribute(name) as T) || defaultValue;
+    const currentValue = this.getAttribute(name) as T;
+
+    // 如果没有值，返回默认值
+    if (!currentValue) {
+      return defaultValue;
+    }
+
+    // 如果提供了有效值列表，验证当前值是否有效
+    if (validValues && validValues.length > 0) {
+      if (validValues.includes(currentValue)) {
+        return currentValue;
+      }
+      // 如果当前值无效，返回默认值
+      return defaultValue;
+    }
+
+    // 没有提供有效值列表时，返回当前值
+    return currentValue;
   }
 }

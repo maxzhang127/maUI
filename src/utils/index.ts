@@ -1,10 +1,5 @@
 // 工具函数集合
 
-// 生成唯一ID
-export function generateId(prefix: string = 'ma'): string {
-  return `${prefix}-${Math.random().toString(36).substr(2, 9)}`;
-}
-
 // 类名合并工具
 export function classNames(...classes: (string | undefined | null)[]): string {
   return classes.filter(Boolean).join(' ');

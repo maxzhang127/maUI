@@ -29,7 +29,8 @@ const config = (_env: any, argv: { mode: string }): Configuration => {
     resolve: {
       extensions: ['.ts', '.tsx', '.js', '.jsx'],
       alias: {
-        '@': path.resolve(__dirname, 'src')
+        '@': path.resolve(__dirname, 'src'),
+        '@tpl/*.html': path.resolve(__dirname, 'src/components/*/template.html')
       }
     },
     module: {
