@@ -196,7 +196,7 @@ document.body.innerHTML = `
 
 ## 质量保障
 
-- 单元测试：基于 Jest 和 jsdom，`src/setupTests.ts` 模拟了 Web Components 相关 API
+- 单元测试：基于 Jest 和 jsdom，`src/utils/setupTests.ts` 模拟了 Web Components 相关 API
 - 代码规范：ESLint + @typescript-eslint，保持一致的编码风格
 - 类型安全：`npm run type-check` 可在构建前快速发现类型问题
 

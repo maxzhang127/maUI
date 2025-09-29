@@ -1,133 +1,37 @@
-import { ButtonSize, ButtonType, ButtonVariant } from '@/types';
-import { classNames } from '@/utils';
-import { ComponentsBase, ComponentConfig } from '../componentsBase';
-import buttonStyles from './ma-button.scss?inline';
-import buttonTemplate from './templates/button.html';
-import loadingSpinnerTemplate from './templates/loading-spinner.html';
+import { ComponentsBase } from '../componentsBase';
+import styles from './ma-button.scss?inline';
 
-const isButtonType = (value: string | null): value is ButtonType =>
-  value === 'button' || value === 'submit' || value === 'reset';
+export type ButtonSize = 'small' | 'medium' | 'large';
+export type ButtonVariant = 'primary' | 'secondary' | 'danger' | 'ghost';
+export type ButtonType = 'button' | 'submit' | 'reset';
 
 class MaButton extends ComponentsBase {
-  private _button: HTMLButtonElement;
-  private _loadingSpinner: HTMLElement;
-
-  static get observedAttributes(): string[] {
-    return ['size', 'variant', 'type', 'disabled', 'loading', 'class'];
-  }
+  private _button!: HTMLButtonElement;
 
   constructor() {
-    const config: ComponentConfig = {
+    super({
       tagName: 'ma-button',
-      styles: buttonStyles,
+      styles,
       shadowMode: 'open',
-    };
-
-    super(config);
-
-    // 元素将在_createElements中创建
-    this._button = {} as HTMLButtonElement;
-    this._loadingSpinner = {} as HTMLElement;
-
-    // 完成组件初始化
+      observedAttributes: ['type', 'size', 'variant', 'disabled', 'loading'],
+    });
     this._completeInitialization();
   }
 
-  protected _createElements(): void {
-    // 创建loading spinner元素
-    const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = loadingSpinnerTemplate;
-    this._loadingSpinner = tempDiv.firstElementChild as HTMLElement;
-
-    // 使用模板创建button元素
-    const buttonTempDiv = document.createElement('div');
-    buttonTempDiv.innerHTML = buttonTemplate;
-    this._button = buttonTempDiv.firstElementChild as HTMLButtonElement;
-
-    this._shadowRoot.appendChild(this._button);
+  static get observedAttributes(): string[] {
+    return ['type', 'size', 'variant', 'disabled', 'loading'];
   }
 
-  protected _bindEvents(): void {
-    this._button.addEventListener('click', this._handleClick.bind(this));
-    this._button.addEventListener('focus', this._handleFocus.bind(this));
-    this._button.addEventListener('blur', this._handleBlur.bind(this));
+  get type(): ButtonType {
+    return this._getAttributeWithDefault('type', 'button');
   }
 
-  protected _updateComponent(): void {
-    const size = this._getAttributeWithDefault('size', 'medium' as ButtonSize);
-    const variant = this._getAttributeWithDefault(
-      'variant',
-      'primary' as ButtonVariant
-    );
-    const typeAttribute = this.getAttribute('type');
-    const buttonType: ButtonType = isButtonType(typeAttribute)
-      ? typeAttribute
-      : 'button';
-    const disabled = this._getBooleanAttribute('disabled');
-    const loading = this._getBooleanAttribute('loading');
-    const customClass = this.getAttribute('class') || '';
-
-    this._button.type = buttonType;
-    this._button.disabled = disabled || loading;
-
-    this._button.className = classNames(
-      'ma-button',
-      `ma-button--${size}`,
-      `ma-button--${variant}`,
-      loading ? 'ma-button--loading' : '',
-      disabled ? 'ma-button--disabled' : '',
-      customClass
-    );
-
-    if (loading) {
-      if (!this._button.contains(this._loadingSpinner)) {
-        this._button.insertBefore(
-          this._loadingSpinner,
-          this._button.firstChild
-        );
-      }
-    } else {
-      if (this._button.contains(this._loadingSpinner)) {
-        this._button.removeChild(this._loadingSpinner);
-      }
-    }
-  }
-
-  private _handleClick(event: MouseEvent): void {
-    if (
-      this._getBooleanAttribute('disabled') ||
-      this._getBooleanAttribute('loading')
-    ) {
-      event.preventDefault();
-      event.stopPropagation();
-      return;
-    }
-
-    this._dispatchCustomEvent('ma-click', { originalEvent: event });
-  }
-
-  private _handleFocus(event: FocusEvent): void {
-    this._dispatchCustomEvent('ma-focus', { originalEvent: event });
-  }
-
-  private _handleBlur(event: FocusEvent): void {
-    this._dispatchCustomEvent('ma-blur', { originalEvent: event });
-  }
-
-  public focus(): void {
-    this._button.focus();
-  }
-
-  public blur(): void {
-    this._button.blur();
-  }
-
-  public click(): void {
-    this._button.click();
+  set type(value: ButtonType) {
+    this._setAttribute('type', value);
   }
 
   get size(): ButtonSize {
-    return this._getAttributeWithDefault('size', 'medium' as ButtonSize);
+    return this._getAttributeWithDefault('size', 'medium');
   }
 
   set size(value: ButtonSize) {
@@ -135,7 +39,7 @@ class MaButton extends ComponentsBase {
   }
 
   get variant(): ButtonVariant {
-    return this._getAttributeWithDefault('variant', 'primary' as ButtonVariant);
+    return this._getAttributeWithDefault('variant', 'primary');
   }
 
   set variant(value: ButtonVariant) {
@@ -156,6 +60,84 @@ class MaButton extends ComponentsBase {
 
   set loading(value: boolean) {
     this._setAttribute('loading', value);
+  }
+
+  protected _createElements(): void {
+    this._shadowRoot.innerHTML = `
+      <button class="ma-button" part="button">
+        <span class="spinner" part="spinner" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" opacity="0.25"/>
+            <path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <span class="content" part="content">
+          <slot></slot>
+        </span>
+      </button>
+    `;
+
+    this._button = this._shadowRoot.querySelector(
+      '.ma-button'
+    ) as HTMLButtonElement;
+  }
+
+  protected _bindEvents(): void {
+    this._button.addEventListener('click', this._handleClick.bind(this));
+    this._button.addEventListener('focus', this._handleFocus.bind(this));
+    this._button.addEventListener('blur', this._handleBlur.bind(this));
+  }
+
+  protected _updateComponent(): void {
+    if (!this._button) return;
+
+    this._button.type = this.type;
+    this._button.disabled = this.disabled || this.loading;
+
+    this._button.className = `ma-button ma-button--${this.variant} ma-button--${this.size}`;
+
+    if (this.disabled) {
+      this._button.classList.add('ma-button--disabled');
+    }
+
+    if (this.loading) {
+      this._button.classList.add('ma-button--loading');
+    }
+
+    this._button.setAttribute('aria-busy', this.loading.toString());
+  }
+
+  private _handleClick(event: MouseEvent): void {
+    if (this.disabled || this.loading) {
+      event.preventDefault();
+      event.stopPropagation();
+      return;
+    }
+
+    this._dispatchCustomEvent('ma-click', { originalEvent: event });
+  }
+
+  private _handleFocus(event: FocusEvent): void {
+    this._dispatchCustomEvent('ma-focus', { originalEvent: event });
+  }
+
+  private _handleBlur(event: FocusEvent): void {
+    this._dispatchCustomEvent('ma-blur', { originalEvent: event });
+  }
+
+  public focus(): void {
+    this._button?.focus();
+  }
+
+  public blur(): void {
+    this._button?.blur();
+  }
+
+  public click(): void {
+    if (this.disabled || this.loading) {
+      return;
+    }
+    this._button?.click();
   }
 }
 
