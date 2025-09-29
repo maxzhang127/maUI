@@ -1,5 +1,6 @@
 import { ComponentsBase } from '../componentsBase';
 import styles from './ma-button.scss?inline';
+import template from '@tpl/ma-button.html';
 
 export type ButtonSize = 'small' | 'medium' | 'large';
 export type ButtonVariant = 'primary' | 'secondary' | 'danger' | 'ghost';
@@ -7,6 +8,9 @@ export type ButtonType = 'button' | 'submit' | 'reset';
 
 class MaButton extends ComponentsBase {
   private _button!: HTMLButtonElement;
+  private _lastValidSize: ButtonSize = 'medium';
+  private _lastValidVariant: ButtonVariant = 'primary';
+  private _lastValidType: ButtonType = 'button';
 
   constructor() {
     super({
@@ -23,26 +27,74 @@ class MaButton extends ComponentsBase {
   }
 
   get type(): ButtonType {
-    return this._getAttributeWithDefault('type', 'button');
+    const validTypes: readonly ButtonType[] = ['button', 'submit', 'reset'];
+    const currentValue = this.getAttribute('type') as ButtonType;
+
+    if (!currentValue) {
+      return 'button'; // 当属性被移除时返回默认值
+    }
+
+    if (validTypes.includes(currentValue)) {
+      this._lastValidType = currentValue;
+      return currentValue;
+    }
+
+    return this._lastValidType;
   }
 
   set type(value: ButtonType) {
+    const validTypes: readonly ButtonType[] = ['button', 'submit', 'reset'];
+    if (validTypes.includes(value)) {
+      this._lastValidType = value;
+    }
     this._setAttribute('type', value);
   }
 
   get size(): ButtonSize {
-    return this._getAttributeWithDefault('size', 'medium');
+    const validSizes: readonly ButtonSize[] = ['small', 'medium', 'large'];
+    const currentValue = this.getAttribute('size') as ButtonSize;
+
+    if (!currentValue) {
+      return 'medium'; // 当属性被移除时返回默认值
+    }
+
+    if (validSizes.includes(currentValue)) {
+      this._lastValidSize = currentValue;
+      return currentValue;
+    }
+
+    return this._lastValidSize;
   }
 
   set size(value: ButtonSize) {
+    const validSizes: readonly ButtonSize[] = ['small', 'medium', 'large'];
+    if (validSizes.includes(value)) {
+      this._lastValidSize = value;
+    }
     this._setAttribute('size', value);
   }
 
   get variant(): ButtonVariant {
-    return this._getAttributeWithDefault('variant', 'primary');
+    const validVariants: readonly ButtonVariant[] = ['primary', 'secondary', 'danger', 'ghost'];
+    const currentValue = this.getAttribute('variant') as ButtonVariant;
+
+    if (!currentValue) {
+      return 'primary'; // 当属性被移除时返回默认值
+    }
+
+    if (validVariants.includes(currentValue)) {
+      this._lastValidVariant = currentValue;
+      return currentValue;
+    }
+
+    return this._lastValidVariant;
   }
 
   set variant(value: ButtonVariant) {
+    const validVariants: readonly ButtonVariant[] = ['primary', 'secondary', 'danger', 'ghost'];
+    if (validVariants.includes(value)) {
+      this._lastValidVariant = value;
+    }
     this._setAttribute('variant', value);
   }
 
@@ -63,19 +115,7 @@ class MaButton extends ComponentsBase {
   }
 
   protected _createElements(): void {
-    this._shadowRoot.innerHTML = `
-      <button class="ma-button" part="button">
-        <span class="spinner" part="spinner" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none">
-            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" opacity="0.25"/>
-            <path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-        </span>
-        <span class="content" part="content">
-          <slot></slot>
-        </span>
-      </button>
-    `;
+    this._shadowRoot.innerHTML = template;
 
     this._button = this._shadowRoot.querySelector(
       '.ma-button'
