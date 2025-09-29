@@ -20,6 +20,7 @@
     "format:check": "prettier --check \"src/**/*.{ts,tsx,scss,css,json}\"",
     "test": "jest",
     "test:watch": "jest --watch",
+    "generate:mocks": "node scripts/generate-html-mocks.js",
     "prepublishOnly": "npm run clean && npm run build"
   },
   "keywords": [
@@ -33,6 +34,7 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
+    "@types/glob": "^8.1.0",
     "@types/jest": "^30.0.0",
     "@types/node": "^20.0.0",
     "@typescript-eslint/eslint-plugin": "^8.44.1",

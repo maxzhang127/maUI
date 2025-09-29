@@ -194,3 +194,50 @@ ma-button[data-tone='success'] {
 - 若运行环境缺少 Web Components/Shadow DOM 原生支持，可引入 `@webcomponents/webcomponentsjs` polyfill。
 
 通过以上设计，`ma-button` 能够在保持 API 简洁的前提下，复用主流控件库的最佳实践，同时为后续拓展留出足够空间。
+## 测试规约（Test Spec）
+
+### 测试范围
+- Attribute & Property：`type`、`size`、`variant`、`disabled`、`loading` 的默认值、属性反射与 DOM 同步。
+- 交互状态：禁用、加载态对可点击性、样式 class 与 `aria-busy` 的影响。
+- 自定义事件：`ma-click`、`ma-focus`、`ma-blur` 的触发、负载和事件选项（`bubbles`、`composed`）。
+- 公共方法：`focus()`、`blur()`、`click()` 的行为与防护逻辑。
+- 模板结构：Spinner 与内容插槽在加载/非加载态下的显示控制。
+- Shadow DOM Guard：重复定义 `customElements.define` 的安全性。
+
+### 测试环境与前置条件
+- 框架：Jest + `jest-environment-jsdom`。
+- Polyfill：必要时注入 `@webcomponents/webcomponentsjs`（针对自定义元素与 Shadow DOM）。
+- 入口：通过 `import './ma-button';` 注册组件，使用 `document.createElement('ma-button')` 初始化。
+- 每个用例独立创建/销毁 DOM 节点，清理 `document.body` 防止状态串扰。
+
+### 功能用例矩阵
+| 用例 ID | 场景 | 步骤概述 | 期望结果 |
+| --- | --- | --- | --- |
+| TS01 | 默认渲染 | 创建元素后挂载至 DOM | `_shadowRoot` 中存在 `.ma-button`；type 为 `button`；class 包含 `ma-button--primary`、`ma-button--medium`；`aria-busy="false"` |
+| TS02 | type 属性映射 | 设置 `button.type = 'submit'`，再移除 | 内部 `<button>` 的 `type` 同步为 `submit`；移除后恢复默认 `button` |
+| TS03 | size 变体 | 依次设置 `small/large` | `className` 更新为对应 `ma-button--{size}`，无重复 class，互斥生效 |
+| TS04 | variant 变体 | 依次设置 `secondary/danger/ghost` | `className` 更新为对应 `ma-button--{variant}`，其余变体 class 移除 |
+| TS05 | disabled 状态 | `button.disabled = true` 后触发 click | 内部 `<button>` `disabled=true`；类包含 `ma-button--disabled`；`ma-click` 不触发；事件被阻止 |
+| TS06 | loading 状态 | 设置 `loading=true` | 内部 `<button>` `disabled=true`；类包含 `ma-button--loading`；`.spinner` 可见（opacity 通过 class 切换）；`aria-busy="true"` |
+| TS07 | loading + disabled 优先级 | 同时设定 `disabled=true`、`loading=true` | 仍不可点击；`ma-click` 不触发；`ma-button--disabled` 与 `ma-button--loading` 同时存在 |
+| TS08 | 属性反射 | 通过 `setAttribute/removeAttribute` 控制 | 对应 getter 反射到 JS 属性；布尔属性遵循存在即 true、移除为 false |
+| TS09 | Slot 内容 | 向默认插槽插入文本与自定义节点 | `.content` 中包含插入节点；结构保持顺序；无额外 wrapper |
+| TS10 | focus/blur 方法 | 调用公开方法 | `focus()`/`blur()` 透传至内部按钮，触发 `ma-focus`/`ma-blur` 事件 |
+| TS11 | click 方法防护 | 调用 `click()` 在禁用/加载态 | 正常态触发 `ma-click` 并带 `detail.originalEvent`；禁用或加载时不触发 |
+| TS12 | 自定义事件属性 | 监听三个事件 | `event.bubbles === true`、`event.composed === true`；`detail.originalEvent` 指向原生事件实例 |
+| TS13 | 重复注册守卫 | 二次 import 组件 | 不抛出 `DOMException`；组件仅注册一次 |
+
+### 边界与回归检查
+- 属性输入校验：对无效的 `size`/`variant` 值应保持最后一次有效 class（当前实现未显式校验，记录为回归检查关注点）。
+- 主题样式：验证自定义 CSS 变量覆盖（通过 `element.style.setProperty`）对高度/颜色的影响。
+- 表单兼容：当 `type='submit'` 时放入表单，模拟 `form.submit` 触发确认按钮仍然提交。
+
+### 无障碍与语义
+- `aria-busy`：确认布尔值转换为字符串，并在状态切换时更新。
+- 聚焦可视化：`focus-visible` 下 outline 可通过快照或 computed style 校验。
+- 屏幕阅读器友好：禁用/加载态下，`disabled` 与 `aria-busy` 同步反映，无重复读数。
+
+### 非目标（Out of Scope）
+- 视觉像素级回归（建议由视觉回归工具覆盖）。
+- 跨浏览器行为差异（由 E2E/手动冒烟补充）。
+- Button Group / 未来路线图中尚未落地的扩展能力。
