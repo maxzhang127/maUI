@@ -1,6 +1,7 @@
 import './entry';
 
 import buttonDemoHTML from './template/button-demo.html';
+import iconDemoHTML from './template/icon-demo.html';
 import layoutDemoHTML from './template/layout-demo.html';
 import gettingStartedHTML from './template/getting-started.html';
 import themeHTML from './template/theme.html';
@@ -15,9 +16,10 @@ class DemoApp {
   private currentComponent: string = 'getting-started';
   private demoContents: DemoContent = {
     button: buttonDemoHTML,
+    icon: iconDemoHTML,
     layout: layoutDemoHTML,
     'getting-started': gettingStartedHTML,
-    theme: themeHTML
+    theme: themeHTML,
   };
 
   constructor() {
@@ -29,13 +31,17 @@ class DemoApp {
   }
 
   private initializeElements(): void {
-    this.contentWrapper = document.querySelector('.content-wrapper') as HTMLElement;
-    this.navLinks = document.querySelectorAll('.nav-link') as NodeListOf<HTMLAnchorElement>;
+    this.contentWrapper = document.querySelector(
+      '.content-wrapper'
+    ) as HTMLElement;
+    this.navLinks = document.querySelectorAll(
+      '.nav-link'
+    ) as NodeListOf<HTMLAnchorElement>;
   }
 
   private setupNavigation(): void {
     this.navLinks.forEach(link => {
-      link.addEventListener('click', (e) => {
+      link.addEventListener('click', e => {
         e.preventDefault();
         const component = link.dataset.component;
         if (component && this.demoContents[component]) {
@@ -45,13 +51,16 @@ class DemoApp {
     });
 
     // 监听浏览器前进后退
-    window.addEventListener('popstate', (e) => {
+    window.addEventListener('popstate', e => {
       const component = e.state?.component || 'getting-started';
       this.switchToComponent(component, false);
     });
   }
 
-  private switchToComponent(component: string, pushState: boolean = true): void {
+  private switchToComponent(
+    component: string,
+    pushState: boolean = true
+  ): void {
     if (component === this.currentComponent) return;
 
     // 更新导航状态
@@ -93,16 +102,22 @@ class DemoApp {
 
   private bindButtonEvents(): void {
     // Toggle Loading 按钮
-    const toggleLoadingBtn = this.contentWrapper.querySelector('#toggle-loading') as HTMLElement;
+    const toggleLoadingBtn = this.contentWrapper.querySelector(
+      '#toggle-loading'
+    ) as HTMLElement;
     let isLoading = false;
     toggleLoadingBtn?.addEventListener('ma-click', () => {
       isLoading = !isLoading;
       toggleLoadingBtn.setAttribute('loading', isLoading ? 'true' : 'false');
-      toggleLoadingBtn.textContent = isLoading ? 'Loading...' : 'Toggle Loading';
+      toggleLoadingBtn.textContent = isLoading
+        ? 'Loading...'
+        : 'Toggle Loading';
     });
 
     // 表单提交测试
-    const testForm = this.contentWrapper.querySelector('#test-form') as HTMLFormElement;
+    const testForm = this.contentWrapper.querySelector(
+      '#test-form'
+    ) as HTMLFormElement;
     testForm?.addEventListener('submit', e => {
       e.preventDefault();
       this.logEvent('表单提交');
@@ -132,35 +147,48 @@ class DemoApp {
   private bindLayoutEvents(): void {
     // 可折叠侧边栏
     const toggleSiderBtn = this.contentWrapper.querySelector('#toggle-sider');
-    const collapsibleLayout = this.contentWrapper.querySelector('#collapsible-layout') as any;
+    const collapsibleLayout = this.contentWrapper.querySelector(
+      '#collapsible-layout'
+    ) as any;
 
     toggleSiderBtn?.addEventListener('ma-click', () => {
-      if (collapsibleLayout && typeof collapsibleLayout.toggleSider === 'function') {
+      if (
+        collapsibleLayout &&
+        typeof collapsibleLayout.toggleSider === 'function'
+      ) {
         collapsibleLayout.toggleSider('api');
       }
     });
 
     // 监听折叠事件
-    const eventTestLayout = this.contentWrapper.querySelector('#event-test-layout');
-    const programmaticToggle = this.contentWrapper.querySelector('#programmatic-toggle');
+    const eventTestLayout =
+      this.contentWrapper.querySelector('#event-test-layout');
+    const programmaticToggle = this.contentWrapper.querySelector(
+      '#programmatic-toggle'
+    );
 
     eventTestLayout?.addEventListener('ma-sider-toggle', (e: any) => {
-      this.logLayoutEvent(`侧边栏${e.detail.collapsed ? '折叠' : '展开'} (${e.detail.source})`);
+      this.logLayoutEvent(
+        `侧边栏${e.detail.collapsed ? '折叠' : '展开'} (${e.detail.source})`
+      );
     });
 
     programmaticToggle?.addEventListener('ma-click', () => {
-      if (eventTestLayout && typeof (eventTestLayout as any).toggleSider === 'function') {
+      if (
+        eventTestLayout &&
+        typeof (eventTestLayout as any).toggleSider === 'function'
+      ) {
         (eventTestLayout as any).toggleSider('api');
       }
     });
   }
 
   private bindThemeEvents(): void {
-
     // 主题切换按钮
     const defaultThemeBtn = this.contentWrapper.querySelector('#default-theme');
     const darkThemeBtn = this.contentWrapper.querySelector('#dark-theme');
-    const colorfulThemeBtn = this.contentWrapper.querySelector('#colorful-theme');
+    const colorfulThemeBtn =
+      this.contentWrapper.querySelector('#colorful-theme');
     const minimalThemeBtn = this.contentWrapper.querySelector('#minimal-theme');
 
     defaultThemeBtn?.addEventListener('ma-click', () => {
@@ -210,9 +238,14 @@ class DemoApp {
   }
 
   private updateThemeButtonState(activeId: string): void {
-    const themeButtons = this.contentWrapper.querySelectorAll('.theme-switcher ma-button');
+    const themeButtons = this.contentWrapper.querySelectorAll(
+      '.theme-switcher ma-button'
+    );
     themeButtons.forEach(btn => {
-      btn.setAttribute('variant', btn.id === activeId ? 'primary' : 'secondary');
+      btn.setAttribute(
+        'variant',
+        btn.id === activeId ? 'primary' : 'secondary'
+      );
     });
   }
 
@@ -233,7 +266,11 @@ class DemoApp {
     this.addLogEntry(eventLog, message);
   }
 
-  private addLogEntry(eventLog: Element | null, message: string, event?: unknown): void {
+  private addLogEntry(
+    eventLog: Element | null,
+    message: string,
+    event?: unknown
+  ): void {
     if (eventLog) {
       const logEntry = document.createElement('div');
       logEntry.className = 'log-entry';

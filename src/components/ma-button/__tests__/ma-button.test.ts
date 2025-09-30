@@ -1,5 +1,5 @@
 import MaButton from '../ma-button';
-import type { ButtonSize, ButtonVariant } from '../ma-button';
+import type { ButtonSize, ButtonVariant, IconPosition } from '../ma-button';
 
 describe('MaButton 组件测试', () => {
   let button: MaButton;
@@ -331,6 +331,77 @@ describe('MaButton 组件测试', () => {
       // 重新添加到 DOM
       document.body.appendChild(button);
       expect(button.parentNode).toBe(document.body);
+    });
+  });
+
+  describe('TS14: icon 属性', () => {
+    it('应该正确设置 icon 属性', () => {
+      // 默认无图标
+      expect(button.icon).toBeNull();
+
+      // 设置图标
+      button.icon = 'download';
+      expect(button.icon).toBe('download');
+
+      // 移除图标
+      button.icon = null;
+      expect(button.icon).toBeNull();
+    });
+
+    it('应该通过 setAttribute 正确设置 icon', () => {
+      button.setAttribute('icon', 'search');
+      expect(button.icon).toBe('search');
+
+      button.removeAttribute('icon');
+      expect(button.icon).toBeNull();
+    });
+  });
+
+  describe('TS15: icon-set 属性', () => {
+    it('应该正确设置 icon-set 属性', () => {
+      // 默认为 system
+      expect(button.iconSet).toBe('system');
+
+      // 设置为 outlined
+      button.iconSet = 'outlined';
+      expect(button.iconSet).toBe('outlined');
+
+      // 设置为 filled
+      button.iconSet = 'filled';
+      expect(button.iconSet).toBe('filled');
+    });
+  });
+
+  describe('TS16: icon-position 属性', () => {
+    it('应该正确设置 icon-position 属性', () => {
+      // 默认为 left
+      expect(button.iconPosition).toBe('left');
+
+      // 设置为 right
+      button.iconPosition = 'right';
+      expect(button.iconPosition).toBe('right');
+
+      // 设置为 left
+      button.iconPosition = 'left';
+      expect(button.iconPosition).toBe('left');
+    });
+
+    it('应该处理无效的 icon-position 值', () => {
+      button.iconPosition = 'left';
+      button.setAttribute('icon-position', 'invalid' as IconPosition);
+      expect(button.iconPosition).toBe('left');
+    });
+  });
+
+  describe('TS17: icon 组合测试', () => {
+    it('应该正确组合 icon 相关属性', () => {
+      button.icon = 'heart';
+      button.iconSet = 'filled';
+      button.iconPosition = 'right';
+
+      expect(button.icon).toBe('heart');
+      expect(button.iconSet).toBe('filled');
+      expect(button.iconPosition).toBe('right');
     });
   });
 });

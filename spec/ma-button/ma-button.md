@@ -48,35 +48,73 @@ exportButton.addEventListener('ma-click', async () => {
 
 ## 插槽 (Slots)
 
-- **默认插槽**：承载按钮文案或自定义内容，内部通过 `.content` 容器实现垂直居中。与 Material UI `startIcon/endIcon`、Chakra UI `leftIcon/rightIcon` 类似，可放置任意自定义图标：
+- **默认插槽**：承载按钮文案或自定义内容，内部通过 `.content` 容器实现垂直居中。
 
-  ```html
-  <ma-button variant="primary" class="with-icon">
-    <svg class="icon" viewBox="0 0 16 16" aria-hidden="true">...</svg>
-    新建
-  </ma-button>
-  ```
+## 图标支持
 
-  ```css
-  ma-button.with-icon .icon {
-    width: 16px;
-    height: 16px;
-    margin-right: 4px;
-  }
-  ```
+`ma-button` 集成了 `ma-icon` 组件，提供声明式图标配置能力，无需手动管理图标布局与尺寸：
 
-> 未来可考虑通过命名插槽（`slot="icon"`）或 `part` 属性进一步提升可控性。
+```html
+<!-- 左侧图标 (默认) -->
+<ma-button icon="download" icon-set="system">下载</ma-button>
+
+<!-- 右侧图标 -->
+<ma-button icon="arrow-right" icon-position="right">下一步</ma-button>
+
+<!-- 自定义图标集 -->
+<ma-button icon="heart" icon-set="filled" variant="danger">收藏</ma-button>
+```
+
+### 图标相关属性
+
+- **`icon`**：图标名称，映射到 `ma-icon` 的 `name` 属性。设置后会在按钮中自动渲染对应图标。
+- **`icon-set`**：图标集名称（默认 `system`），可选 `system`、`outlined`、`filled` 或自定义图标集。
+- **`icon-position`**：图标位置，可选 `left`（默认）或 `right`。控制图标相对于文本的位置。
+
+### 图标尺寸自动适配
+
+按钮会根据自身 `size` 自动调整内部图标尺寸：
+
+| 按钮尺寸 | 图标尺寸 |
+| -------- | -------- |
+| `small`  | 16px     |
+| `medium` | 18px     |
+| `large`  | 20px     |
+
+### 自定义图标（插槽方式）
+
+对于更复杂的场景，仍可通过默认插槽手动放置图标：
+
+```html
+<ma-button variant="primary" class="with-icon">
+  <svg class="icon" viewBox="0 0 16 16" aria-hidden="true">...</svg>
+  新建
+</ma-button>
+```
+
+```css
+ma-button.with-icon .icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 4px;
+}
+```
+
+> **注意**：使用 `icon` 属性时，图标会自动布局到 `icon-container` 中，无需额外样式。插槽方式需手动管理间距与对齐。
 
 ## HTML 属性
 
-| 属性       | 取值                                            | 默认值    | 用途                                                                                       | 对标参考                |
-| ---------- | ----------------------------------------------- | --------- | ------------------------------------------------------------------------------------------ | ----------------------- |
-| `type`     | `button` \| `submit` \| `reset`                 | `button`  | 对齐原生 `HTMLButtonElement` 行为，支持表单提交、重置场景。                                | Material UI、Ant Design |
-| `size`     | `small` \| `medium` \| `large`                  | `medium`  | 控制高度、内边距与字号。数值映射参考 MUI/Chakra 的尺寸体系。                               | Material UI、Chakra UI  |
-| `variant`  | `primary` \| `secondary` \| `danger` \| `ghost` | `primary` | 表达视觉层级与语义色彩。`ghost` 用于弱化强调、与 Chakra 的 `ghost` 与 AntD `text` 相对应。 | Ant Design、Chakra UI   |
-| `disabled` | boolean attribute                               | -         | 禁用按钮并屏蔽事件。                                                                       | 所有主流库              |
-| `loading`  | boolean attribute                               | -         | 展示加载 spinner 并阻断交互，防止重复提交。                                                | Ant Design、Chakra UI   |
-| `class`    | string                                          | -         | 透传到内部按钮，允许在特定实例上追加 BEM/Utility 类名。                                    | Bootstrap               |
+| 属性            | 取值                                            | 默认值    | 用途                                                                                       | 对标参考                |
+| --------------- | ----------------------------------------------- | --------- | ------------------------------------------------------------------------------------------ | ----------------------- |
+| `type`          | `button` \| `submit` \| `reset`                 | `button`  | 对齐原生 `HTMLButtonElement` 行为，支持表单提交、重置场景。                                | Material UI、Ant Design |
+| `size`          | `small` \| `medium` \| `large`                  | `medium`  | 控制高度、内边距与字号。数值映射参考 MUI/Chakra 的尺寸体系。                               | Material UI、Chakra UI  |
+| `variant`       | `primary` \| `secondary` \| `danger` \| `ghost` | `primary` | 表达视觉层级与语义色彩。`ghost` 用于弱化强调、与 Chakra 的 `ghost` 与 AntD `text` 相对应。 | Ant Design、Chakra UI   |
+| `disabled`      | boolean attribute                               | -         | 禁用按钮并屏蔽事件。                                                                       | 所有主流库              |
+| `loading`       | boolean attribute                               | -         | 展示加载 spinner 并阻断交互，防止重复提交。                                                | Ant Design、Chakra UI   |
+| `icon`          | 符合 kebab-case 的图标 ID                       | -         | 在按钮中显示图标，使用内置或自定义图标集。                                                 | Material UI、Ant Design |
+| `icon-set`      | `system` \| `outlined` \| `filled` \| 自定义集  | `system`  | 指定图标所属的图标集。                                                                     | Carbon Icons、Material  |
+| `icon-position` | `left` \| `right`                               | `left`    | 控制图标相对于文本的位置。                                                                 | Ant Design、Chakra UI   |
+| `class`         | string                                          | -         | 透传到内部按钮，允许在特定实例上追加 BEM/Utility 类名。                                    | Bootstrap               |
 
 > 其他标准 HTML 属性（如 `name`、`form`、`value` 等）可通过 `setAttribute` 直接添加到 `<ma-button>`，内部 `<button>` 会继承受控属性。
 
@@ -89,10 +127,16 @@ button.variant = 'danger';
 button.size = 'large';
 button.disabled = false;
 button.loading = true;
+
+// 图标属性
+button.icon = 'download';
+button.iconSet = 'system';
+button.iconPosition = 'right';
 ```
 
 - Setter 会同步触发 `_updateComponent`，保持宿主属性与 Shadow DOM 状态一致。
 - 同时兼容属性与 `setAttribute/removeAttribute` 调用，方便与框架式状态管理集成。
+- 图标属性的更改会动态更新按钮中的 `ma-icon` 组件。
 
 ## 自定义事件
 
@@ -183,7 +227,7 @@ ma-button[data-tone='success'] {
 ## 后续演进路线（Roadmap）
 
 - **块级展示 (`block`)**：提供宽度 100% 的变体，对齐 Ant Design/Bootstrap 在移动端的用法。
-- **图标插槽优化**：考虑添加 `slot="icon"` 或 `iconPlacement` 属性，借鉴 Chakra 的 API 以简化图标按钮。
+- **~~图标插槽优化~~**：✅ 已通过 `icon`、`icon-set`、`icon-position` 属性集成 `ma-icon` 组件。
 - **语义色彩扩展**：支持 `success`、`warning` 等 tone，参考 Chakra `colorScheme` 概念，提升语义覆盖。
 - **Button Group 组件**：封装按钮组容器，提供分隔线、紧凑模式等能力。
 - **Loading 自定义**：允许通过 `slot="spinner"` 或 CSS `part` 覆盖默认加载图标，满足品牌化需求。
@@ -197,11 +241,12 @@ ma-button[data-tone='success'] {
 ## 测试规约（Test Spec）
 
 ### 测试范围
-- Attribute & Property：`type`、`size`、`variant`、`disabled`、`loading` 的默认值、属性反射与 DOM 同步。
+- Attribute & Property：`type`、`size`、`variant`、`disabled`、`loading`、`icon`、`icon-set`、`icon-position` 的默认值、属性反射与 DOM 同步。
 - 交互状态：禁用、加载态对可点击性、样式 class 与 `aria-busy` 的影响。
 - 自定义事件：`ma-click`、`ma-focus`、`ma-blur` 的触发、负载和事件选项（`bubbles`、`composed`）。
 - 公共方法：`focus()`、`blur()`、`click()` 的行为与防护逻辑。
 - 模板结构：Spinner 与内容插槽在加载/非加载态下的显示控制。
+- 图标集成：`icon` 属性对 `ma-icon` 组件的渲染、`icon-position` 的布局控制、图标尺寸的自动适配。
 - Shadow DOM Guard：重复定义 `customElements.define` 的安全性。
 
 ### 测试环境与前置条件
@@ -226,6 +271,11 @@ ma-button[data-tone='success'] {
 | TS11 | click 方法防护 | 调用 `click()` 在禁用/加载态 | 正常态触发 `ma-click` 并带 `detail.originalEvent`；禁用或加载时不触发 |
 | TS12 | 自定义事件属性 | 监听三个事件 | `event.bubbles === true`、`event.composed === true`；`detail.originalEvent` 指向原生事件实例 |
 | TS13 | 重复注册守卫 | 二次 import 组件 | 不抛出 `DOMException`；组件仅注册一次 |
+| TS14 | icon 属性渲染 | 设置 `icon='download'` | `.icon-container` 中渲染 `<ma-icon name="download">`；图标可见 |
+| TS15 | icon-set 属性 | 设置 `icon-set='outlined'` | `<ma-icon>` 的 `set` 属性更新为 `outlined` |
+| TS16 | icon-position 属性 | 设置 `icon-position='right'` | 按钮包含 `ma-button--icon-right` class；图标在文本右侧 |
+| TS17 | icon 尺寸自适应 | 依次设置 `size='small/medium/large'` | `<ma-icon>` 的 `size` 属性自动更新为 `16/18/20` |
+| TS18 | 移除 icon 属性 | 先设置 `icon`，后移除 | `.icon-container` 被清空；无 `<ma-icon>` 元素 |
 
 ### 边界与回归检查
 - 属性输入校验：对无效的 `size`/`variant` 值应保持最后一次有效 class（当前实现未显式校验，记录为回归检查关注点）。

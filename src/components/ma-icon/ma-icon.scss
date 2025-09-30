@@ -1,0 +1,239 @@
+:host {
+  // CSS 自定义属性（变量）- 主题定制
+  --ma-icon-size: 1.25rem;
+  --ma-icon-color: currentColor;
+  --ma-icon-stroke: 1.5px;
+  --ma-icon-transition: 120ms ease-out;
+
+  // 尺寸预设
+  --ma-icon-size-xxs: 0.625rem;
+  --ma-icon-size-xs: 0.75rem;
+  --ma-icon-size-sm: 1rem;
+  --ma-icon-size-md: 1.25rem;
+  --ma-icon-size-lg: 1.5rem;
+  --ma-icon-size-xl: 2rem;
+
+  // 语义色彩
+  --ma-icon-color-default: var(--color-fg-muted, #6b7280);
+  --ma-icon-color-muted: var(--color-fg-subtle, #9ca3af);
+  --ma-icon-color-primary: var(--color-accent, #3b82f6);
+  --ma-icon-color-success: var(--color-success, #10b981);
+  --ma-icon-color-warning: var(--color-warning, #f59e0b);
+  --ma-icon-color-danger: var(--color-danger, #ef4444);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+
+  width: var(--ma-icon-size);
+  height: var(--ma-icon-size);
+
+  color: var(--ma-icon-color);
+  transition:
+    color var(--ma-icon-transition),
+    transform var(--ma-icon-transition);
+}
+
+// 尺寸变体
+:host([size="xxs"]) {
+  --ma-icon-size: var(--ma-icon-size-xxs);
+}
+
+:host([size="xs"]) {
+  --ma-icon-size: var(--ma-icon-size-xs);
+}
+
+:host([size="sm"]) {
+  --ma-icon-size: var(--ma-icon-size-sm);
+}
+
+:host([size="md"]) {
+  --ma-icon-size: var(--ma-icon-size-md);
+}
+
+:host([size="lg"]) {
+  --ma-icon-size: var(--ma-icon-size-lg);
+}
+
+:host([size="xl"]) {
+  --ma-icon-size: var(--ma-icon-size-xl);
+}
+
+// 色调变体
+:host([tone="default"]) {
+  --ma-icon-color: var(--ma-icon-color-default);
+}
+
+:host([tone="muted"]) {
+  --ma-icon-color: var(--ma-icon-color-muted);
+}
+
+:host([tone="primary"]) {
+  --ma-icon-color: var(--ma-icon-color-primary);
+}
+
+:host([tone="success"]) {
+  --ma-icon-color: var(--ma-icon-color-success);
+}
+
+:host([tone="warning"]) {
+  --ma-icon-color: var(--ma-icon-color-warning);
+}
+
+:host([tone="danger"]) {
+  --ma-icon-color: var(--ma-icon-color-danger);
+}
+
+// 装饰性图标样式
+:host([decorative]) {
+  opacity: 0.8;
+}
+
+// 镜像翻转（用于 RTL 环境）
+:host([mirrored]) {
+  transform: scaleX(-1);
+}
+
+// 旋转变体
+:host([rotation="90"]) {
+  transform: rotate(90deg);
+}
+
+:host([rotation="180"]) {
+  transform: rotate(180deg);
+}
+
+:host([rotation="270"]) {
+  transform: rotate(270deg);
+}
+
+// 同时支持镜像和旋转
+:host([mirrored][rotation="90"]) {
+  transform: scaleX(-1) rotate(90deg);
+}
+
+:host([mirrored][rotation="180"]) {
+  transform: scaleX(-1) rotate(180deg);
+}
+
+:host([mirrored][rotation="270"]) {
+  transform: scaleX(-1) rotate(270deg);
+}
+
+// 图标包装器
+.icon-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+
+  // 确保图标内容正确对齐
+  line-height: 1;
+}
+
+// SVG 图标样式
+.icon-wrapper svg,
+::slotted(svg) {
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+  stroke: currentColor;
+  stroke-width: var(--ma-icon-stroke);
+
+  // 禁用用户选择
+  user-select: none;
+  -webkit-user-select: none;
+
+  // 确保 SVG 正确缩放
+  display: block;
+}
+
+// 图片图标样式
+.icon-wrapper img,
+::slotted(img) {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+// 占位符样式
+.icon-placeholder {
+  width: 100%;
+  height: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  background: transparent;
+  border: 1px dashed currentColor;
+  border-radius: 2px;
+  opacity: 0.5;
+
+  &::before {
+    content: "?";
+    font-size: 0.8em;
+    font-weight: bold;
+    color: currentColor;
+  }
+}
+
+// 加载状态
+:host(.ma-icon--loading) {
+  .icon-wrapper {
+    opacity: 0.6;
+  }
+}
+
+// 错误状态
+:host(.ma-icon--error) {
+  .icon-wrapper {
+    opacity: 0.4;
+  }
+}
+
+// 懒加载状态（未加载时透明）
+:host([lazy]:not(.ma-icon--loaded)) {
+  opacity: 0;
+}
+
+// 高对比度模式支持
+@media (prefers-contrast: high) {
+  :host {
+    --ma-icon-color-default: CanvasText;
+    --ma-icon-color-muted: CanvasText;
+  }
+
+  .icon-placeholder {
+    border-color: CanvasText;
+
+    &::before {
+      color: CanvasText;
+    }
+  }
+}
+
+// 深色主题支持
+@media (prefers-color-scheme: dark) {
+  :host {
+    --ma-icon-color-default: #d1d5db;
+    --ma-icon-color-muted: #9ca3af;
+  }
+}
+
+// 减少动画支持
+@media (prefers-reduced-motion: reduce) {
+  :host {
+    --ma-icon-transition: none;
+  }
+}
+
+// 焦点样式（当图标在可交互元素中时）
+:host(:focus-within) {
+  outline: 2px solid var(--ma-icon-color-primary);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
