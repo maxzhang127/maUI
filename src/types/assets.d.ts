@@ -38,3 +38,9 @@ declare module '*.html' {
   const content: string;
   export default content;
 }
+
+// SVG 文件类型声明
+declare module '*.svg' {
+  const content: string;
+  export default content;
+}

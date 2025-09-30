@@ -1,0 +1,158 @@
+<div class="demo-section">
+  <h2>ma-icon 图标组件</h2>
+  <p>遵循 Web Components 规范封装的矢量图标渲染控件，用于在应用中呈现统一的图形语言。</p>
+
+  <div class="demo-block">
+    <h3>基础用法</h3>
+    <p>使用内置 sprite 图标集。</p>
+    <div class="demo-showcase">
+      <ma-icon name="download"></ma-icon>
+      <ma-icon name="check-circle"></ma-icon>
+      <ma-icon name="cloud-upload"></ma-icon>
+      <ma-icon name="calendar"></ma-icon>
+      <ma-icon name="search"></ma-icon>
+      <ma-icon name="settings"></ma-icon>
+    </div>
+    <pre><code>&lt;ma-icon name="download"&gt;&lt;/ma-icon&gt;
+&lt;ma-icon name="check-circle"&gt;&lt;/ma-icon&gt;
+&lt;ma-icon name="cloud-upload"&gt;&lt;/ma-icon&gt;</code></pre>
+  </div>
+
+  <div class="demo-block">
+    <h3>尺寸变体</h3>
+    <p>支持 xxs、xs、sm、md、lg、xl 六种预设尺寸。</p>
+    <div class="demo-showcase">
+      <ma-icon name="download" size="xxs" label="超小尺寸"></ma-icon>
+      <ma-icon name="download" size="xs" label="极小尺寸"></ma-icon>
+      <ma-icon name="download" size="sm" label="小尺寸"></ma-icon>
+      <ma-icon name="download" size="md" label="中等尺寸"></ma-icon>
+      <ma-icon name="download" size="lg" label="大尺寸"></ma-icon>
+      <ma-icon name="download" size="xl" label="超大尺寸"></ma-icon>
+    </div>
+    <pre><code>&lt;ma-icon name="download" size="xxs"&gt;&lt;/ma-icon&gt;
+&lt;ma-icon name="download" size="xs"&gt;&lt;/ma-icon&gt;
+&lt;ma-icon name="download" size="sm"&gt;&lt;/ma-icon&gt;
+&lt;ma-icon name="download" size="md"&gt;&lt;/ma-icon&gt;
+&lt;ma-icon name="download" size="lg"&gt;&lt;/ma-icon&gt;
+&lt;ma-icon name="download" size="xl"&gt;&lt;/ma-icon&gt;</code></pre>
+  </div>
+
+  <div class="demo-block">
+    <h3>语义色彩</h3>
+    <p>通过 tone 属性设置语义化色彩。</p>
+    <div class="demo-showcase">
+      <ma-icon name="check-circle" tone="default" label="默认色彩"></ma-icon>
+      <ma-icon name="check-circle" tone="muted" label="静音色彩"></ma-icon>
+      <ma-icon name="check-circle" tone="primary" label="主要色彩"></ma-icon>
+      <ma-icon name="check-circle" tone="success" label="成功色彩"></ma-icon>
+      <ma-icon name="check-circle" tone="warning" label="警告色彩"></ma-icon>
+      <ma-icon name="check-circle" tone="danger" label="危险色彩"></ma-icon>
+    </div>
+    <pre><code>&lt;ma-icon name="check-circle" tone="default"&gt;&lt;/ma-icon&gt;
+&lt;ma-icon name="check-circle" tone="primary"&gt;&lt;/ma-icon&gt;
+&lt;ma-icon name="check-circle" tone="success"&gt;&lt;/ma-icon&gt;
+&lt;ma-icon name="check-circle" tone="warning"&gt;&lt;/ma-icon&gt;
+&lt;ma-icon name="check-circle" tone="danger"&gt;&lt;/ma-icon&gt;</code></pre>
+  </div>
+
+  <div class="demo-block">
+    <h3>图标集切换</h3>
+    <p>支持不同的图标集，如 outlined、filled 等。</p>
+    <div class="demo-showcase">
+      <ma-icon name="heart" set="outlined" label="轮廓心形"></ma-icon>
+      <ma-icon name="heart" set="filled" label="填充心形"></ma-icon>
+      <ma-icon name="star" set="outlined" label="轮廓星星"></ma-icon>
+      <ma-icon name="star" set="filled" label="填充星星"></ma-icon>
+    </div>
+    <pre><code>&lt;ma-icon name="heart" set="outlined"&gt;&lt;/ma-icon&gt;
+&lt;ma-icon name="heart" set="filled"&gt;&lt;/ma-icon&gt;</code></pre>
+  </div>
+
+  <div class="demo-block">
+    <h3>旋转与镜像</h3>
+    <p>支持 0°、90°、180°、270° 旋转和水平镜像。</p>
+    <div class="demo-showcase">
+      <ma-icon name="arrow-right" rotation="0" label="0度箭头"></ma-icon>
+      <ma-icon name="arrow-right" rotation="90" label="90度箭头"></ma-icon>
+      <ma-icon name="arrow-right" rotation="180" label="180度箭头"></ma-icon>
+      <ma-icon name="arrow-right" rotation="270" label="270度箭头"></ma-icon>
+      <ma-icon name="arrow-right" mirrored label="镜像箭头"></ma-icon>
+    </div>
+    <pre><code>&lt;ma-icon name="arrow-right" rotation="0"&gt;&lt;/ma-icon&gt;
+&lt;ma-icon name="arrow-right" rotation="90"&gt;&lt;/ma-icon&gt;
+&lt;ma-icon name="arrow-right" rotation="180"&gt;&lt;/ma-icon&gt;
+&lt;ma-icon name="arrow-right" mirrored&gt;&lt;/ma-icon&gt;</code></pre>
+  </div>
+
+  <div class="demo-block">
+    <h3>无障碍支持</h3>
+    <p>支持装饰性和信息性图标的无障碍设置。</p>
+    <div class="demo-showcase">
+      <ma-icon name="settings" decorative></ma-icon>
+      <span>设置</span>
+      <ma-icon name="check-circle" tone="success" label="操作成功"></ma-icon>
+    </div>
+    <pre><code>&lt;!-- 装饰性图标 --&gt;
+&lt;ma-icon name="settings" decorative&gt;&lt;/ma-icon&gt;
+&lt;span&gt;设置&lt;/span&gt;
+
+&lt;!-- 信息性图标 --&gt;
+&lt;ma-icon name="check-circle" tone="success" label="操作成功"&gt;&lt;/ma-icon&gt;</code></pre>
+  </div>
+
+  <div class="demo-block">
+    <h3>自定义插槽内容</h3>
+    <p>可以通过插槽传入自定义 SVG 内容。</p>
+    <div class="demo-showcase">
+      <ma-icon label="自定义图标">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="13,2 3,14 12,14 11,22 21,10 12,10 13,2"></polygon>
+        </svg>
+      </ma-icon>
+    </div>
+    <pre><code>&lt;ma-icon label="自定义图标"&gt;
+  &lt;svg viewBox="0 0 24 24" fill="none" stroke="currentColor"&gt;
+    &lt;polygon points="13,2 3,14 12,14 11,22 21,10 12,10 13,2"&gt;&lt;/polygon&gt;
+  &lt;/svg&gt;
+&lt;/ma-icon&gt;</code></pre>
+  </div>
+
+  <div class="demo-block">
+    <h3>事件监听</h3>
+    <p>图标组件支持 ma-load 和 ma-error 事件。</p>
+    <div class="demo-showcase">
+      <ma-icon id="event-demo" name="download" size="lg"></ma-icon>
+      <div id="event-log" style="margin-top: 1rem; padding: 0.5rem; background: #f5f5f5; border-radius: 4px; font-family: monospace; font-size: 0.875rem;">
+        等待事件...
+      </div>
+    </div>
+    <pre><code>const icon = document.querySelector('#event-demo');
+icon.addEventListener('ma-load', (event) => {
+  console.log('图标加载成功:', event.detail);
+});
+
+icon.addEventListener('ma-error', (event) => {
+  console.log('图标加载失败:', event.detail);
+});</code></pre>
+  </div>
+</div>
+
+<script>
+  // 事件监听演示
+  const eventIcon = document.querySelector('#event-demo');
+  const eventLog = document.querySelector('#event-log');
+
+  if (eventIcon && eventLog) {
+    eventIcon.addEventListener('ma-load', (event) => {
+      eventLog.textContent = `ma-load 事件: ${JSON.stringify(event.detail, null, 2)}`;
+    });
+
+    eventIcon.addEventListener('ma-error', (event) => {
+      eventLog.textContent = `ma-error 事件: ${JSON.stringify({
+        name: event.detail.name,
+        set: event.detail.set,
+        error: event.detail.error.message
+      }, null, 2)}`;
+    });
+  }
+</script>

@@ -115,8 +115,16 @@ const config = (_env: any, argv: { mode: string }): Configuration => {
             'css-loader'
           ]
         },
+        // SVG 图标作为字符串导入 (用于图标系统)
+        {
+          test: /\.svg$/i,
+          include: path.resolve(__dirname, 'src/assets/icons'),
+          type: 'asset/source'
+        },
+        // 其他图片资源
         {
           test: /\.(png|svg|jpg|jpeg|gif)$/i,
+          exclude: path.resolve(__dirname, 'src/assets/icons'),
           type: 'asset/resource'
         },
         {

@@ -152,8 +152,46 @@
   transition: var(--ma-button-transition);
 }
 
+.icon-container {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--ma-button-transition);
+
+  &:not(:empty) {
+    margin-right: 6px;
+  }
+}
+
+.ma-button--icon-right {
+  .icon-container {
+    order: 2;
+    margin-right: 0;
+    margin-left: 6px;
+  }
+
+  .content {
+    order: 1;
+  }
+}
+
+// 仅图标按钮样式（没有文本内容）
+.ma-button:has(.content:empty) {
+  padding: 0;
+  aspect-ratio: 1;
+  border-radius: 50%;
+
+  .icon-container {
+    margin: 0;
+  }
+}
+
 .ma-button--loading {
   .content {
+    opacity: 0.6;
+  }
+
+  .icon-container {
     opacity: 0.6;
   }
 }

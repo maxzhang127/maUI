@@ -250,7 +250,8 @@ describe('MaLayout', () => {
       layout.appendChild(headerDiv);
 
       // Mock assignedElements to return the expected element
-      const originalAssignedElements = headerSlot.assignedElements.bind(headerSlot);
+      const originalAssignedElements =
+        headerSlot.assignedElements.bind(headerSlot);
       headerSlot.assignedElements = jest.fn().mockReturnValue([headerDiv]);
 
       // Directly call the slot update method
@@ -268,7 +269,8 @@ describe('MaLayout', () => {
       ) as HTMLSlotElement;
 
       // Mock assignedElements to return empty array (no content)
-      const originalAssignedElements = contentSlot.assignedElements.bind(contentSlot);
+      const originalAssignedElements =
+        contentSlot.assignedElements.bind(contentSlot);
       contentSlot.assignedElements = jest.fn().mockReturnValue([]);
 
       // Directly call the slot update method
