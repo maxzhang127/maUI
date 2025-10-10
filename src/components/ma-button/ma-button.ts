@@ -5,25 +5,46 @@ import template from '@tpl/ma-button.html';
 export type ButtonSize = 'small' | 'medium' | 'large';
 export type ButtonVariant = 'primary' | 'secondary' | 'danger' | 'ghost';
 export type ButtonType = 'button' | 'submit' | 'reset';
+export type IconPosition = 'left' | 'right';
 
 class MaButton extends ComponentsBase {
   private _button!: HTMLButtonElement;
+  private _iconContainer!: HTMLElement | null;
   private _lastValidSize: ButtonSize = 'medium';
   private _lastValidVariant: ButtonVariant = 'primary';
   private _lastValidType: ButtonType = 'button';
+  private _lastValidIconPosition: IconPosition = 'left';
 
   constructor() {
     super({
       tagName: 'ma-button',
       styles,
       shadowMode: 'open',
-      observedAttributes: ['type', 'size', 'variant', 'disabled', 'loading'],
+      observedAttributes: [
+        'type',
+        'size',
+        'variant',
+        'disabled',
+        'loading',
+        'icon',
+        'icon-position',
+        'icon-set',
+      ],
     });
     this._completeInitialization();
   }
 
   static get observedAttributes(): string[] {
-    return ['type', 'size', 'variant', 'disabled', 'loading'];
+    return [
+      'type',
+      'size',
+      'variant',
+      'disabled',
+      'loading',
+      'icon',
+      'icon-position',
+      'icon-set',
+    ];
   }
 
   get type(): ButtonType {
@@ -124,12 +145,57 @@ class MaButton extends ComponentsBase {
     this._setAttribute('loading', value);
   }
 
+  get icon(): string | null {
+    return this.getAttribute('icon');
+  }
+
+  set icon(value: string | null) {
+    if (value) {
+      this._setAttribute('icon', value);
+    } else {
+      this.removeAttribute('icon');
+    }
+  }
+
+  get iconSet(): string {
+    return this.getAttribute('icon-set') || 'system';
+  }
+
+  set iconSet(value: string) {
+    this._setAttribute('icon-set', value);
+  }
+
+  get iconPosition(): IconPosition {
+    const validPositions: readonly IconPosition[] = ['left', 'right'];
+    const currentValue = this.getAttribute('icon-position') as IconPosition;
+
+    if (!currentValue) {
+      return 'left';
+    }
+
+    if (validPositions.includes(currentValue)) {
+      this._lastValidIconPosition = currentValue;
+      return currentValue;
+    }
+
+    return this._lastValidIconPosition;
+  }
+
+  set iconPosition(value: IconPosition) {
+    const validPositions: readonly IconPosition[] = ['left', 'right'];
+    if (validPositions.includes(value)) {
+      this._lastValidIconPosition = value;
+    }
+    this._setAttribute('icon-position', value);
+  }
+
   protected _createElements(): void {
     this._shadowRoot.innerHTML = template;
 
     this._button = this._shadowRoot.querySelector(
       '.ma-button'
     ) as HTMLButtonElement;
+    this._iconContainer = this._shadowRoot.querySelector('.icon-container');
   }
 
   protected _bindEvents(): void {
@@ -154,7 +220,29 @@ class MaButton extends ComponentsBase {
       this._button.classList.add('ma-button--loading');
     }
 
+    if (this.icon) {
+      this._button.classList.add(`ma-button--icon-${this.iconPosition}`);
+      this._updateIcon();
+    }
+
     this._button.setAttribute('aria-busy', this.loading.toString());
+  }
+
+  private _updateIcon(): void {
+    if (!this._iconContainer) return;
+
+    const iconName = this.icon;
+    if (!iconName) {
+      this._iconContainer.innerHTML = '';
+      return;
+    }
+
+    // 根据按钮大小设置图标大小
+    const iconSize =
+      this.size === 'small' ? '16' : this.size === 'large' ? '20' : '18';
+
+    // 使用 innerHTML 创建 ma-icon 元素
+    this._iconContainer.innerHTML = `<ma-icon name="${iconName}" set="${this.iconSet}" size="${iconSize}"></ma-icon>`;
   }
 
   private _handleClick(event: MouseEvent): void {

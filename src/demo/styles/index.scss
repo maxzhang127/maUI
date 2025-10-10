@@ -662,3 +662,20 @@ ma-button.with-icon .icon {
     flex-wrap: nowrap;
   }
 }
+
+// Icon 组件演示样式
+.demo-showcase {
+  display: flex;
+  align-items: center;
+  gap: var(--ma-spacing-md);
+  flex-wrap: wrap;
+  padding: var(--ma-spacing-lg);
+  background: var(--ma-color-bg-subtle);
+  border: 1px solid var(--ma-color-border);
+  border-radius: var(--ma-radius-md);
+  margin-bottom: var(--ma-spacing-md);
+
+  ma-icon {
+    flex-shrink: 0;
+  }
+}

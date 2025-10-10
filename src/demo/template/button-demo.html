@@ -31,24 +31,41 @@
   </div>
 
   <div class="demo-group">
-    <h3>带图标 (With Icons)</h3>
+    <h3>带图标 (With Icons - 使用 ma-icon)</h3>
     <div class="demo-row">
-      <ma-button variant="primary" class="with-icon">
-        <svg class="icon" viewBox="0 0 16 16" fill="currentColor">
-          <path
-            d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2z"
-          />
-        </svg>
-        新建
-      </ma-button>
-      <ma-button variant="secondary" class="with-icon">
-        <svg class="icon" viewBox="0 0 16 16" fill="currentColor">
-          <path
-            d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
-          />
-        </svg>
-        删除
-      </ma-button>
+      <ma-button variant="primary" icon="download">下载</ma-button>
+      <ma-button variant="secondary" icon="close">关闭</ma-button>
+      <ma-button variant="danger" icon="cloud-upload">上传</ma-button>
+      <ma-button variant="ghost" icon="search">搜索</ma-button>
+    </div>
+  </div>
+
+  <div class="demo-group">
+    <h3>图标位置 (Icon Position)</h3>
+    <div class="demo-row">
+      <ma-button icon="arrow-left" icon-position="left">上一页</ma-button>
+      <ma-button icon="arrow-right" icon-position="right">下一页</ma-button>
+      <ma-button icon="settings" icon-position="left" variant="secondary">设置</ma-button>
+    </div>
+  </div>
+
+  <div class="demo-group">
+    <h3>不同图标集 (Different Icon Sets)</h3>
+    <div class="demo-row">
+      <ma-button icon="heart" icon-set="outlined" variant="secondary">收藏</ma-button>
+      <ma-button icon="heart" icon-set="filled" variant="danger">已收藏</ma-button>
+      <ma-button icon="star" icon-set="outlined" variant="ghost">评分</ma-button>
+      <ma-button icon="star" icon-set="filled" variant="primary">已评分</ma-button>
+    </div>
+  </div>
+
+  <div class="demo-group">
+    <h3>仅图标按钮 (Icon Only)</h3>
+    <div class="demo-row">
+      <ma-button icon="menu" size="small" variant="ghost"></ma-button>
+      <ma-button icon="search" size="medium" variant="secondary"></ma-button>
+      <ma-button icon="settings" size="large" variant="primary"></ma-button>
+      <ma-button icon="close" variant="danger"></ma-button>
     </div>
   </div>
 
